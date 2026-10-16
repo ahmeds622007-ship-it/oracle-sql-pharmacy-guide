@@ -1,9 +1,9 @@
 <!DOCTYPE html>
-<html lang="ar" dir="rtl" data-theme="light">
+<html lang="ar" dir="rtl" data-theme="dark">
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>مذكرة Oracle SQL الشاملة | شرح السكاشن بالتفصيل + تطبيق نظام الصيدلية</title>
+    <title>منصة مذاكرة Oracle SQL الشاملة | شرح السكاشن بالتفصيل + مشروع الصيدلية</title>
     <link rel="stylesheet" href="styles.css">
 </head>
 <body>
@@ -11,66 +11,324 @@
     <!-- Top Sticky Header -->
     <header class="top-header">
         <div class="header-inner">
-            <div class="brand-area">
+            <div class="brand-area" data-goto="landing-view" title="العودة للصفحة الرئيسية">
                 <div class="brand-badge">SQL</div>
                 <div class="brand-title">
-                    <h1>مذكرة Oracle SQL الشاملة للمذاكرة والتطبيق</h1>
-                    <p>شرح تفصيلي سطر بسطر بالمصطلحات العلمية + مقارنات الامتحانات + تطبيق كامل على سؤال الصيدلية</p>
+                    <h1>منصة مذاكرة Oracle SQL الشاملة</h1>
+                    <p>تشريح الأوامر + الشرح التفصيلي + مقارنات الامتحانات + مشروع الصيدلية</p>
                 </div>
             </div>
             <div class="header-controls">
-                <button class="btn-control active" data-set-theme="light">☀️ مريح للعين (فاتح)</button>
-                <button class="btn-control" data-set-theme="sepia">📜 وضع القراءة الورقي</button>
-                <button class="btn-control" data-set-theme="dark">🌙 وضع ليلي هادئ</button>
-                <button id="toggleShowAll" class="btn-control">📖 عرض المنهج كامل في صفحة واحدة</button>
+                <button class="btn-control btn-home-top" data-goto="landing-view">🏠 الرئيسية (اختر السكشن)</button>
+                <button class="btn-control active" data-set-theme="dark">🌙 الوضع الليلي</button>
+                <button class="btn-control" data-set-theme="light">☀️ الوضع الفاتح</button>
+                <button class="btn-control" data-set-theme="sepia">📜 الوضع الورقي</button>
+                <button id="toggleShowAll" class="btn-control">📖 عرض المنهج كامل</button>
                 <button onclick="window.print()" class="btn-control">🖨️ طباعة PDF</button>
             </div>
         </div>
     </header>
 
-    <!-- Navigation Tabs (Starts from Section 1 -> Section 2.1 -> Section 2.2 -> Lab 1 Project -> Original Code) -->
-    <nav class="nav-tabs-bar">
-        <div class="nav-tabs-inner">
-            <button class="nav-tab active" data-target="sec-ch10">
-                <span class="tab-num">1</span>
-                <span>السكشن الأول: <span class="term" dir="ltr">CREATE &amp; Constraints</span></span>
-            </button>
-            <button class="nav-tab" data-target="sec-alter">
-                <span class="tab-num">2</span>
-                <span>السكشن الثاني (جزء 1): <span class="term" dir="ltr">ALTER TABLE</span></span>
-            </button>
-            <button class="nav-tab" data-target="sec-dml">
-                <span class="tab-num">3</span>
-                <span>السكشن الثاني (جزء 2): <span class="term" dir="ltr">DML (INSERT / UPDATE / DELETE)</span></span>
-            </button>
-            <button class="nav-tab project-tab" data-target="sec-pharmacy">
-                <span class="tab-num">4</span>
-                <span>🏥 تطبيق شامل: سؤال الصيدلية (<span class="term" dir="ltr">Mapping + Schema + SQL</span>)</span>
-            </button>
-            <button class="nav-tab" data-target="sec-original">
-                <span class="tab-num">5</span>
-                <span>📜 الكود الأصلي للسكشن كامل</span>
-            </button>
-        </div>
-    </nav>
-
     <!-- Main Container -->
     <main class="main-container">
 
         <!-- =================================================================== -->
-        <!-- TAB 1: SECTION 1 (CH10 - CREATE TABLE, CONSTRAINTS, DROP, TRUNCATE) -->
+        <!-- LANDING PAGE (PORTAL TO CHOOSE ANY SECTION)                         -->
         <!-- =================================================================== -->
-        <section id="sec-ch10" class="course-section active">
+        <div id="landing-view" class="landing-view">
+            <div class="landing-hero">
+                <span class="landing-hero-badge">Oracle Database SQL — Complete Study Guide</span>
+                <h2>اختار السكشن اللي عايز تذاكره وتطبق عليه</h2>
+                <p>كل سكشن بيبدأ بتشريح تفصيلي لكل أمر وصيغته العامة، وبعدها الشرح الكامل لأكواد السكشن سطر بسطر، وجداول مقارنات الامتحانات، وفي النهاية تطبيق عملي شامل يجمع كل أوامر السكشن مرة واحدة.</p>
+                <div class="landing-stats">
+                    <span class="stat-pill">📚 ٣ سكاشن مشروحة بالتفصيل</span>
+                    <span class="stat-pill">🔍 تشريح الصيغة العامة لكل أمر</span>
+                    <span class="stat-pill">⚖️ جداول مقارنات الامتحانات</span>
+                    <span class="stat-pill">🏥 تطبيق كامل على سؤال الصيدلية بالأسهم</span>
+                </div>
+            </div>
+
+            <h3 class="landing-grid-title">🗂️ أقسام وسكاشن المنهج (اضغط على أي سكشن للدخول):</h3>
+
+            <div class="landing-cards-grid">
+                <!-- Card 1: Section 1 -->
+                <div class="section-card-portal" data-goto="sec-ch10">
+                    <div>
+                        <div class="portal-card-top">
+                            <span class="portal-step-num">السكشن الأول — CH10</span>
+                            <span class="portal-icon">🏗️</span>
+                        </div>
+                        <h3>إنشاء الجداول والـ <span class="term" dir="ltr">Constraints</span></h3>
+                        <p>شرح أوامر <span class="term" dir="ltr">DDL</span> لبناء الجداول، وأنواع القيود الخمسة، والفرق بين <span class="term" dir="ltr">Column-Level</span> و <span class="term" dir="ltr">Table-Level</span>.</p>
+                        <ul class="portal-topics-list">
+                            <li>تشريح أمر <span class="term" dir="ltr">CREATE TABLE</span> وكل أنواع الـ <span class="term" dir="ltr">Constraints</span></li>
+                            <li>شرح <span class="term" dir="ltr">PK, FK, Unique, Not Null, Check, Default</span></li>
+                            <li>مقارنة <span class="term" dir="ltr">Column-Level</span> ضد <span class="term" dir="ltr">Table-Level</span> والأخطاء المشهورة</li>
+                            <li>الفرق بين <span class="term" dir="ltr">DROP TABLE</span> و <span class="term" dir="ltr">TRUNCATE TABLE</span> + تطبيق شامل</li>
+                        </ul>
+                    </div>
+                    <button class="portal-enter-btn">الدخول إلى السكشن الأول ⬅️</button>
+                </div>
+
+                <!-- Card 2: Section 2 Part 1 -->
+                <div class="section-card-portal" data-goto="sec-alter">
+                    <div>
+                        <div class="portal-card-top">
+                            <span class="portal-step-num">السكشن الثاني (جزء ١)</span>
+                            <span class="portal-icon">🔧</span>
+                        </div>
+                        <h3>التعديل على هيكل الجدول <span class="term" dir="ltr">ALTER TABLE</span></h3>
+                        <p>شرح الـ ١١ عملية لتعديل الجداول بعد إنشائها من إضافة وتعديل وحذف أعمدة وإدارة الـ <span class="term" dir="ltr">Constraints</span>.</p>
+                        <ul class="portal-topics-list">
+                            <li>تشريح صيغ <span class="term" dir="ltr">ADD</span> و <span class="term" dir="ltr">MODIFY</span> و <span class="term" dir="ltr">DROP</span> و <span class="term" dir="ltr">RENAME</span></li>
+                            <li>تركة الفرق بين <span class="term" dir="ltr">DROP COLUMN</span> و <span class="term" dir="ltr">DROP (col1, col2)</span></li>
+                            <li>تحويل العمود إلى <span class="term" dir="ltr">NOT NULL</span> وإلغاؤه لـ <span class="term" dir="ltr">NULL</span></li>
+                            <li>إضافة وحذف وتعطيل وتفعيل القيود <span class="term" dir="ltr">DISABLE / ENABLE</span> + تطبيق شامل</li>
+                        </ul>
+                    </div>
+                    <button class="portal-enter-btn">الدخول إلى السكشن الثاني (جزء ١) ⬅️</button>
+                </div>
+
+                <!-- Card 3: Section 2 Part 2 -->
+                <div class="section-card-portal" data-goto="sec-dml">
+                    <div>
+                        <div class="portal-card-top">
+                            <span class="portal-step-num">السكشن الثاني (جزء ٢) — CH9</span>
+                            <span class="portal-icon">⚡</span>
+                        </div>
+                        <h3>التعامل مع البيانات <span class="term" dir="ltr">DML &amp; TCL</span></h3>
+                        <p>شرح أوامر إضافة الصفوف وتعديلها وحذفها، وأوامر تثبيت الحفظ أو التراجع، والمقارنة الثلاثية للامتحانات.</p>
+                        <ul class="portal-topics-list">
+                            <li>تشريح <span class="term" dir="ltr">INSERT INTO</span> (الأربع طرق) و <span class="term" dir="ltr">INSERT ALL</span></li>
+                            <li>إدخال <span class="term" dir="ltr">NULL</span> بالطريقة الضمنية <span class="term" dir="ltr">Implicit</span> والصريحة <span class="term" dir="ltr">Explicit</span></li>
+                            <li>أمر التعديل <span class="term" dir="ltr">UPDATE</span> وأمر الحذف <span class="term" dir="ltr">DELETE</span> بشرط <span class="term" dir="ltr">WHERE</span> وبدونه</li>
+                            <li>شرح <span class="term" dir="ltr">COMMIT &amp; ROLLBACK</span> ومقارنة <span class="term" dir="ltr">DROP vs TRUNCATE vs DELETE</span></li>
+                        </ul>
+                    </div>
+                    <button class="portal-enter-btn">الدخول إلى السكشن الثاني (جزء ٢) ⬅️</button>
+                </div>
+
+                <!-- Card 4: Full Pharmacy Case Study (Featured Full-Width Card) -->
+                <div class="section-card-portal featured-project" data-goto="sec-pharmacy">
+                    <div>
+                        <div class="portal-card-top">
+                            <span class="portal-step-num">تطبيق شامل على المنهج بالكامل — LAB 1</span>
+                            <span class="portal-icon">🏥</span>
+                        </div>
+                        <h3>مشروع نظام الصيدلية المتكامل (<span class="term" dir="ltr">ER Diagram + Mapping + Schema + Full SQL</span>)</h3>
+                        <p>تطبيق عملي كامل على سؤال ملف الـ <span class="term" dir="ltr">PDF</span> يأخذك من قراءة السؤال ورسم الـ <span class="term" dir="ltr">ER Diagram</span> وعمل الـ <span class="term" dir="ltr">Mapping</span> ورسم الـ <span class="term" dir="ltr">Schema</span> بالأسهم الموجهة من كل <span class="term" dir="ltr">Foreign Key</span> إلى الـ <span class="term" dir="ltr">Primary Key</span>، حتى كتابة أكواد الـ ٣ سكاشن كاملة على الـ ٦ جداول!</p>
+                        <ul class="portal-topics-list">
+                            <li>نص السؤال الأصلي وتفريغ الـ ٦ كيانات (<span class="term" dir="ltr">Patient, Doctor, Drug, Pharm_Company, Pharmacy, Prescription</span>)</li>
+                            <li>رسمة الـ <span class="term" dir="ltr">ER Diagram</span> الكاملة + شرح قواعد الـ <span class="term" dir="ltr">Mapping</span> لعلاقات <span class="term" dir="ltr">1 : M</span></li>
+                            <li>رسمة الـ <span class="term" dir="ltr">Relational Schema</span> مرسوم عليها الأسهم من كل <span class="term" dir="ltr">FK</span> إلى الـ <span class="term" dir="ltr">PK</span> بتاعه</li>
+                            <li>الكود التطبيقي الكامل للـ ٦ جداول (<span class="term" dir="ltr">CREATE + ALTER + INSERT + UPDATE + DELETE</span>)</li>
+                        </ul>
+                    </div>
+                    <button class="portal-enter-btn">الدخول إلى التطبيق الشامل (مشروع الصيدلية) ⬅️</button>
+                </div>
+
+                <!-- Card 5: Original Code Reference -->
+                <div class="section-card-portal" data-goto="sec-original" style="grid-column: 1 / -1;">
+                    <div>
+                        <div class="portal-card-top">
+                            <span class="portal-step-num">مرجع الكود الأصلي</span>
+                            <span class="portal-icon">📜</span>
+                        </div>
+                        <h3>الكود الأصلي للسكشن كامل (بعد فك علامات الاستفهام وتوضيح الأخطاء)</h3>
+                        <p>نسخة نظيفة ومرتبة من ملف السكشن الأصلي بالكامل للمراجعة السريعة ونسخ الأكواد.</p>
+                    </div>
+                    <button class="portal-enter-btn">عرض الكود الأصلي للسكشن ⬅️</button>
+                </div>
+            </div>
+        </div>
+
+        <!-- =================================================================== -->
+        <!-- SECTION 1 (CH10 - CREATE TABLE, CONSTRAINTS, DROP, TRUNCATE)        -->
+        <!-- =================================================================== -->
+        <section id="sec-ch10" class="course-section">
+            <div class="section-top-return">
+                <button class="btn-back-landing" data-goto="landing-view">🏠 العودة للصفحة الرئيسية (اختر سكشن آخر)</button>
+                <span>أنت الآن في: <strong>السكشن الأول — <span class="term" dir="ltr">Section 1 (CH10)</span></strong></span>
+            </div>
+
             <div class="section-banner">
                 <span class="section-badge">Section 1 — Chapter 10 (DDL)</span>
                 <h2>السكشن الأول: إنشاء الجداول والـ <span class="term" dir="ltr">Constraints</span> وحذفها</h2>
-                <p>في السكشن ده هنتعلم إزاي ننشئ جدول جديد بأمر <span class="term" dir="ltr">CREATE TABLE</span>، وإزاي نحط عليه قيود <span class="term" dir="ltr">Constraints</span> تمنع إدخال داتا غلط، والفرق بين كتابة الـ <span class="term" dir="ltr">Constraint</span> على مستوى العمود أو على مستوى الجدول.</p>
+                <p>نبدأ الأول بتشريح كل أمر وكل قيد في السكشن الأول (صيغته العامة ووظيفته وشروطه)، وبعدها ندخل في الشرح التفصيلي لأكواد السكشن والمقارنات والتطبيق الشامل.</p>
             </div>
 
-            <!-- Foundation Comparison: DDL vs DML vs TCL -->
+            <!-- NEW ADDITION: ANATOMY & EXPLANATION OF EVERY COMMAND IN SECTION 1 FIRST -->
+            <div class="content-card command-anatomy-card">
+                <h3>🔍 أولاً: تشريح وشرح كل أمر وكل قيد في السكشن الأول (الصيغة العامة + الوظيفة)</h3>
+                <p>قبل ما نقرأ أمثلة السكشن، تعالَ نمسك كل أمر وكل كلمة في السكشن الأول ونفهم الصيغة العامة بتاعتها (<span class="term" dir="ltr">General Syntax</span>) وبتشتغل إزاي:</p>
+
+                <div class="cmd-dict-grid">
+                    <!-- Command 1: CREATE TABLE -->
+                    <div class="cmd-dict-card">
+                        <div class="cmd-dict-header">
+                            <span class="cmd-dict-title">١. أمر إنشاء الجدول: <span class="term" dir="ltr">CREATE TABLE</span></span>
+                            <span class="cmd-dict-tag">أمر هيكلي — DDL</span>
+                        </div>
+                        <p><strong>وظيفته:</strong> ينشئ جدولاً جديداً في قاعدة البيانات، ونحدد بداخله اسم كل عمود، ونوع البيان <span class="term" dir="ltr">Datatype</span>، والقيمة الافتراضية أو القيود إن وجدت.</p>
+                        <p><strong>أشهر أنواع البيانات (<span class="term" dir="ltr">Datatypes</span>) في السكشن:</strong></p>
+                        <ul>
+                            <li><span class="term" dir="ltr">NUMBER</span>: لتخزين الأرقام (سواء صحيحة أو عشرية).</li>
+                            <li><span class="term" dir="ltr">VARCHAR2(size)</span>: لتخزين النصوص والحروف بحد أقصى <span class="term" dir="ltr">size</span> حرف (مثلاً <span class="term" dir="ltr">varchar2(50)</span>).</li>
+                            <li><span class="term" dir="ltr">DATE</span>: لتخزين التاريخ والوقت.</li>
+                        </ul>
+                        <div class="code-container">
+                            <div class="code-header">
+                                <span class="code-lang-tag">SYNTAX: CREATE TABLE</span>
+                                <button class="copy-btn">نسخ</button>
+                            </div>
+                            <pre>CREATE TABLE table_name (
+    column1_name datatype [DEFAULT expr] [column_constraint],
+    column2_name datatype [DEFAULT expr] [column_constraint],
+    [table_constraint (column_name)]
+);</pre>
+                        </div>
+                    </div>
+
+                    <!-- Command 2: NOT NULL -->
+                    <div class="cmd-dict-card">
+                        <div class="cmd-dict-header">
+                            <span class="cmd-dict-title">٢. قيد عدم الفراغ: <span class="term" dir="ltr">NOT NULL</span></span>
+                            <span class="cmd-dict-tag">يكتب Column-Level فقط</span>
+                        </div>
+                        <p><strong>وظيفته:</strong> يجبر المستخدم على إدخال قيمة في هذا العمود عند إضافة أي صف، ويمنع تركه فارغاً (<span class="term" dir="ltr">NULL</span>). <strong>شرطه:</strong> يكتب فقط بجوار العمود (<span class="term" dir="ltr">Column-Level</span>) ولا يكتب في نهاية الجدول.</p>
+                        <div class="code-container">
+                            <div class="code-header">
+                                <span class="code-lang-tag">SYNTAX: NOT NULL</span>
+                                <button class="copy-btn">نسخ</button>
+                            </div>
+                            <pre>-- بدون تسمية القيد:
+column_name datatype NOT NULL
+
+-- مع تسمية القيد:
+column_name datatype CONSTRAINT constraint_name NOT NULL</pre>
+                        </div>
+                    </div>
+
+                    <!-- Command 3: UNIQUE -->
+                    <div class="cmd-dict-card">
+                        <div class="cmd-dict-header">
+                            <span class="cmd-dict-title">٣. قيد عدم التكرار: <span class="term" dir="ltr">UNIQUE</span></span>
+                            <span class="cmd-dict-tag">Column-Level أو Table-Level</span>
+                        </div>
+                        <p><strong>وظيفته:</strong> يمنع تكرار نفس القيمة مرتين في نفس العمود، لكنه يسمح بترك الخانة فارغة (<span class="term" dir="ltr">NULL</span>).</p>
+                        <div class="code-container">
+                            <div class="code-header">
+                                <span class="code-lang-tag">SYNTAX: UNIQUE</span>
+                                <button class="copy-btn">نسخ</button>
+                            </div>
+                            <pre>-- 1. على مستوى العمود (Column-Level):
+column_name datatype [CONSTRAINT const_name] UNIQUE
+
+-- 2. على مستوى الجدول في النهاية (Table-Level):
+CONSTRAINT const_name UNIQUE (column_name)</pre>
+                        </div>
+                    </div>
+
+                    <!-- Command 4: PRIMARY KEY -->
+                    <div class="cmd-dict-card">
+                        <div class="cmd-dict-header">
+                            <span class="cmd-dict-title">٤. قيد المفتاح الأساسي: <span class="term" dir="ltr">PRIMARY KEY</span></span>
+                            <span class="cmd-dict-tag">واحد فقط لكل جدول</span>
+                        </div>
+                        <p><strong>وظيفته:</strong> يميز كل صف في الجدول بشكل فريد، وهو يدمج شرطي (<span class="term" dir="ltr">NOT NULL + UNIQUE</span>) معاً. لا يجوز أن يحتوي الجدول على أكثر من <span class="term" dir="ltr">Primary Key</span> واحد، وإذا كان مركباً من عمودين (<span class="term" dir="ltr">Composite PK</span>) يجب كتابته في نهاية الجدول (<span class="term" dir="ltr">Table-Level</span>).</p>
+                        <div class="code-container">
+                            <div class="code-header">
+                                <span class="code-lang-tag">SYNTAX: PRIMARY KEY</span>
+                                <button class="copy-btn">نسخ</button>
+                            </div>
+                            <pre>-- 1. على مستوى العمود (لعمود واحد فقط):
+column_name datatype [CONSTRAINT const_name] PRIMARY KEY
+
+-- 2. على مستوى الجدول (لعمود واحد أو Composite PK من عمودين):
+CONSTRAINT const_name PRIMARY KEY (col1, col2)</pre>
+                        </div>
+                    </div>
+
+                    <!-- Command 5: CHECK -->
+                    <div class="cmd-dict-card">
+                        <div class="cmd-dict-header">
+                            <span class="cmd-dict-title">٥. قيد الفحص والشرط: <span class="term" dir="ltr">CHECK (condition)</span></span>
+                            <span class="cmd-dict-tag">Column-Level أو Table-Level</span>
+                        </div>
+                        <p><strong>وظيفته:</strong> يضع شرطاً منطقياً على القيم المسموح بإدخالها في العمود (مثل أن يكون العمر أو الرقم أكبر من صفر). إذا أدخل المستخدم قيمة تخالف الشرط يرفضها أوراكل فوراً.</p>
+                        <div class="code-container">
+                            <div class="code-header">
+                                <span class="code-lang-tag">SYNTAX: CHECK</span>
+                                <button class="copy-btn">نسخ</button>
+                            </div>
+                            <pre>-- 1. على مستوى العمود:
+column_name datatype [CONSTRAINT const_name] CHECK (column_name > 0)
+
+-- 2. على مستوى الجدول:
+CONSTRAINT const_name CHECK (column_name > 0)</pre>
+                        </div>
+                    </div>
+
+                    <!-- Command 6: DEFAULT -->
+                    <div class="cmd-dict-card">
+                        <div class="cmd-dict-header">
+                            <span class="cmd-dict-title">٦. القيمة الافتراضية: <span class="term" dir="ltr">DEFAULT value</span></span>
+                            <span class="cmd-dict-tag">تكتب قبل الـ Constraint دائماً</span>
+                        </div>
+                        <p><strong>وظيفته:</strong> يحدد قيمة جاهزة توضع تلقائياً في العمود إذا لم يقم المستخدم بإدخال قيمة له أثناء الـ <span class="term" dir="ltr">INSERT</span>. <strong>قاعدة هامة:</strong> تكتب كلمة <span class="term" dir="ltr">DEFAULT</span> بعد نوع البيان مباشرةً وقبل أي <span class="term" dir="ltr">Constraint</span>.</p>
+                        <div class="code-container">
+                            <div class="code-header">
+                                <span class="code-lang-tag">SYNTAX: DEFAULT</span>
+                                <button class="copy-btn">نسخ</button>
+                            </div>
+                            <pre>column_name datatype DEFAULT default_value [CONSTRAINT const_name] [NOT NULL]</pre>
+                        </div>
+                    </div>
+
+                    <!-- Command 7: FOREIGN KEY / REFERENCES -->
+                    <div class="cmd-dict-card">
+                        <div class="cmd-dict-header">
+                            <span class="cmd-dict-title">٧. قيد المفتاح الأجنبي: <span class="term" dir="ltr">FOREIGN KEY / REFERENCES</span></span>
+                            <span class="cmd-dict-tag">ربط الجدول الابن بالجدول الأب</span>
+                        </div>
+                        <p><strong>وظيفته:</strong> يربط عموداً في الجدول الابن بالـ <span class="term" dir="ltr">Primary Key</span> في الجدول الأب. لاحظ اختلاف الصيغة بين مستوى العمود ومستوى الجدول:</p>
+                        <div class="code-container">
+                            <div class="code-header">
+                                <span class="code-lang-tag">SYNTAX: FOREIGN KEY</span>
+                                <button class="copy-btn">نسخ</button>
+                            </div>
+                            <pre>-- 1. على مستوى العمود (نكتب REFERENCES مباشرة بدون كلمة FOREIGN KEY):
+fk_column datatype [CONSTRAINT fk_name] REFERENCES parent_table (pk_column)
+
+-- 2. على مستوى الجدول (يجب كتابة FOREIGN KEY (fk_column) أولاً):
+CONSTRAINT fk_name FOREIGN KEY (fk_column) REFERENCES parent_table (pk_column)</pre>
+                        </div>
+                    </div>
+
+                    <!-- Command 8: DROP TABLE & TRUNCATE TABLE -->
+                    <div class="cmd-dict-card">
+                        <div class="cmd-dict-header">
+                            <span class="cmd-dict-title">٨. أمرا هدم وتفريغ الجدول: <span class="term" dir="ltr">DROP TABLE</span> و <span class="term" dir="ltr">TRUNCATE TABLE</span></span>
+                            <span class="cmd-dict-tag">أوامر هيكلية — DDL</span>
+                        </div>
+                        <p><strong>وظيفة <span class="term" dir="ltr">DROP TABLE</span>:</strong> يحذف الجدول بالكامل (البيانات + الهيكل + الأعمدة + القيود) من قاعدة البيانات.<br>
+                        <strong>وظيفة <span class="term" dir="ltr">TRUNCATE TABLE</span>:</strong> يفرغ الجدول من جميع الصفوف والبيانات دفعة واحدة، مع الإبقاء على هيكل الجدول وأعمدته سليمة.</p>
+                        <div class="code-container">
+                            <div class="code-header">
+                                <span class="code-lang-tag">SYNTAX: DROP &amp; TRUNCATE</span>
+                                <button class="copy-btn">نسخ</button>
+                            </div>
+                            <pre>DROP TABLE table_name;
+TRUNCATE TABLE table_name;</pre>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- EXISTING FULL CONTENT OF SECTION 1 (UNTOUCHED & COMPLETE) -->
             <div class="content-card">
-                <h3>📌 تأسيس سريع: الفرق بين عائلات أوامر <span class="term" dir="ltr">SQL</span> الثلاثة</h3>
-                <p>قبل ما نبدأ في الكود، لازم تفرق بين الـ 3 عائلات الأساسية لأوامر <span class="term" dir="ltr">SQL</span> اللي موجودة في السكشن عندك لأن المقارنة بينهم سؤال أساسي في أي امتحان:</p>
+                <h3>📌 ثانياً: الفرق بين عائلات أوامر <span class="term" dir="ltr">SQL</span> الثلاثة</h3>
+                <p>لازم تفرق بين الـ 3 عائلات الأساسية لأوامر <span class="term" dir="ltr">SQL</span> اللي موجودة في السكشن عندك لأن المقارنة بينهم سؤال أساسي في أي امتحان:</p>
 
                 <div class="table-wrapper">
                     <table class="comp-table">
@@ -112,9 +370,8 @@
                 </div>
             </div>
 
-            <!-- 1. Types of Constraints -->
             <div class="content-card">
-                <h3>🛡️ أولاً: شرح أنواع الـ <span class="term" dir="ltr">Constraints</span> الخمسة والـ <span class="term" dir="ltr">Default</span> بالتفصيل</h3>
+                <h3>🛡️ ثالثاً: شرح أكواد السكشن الأول لأنواع الـ <span class="term" dir="ltr">Constraints</span> الخمسة والـ <span class="term" dir="ltr">Default</span></h3>
                 <p>لما بنبني عمود في جدول، بنحدد الشروط اللي تحمي الداتا بتاعته باستخدام الـ <span class="term" dir="ltr">Constraints</span> الآتية:</p>
                 <ol>
                     <li><strong>قيد <span class="term" dir="ltr">NOT NULL</span>:</strong> بيمنع إن العمود يتساب فاضي، يعني إجباري تدخل فيه قيمة في كل صف.</li>
@@ -187,9 +444,8 @@
                 </div>
             </div>
 
-            <!-- 2. Named vs Unnamed Constraints + Default Ordering -->
             <div class="content-card">
-                <h3>🏷️ ثانياً وثالثاً: تسمية الـ <span class="term" dir="ltr">Constraint</span> وترتيب الـ <span class="term" dir="ltr">DEFAULT</span></h3>
+                <h3>🏷️ رابعاً: تسمية الـ <span class="term" dir="ltr">Constraint</span> وترتيب الـ <span class="term" dir="ltr">DEFAULT</span></h3>
                 <h4>1. الفرق بين <span class="term" dir="ltr">Unnamed Constraint</span> و <span class="term" dir="ltr">Named Constraint</span>:</h4>
                 <p>بص على السطرين دول في كود السكشن عندك:</p>
                 <div class="code-container">
@@ -225,9 +481,8 @@ Dssn number default 5 constraint nn_const not null,</pre>
                 </div>
             </div>
 
-            <!-- 3. Column-Level vs Table-Level Constraints -->
             <div class="content-card">
-                <h3>⚖️ رابعاً: المقارنة الكبرى بين <span class="term" dir="ltr">Column-Level</span> و <span class="term" dir="ltr">Table-Level Constraints</span></h3>
+                <h3>⚖️ خامساً: المقارنة الكبرى بين <span class="term" dir="ltr">Column-Level</span> و <span class="term" dir="ltr">Table-Level Constraints</span></h3>
                 <p>في كود السكشن عندك هتلاقي علامات <span class="term" dir="ltr">xxxxxxx</span> على سطرين؛ العلامات دي المعيد حاططها عشان ينبهك لأخطاء مشهورة بتيجي في الامتحانات. تعالى نفهم الفرق بين الطريقتين وليه السطرين دول غلط:</p>
 
                 <h4>1. الطريقة الأولى: <span class="term" dir="ltr">Column-Level Constraint</span> (على مستوى العمود)</h4>
@@ -313,9 +568,8 @@ name varchar2(50) primary key ,</pre>
                 </div>
             </div>
 
-            <!-- 4. Foreign Key in Doctors & Patients + DROP vs TRUNCATE -->
             <div class="content-card">
-                <h3>🔗 خامساً وسادساً: تطبيق الـ <span class="term" dir="ltr">Foreign Key</span> + الفرق بين <span class="term" dir="ltr">DROP</span> و <span class="term" dir="ltr">TRUNCATE</span></h3>
+                <h3>🔗 سادساً: تطبيق الـ <span class="term" dir="ltr">Foreign Key</span> + الفرق بين <span class="term" dir="ltr">DROP</span> و <span class="term" dir="ltr">TRUNCATE</span></h3>
                 <p>في الكود عندك، أنشأ جدول <span class="term" dir="ltr">Doctors</span> الأول، وبعدين أنشأ جدول <span class="term" dir="ltr">Patients</span> وربطه بجدول الدكاترة عن طريق الـ <span class="term" dir="ltr">Foreign Key</span> بالطريقتين (<span class="term" dir="ltr">Column-Level</span> و <span class="term" dir="ltr">Table-Level</span>):</p>
 
                 <div class="code-container">
@@ -369,7 +623,7 @@ truncate table patients;</pre>
                 </div>
             </div>
 
-            <!-- Comprehensive Example for Section 1 -->
+            <!-- Master Practice for Section 1 -->
             <div class="master-practice-box">
                 <div class="master-practice-header">
                     <span class="master-practice-badge">تطبيق مجمع على السكشن الأول</span>
@@ -414,24 +668,142 @@ DROP TABLE Patients;</pre>
             </div>
 
             <div class="section-nav-buttons">
-                <div></div>
+                <button class="btn-step-nav secondary" data-goto="landing-view">🏠 العودة للصفحة الرئيسية</button>
                 <button class="btn-step-nav" data-goto="sec-alter">الانتقال إلى السكشن الثاني (جزء 1): <span class="term" dir="ltr">ALTER TABLE</span> ⬅️</button>
             </div>
         </section>
 
         <!-- =================================================================== -->
-        <!-- TAB 2: SECTION 2 PART 1 (ALTER TABLE - 11 OPERATIONS)               -->
+        <!-- SECTION 2 PART 1 (ALTER TABLE - 11 OPERATIONS)                      -->
         <!-- =================================================================== -->
         <section id="sec-alter" class="course-section">
+            <div class="section-top-return">
+                <button class="btn-back-landing" data-goto="landing-view">🏠 العودة للصفحة الرئيسية (اختر سكشن آخر)</button>
+                <span>أنت الآن في: <strong>السكشن الثاني (جزء ١) — <span class="term" dir="ltr">ALTER TABLE</span></strong></span>
+            </div>
+
             <div class="section-banner">
                 <span class="section-badge">Section 2 — Part 1 (ALTER TABLE)</span>
                 <h2>السكشن الثاني (الجزء الأول): التعديل على هيكل الجدول بـ <span class="term" dir="ltr">ALTER TABLE</span></h2>
-                <p>بعد ما عملت الجدول بـ <span class="term" dir="ltr">CREATE TABLE</span>، لو حبيت تضيف عمود جديد، تغير نوع أو حجم عمود، تمسح عمود، تغير اسم عمود أو جدول، أو تتحكم في الـ <span class="term" dir="ltr">Constraints</span>، بنستخدم الـ 11 عملية دول.</p>
+                <p>نبدأ الأول بتشريح كل أمر من أوامر <span class="term" dir="ltr">ALTER TABLE</span> وصيغته العامة، وبعدها ندخل في شرح الـ ١١ عملية اللي في كود السكشن بالتفصيل والمقارنات والتطبيق الشامل.</p>
             </div>
 
-            <!-- Operations 1, 2, 3: ADD -->
+            <!-- NEW ADDITION: ANATOMY & EXPLANATION OF EVERY COMMAND IN SECTION 2 PART 1 FIRST -->
+            <div class="content-card command-anatomy-card">
+                <h3>🔍 أولاً: تشريح وشرح كل أمر من أوامر <span class="term" dir="ltr">ALTER TABLE</span> بالتفصيل (الصيغة العامة + الوظيفة)</h3>
+                <p>أمر <span class="term" dir="ltr">ALTER TABLE</span> هو الأمر المسؤول عن أي تعديل في هيكل جدول موجود بالفعل، وبيجي معاه ٧ كلمات أساسية في السكشن عندك:</p>
+
+                <div class="cmd-dict-grid">
+                    <!-- Command 1: ADD COLUMN -->
+                    <div class="cmd-dict-card">
+                        <div class="cmd-dict-header">
+                            <span class="cmd-dict-title">١. أمر إضافة الأعمدة: <span class="term" dir="ltr">ALTER TABLE ... ADD</span></span>
+                            <span class="cmd-dict-tag">لإضافة عمود جديد أو أكثر</span>
+                        </div>
+                        <p><strong>وظيفته:</strong> يضيف عموداً جديداً (أو عدة أعمدة بين قوسين) إلى جدول موجود. يمكنك إضافة <span class="term" dir="ltr">DEFAULT</span> أو <span class="term" dir="ltr">Constraint</span> مع العمود الجديد في نفس السطر.</p>
+                        <div class="code-container">
+                            <div class="code-header">
+                                <span class="code-lang-tag">SYNTAX: ALTER TABLE ADD</span>
+                                <button class="copy-btn">نسخ</button>
+                            </div>
+                            <pre>-- إضافة عمود واحد:
+ALTER TABLE table_name ADD column_name datatype [DEFAULT expr] [constraint];
+
+-- إضافة عدة أعمدة معاً (يجب وضعهم بين قوسين):
+ALTER TABLE table_name ADD (col1 datatype, col2 datatype, ...);</pre>
+                        </div>
+                    </div>
+
+                    <!-- Command 2: MODIFY COLUMN -->
+                    <div class="cmd-dict-card">
+                        <div class="cmd-dict-header">
+                            <span class="cmd-dict-title">٢. أمر تعديل خصائص عمود: <span class="term" dir="ltr">ALTER TABLE ... MODIFY</span></span>
+                            <span class="cmd-dict-tag">لتعديل عمود موجود بالفعل</span>
+                        </div>
+                        <p><strong>وظيفته:</strong> يعدل عموداً موجوداً مسبقاً في الجدول لتغيير نوع البيان (<span class="term" dir="ltr">Datatype</span>)، أو تكبير حجمه (<span class="term" dir="ltr">Size</span>)، أو تحويله إلى <span class="term" dir="ltr">NOT NULL</span> أو إرجاعه ليقبل <span class="term" dir="ltr">NULL</span>.</p>
+                        <div class="code-container">
+                            <div class="code-header">
+                                <span class="code-lang-tag">SYNTAX: ALTER TABLE MODIFY</span>
+                                <button class="copy-btn">نسخ</button>
+                            </div>
+                            <pre>-- تغيير النوع أو الحجم:
+ALTER TABLE table_name MODIFY column_name new_datatype(new_size);
+
+-- تحويل العمود إلى إجباري أو اختياري:
+ALTER TABLE table_name MODIFY column_name NOT NULL;
+ALTER TABLE table_name MODIFY column_name NULL;</pre>
+                        </div>
+                    </div>
+
+                    <!-- Command 3: DROP COLUMN -->
+                    <div class="cmd-dict-card">
+                        <div class="cmd-dict-header">
+                            <span class="cmd-dict-title">٣. أمر حذف الأعمدة: <span class="term" dir="ltr">ALTER TABLE ... DROP</span></span>
+                            <span class="cmd-dict-tag">انتبه لقاعدة كلمة COLUMN</span>
+                        </div>
+                        <p><strong>وظيفته:</strong> يحذف عموداً أو عدة أعمدة نهائياً من الجدول. <strong>القاعدة الذهبية:</strong> مع عمود واحد نكتب كلمة <span class="term" dir="ltr">COLUMN</span> بدون أقواس، ومع عدة أعمدة نستخدم الأقواس فقط و<strong>نحذف</strong> كلمة <span class="term" dir="ltr">COLUMN</span>.</p>
+                        <div class="code-container">
+                            <div class="code-header">
+                                <span class="code-lang-tag">SYNTAX: ALTER TABLE DROP COLUMN(S)</span>
+                                <button class="copy-btn">نسخ</button>
+                            </div>
+                            <pre>-- حذف عمود واحد فقط:
+ALTER TABLE table_name DROP COLUMN column_name;
+
+-- حذف عدة أعمدة معاً:
+ALTER TABLE table_name DROP (col1, col2, col3);</pre>
+                        </div>
+                    </div>
+
+                    <!-- Command 4: RENAME COLUMN & RENAME TABLE -->
+                    <div class="cmd-dict-card">
+                        <div class="cmd-dict-header">
+                            <span class="cmd-dict-title">٤. أمر إعادة التسمية: <span class="term" dir="ltr">RENAME COLUMN</span> و <span class="term" dir="ltr">RENAME TO</span></span>
+                            <span class="cmd-dict-tag">تغيير اسم عمود أو جدول</span>
+                        </div>
+                        <p><strong>وظيفته:</strong> يغير اسم عمود داخل الجدول، أو يغير اسم الجدول نفسه بدون المساس بالبيانات المسجلة بداخله.</p>
+                        <div class="code-container">
+                            <div class="code-header">
+                                <span class="code-lang-tag">SYNTAX: RENAME COLUMN &amp; TABLE</span>
+                                <button class="copy-btn">نسخ</button>
+                            </div>
+                            <pre>-- تغيير اسم عمود:
+ALTER TABLE table_name RENAME COLUMN old_col_name TO new_col_name;
+
+-- تغيير اسم الجدول نفسه:
+ALTER TABLE old_table_name RENAME TO new_table_name;</pre>
+                        </div>
+                    </div>
+
+                    <!-- Command 5: ADD / DROP / DISABLE / ENABLE CONSTRAINT -->
+                    <div class="cmd-dict-card">
+                        <div class="cmd-dict-header">
+                            <span class="cmd-dict-title">٥. أوامر إدارة القيود: <span class="term" dir="ltr">ADD / DROP / DISABLE / ENABLE CONSTRAINT</span></span>
+                            <span class="cmd-dict-tag">التحكم الكامل في الـ Constraints</span>
+                        </div>
+                        <p><strong>وظيفتها:</strong> تمكنك من إضافة قيد جديد لجدول بعد إنشائه، أو حذفه نهائياً باسمه، أو إيقافه مؤقتاً (<span class="term" dir="ltr">DISABLE</span>) وإعادة تشغيله (<span class="term" dir="ltr">ENABLE</span>).</p>
+                        <div class="code-container">
+                            <div class="code-header">
+                                <span class="code-lang-tag">SYNTAX: MANAGE CONSTRAINTS</span>
+                                <button class="copy-btn">نسخ</button>
+                            </div>
+                            <pre>-- 1. إضافة قيد جديد:
+ALTER TABLE table_name ADD CONSTRAINT const_name constraint_type (column_name);
+
+-- 2. حذف قيد نهائياً:
+ALTER TABLE table_name DROP CONSTRAINT const_name;
+
+-- 3. تعطيل وتفعيل قيد مؤقتاً:
+ALTER TABLE table_name DISABLE CONSTRAINT const_name;
+ALTER TABLE table_name ENABLE CONSTRAINT const_name;</pre>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- EXISTING FULL CONTENT OF SECTION 2 PART 1 (UNTOUCHED & COMPLETE) -->
             <div class="content-card">
-                <h3>➕ أولاً: العمليات (١ و ٢ و ٣) — إضافة أعمدة جديدة بـ <span class="term" dir="ltr">ADD</span></h3>
+                <h3>➕ ثانياً: العمليات (١ و ٢ و ٣) — إضافة أعمدة جديدة بـ <span class="term" dir="ltr">ADD</span></h3>
                 <p>نستخدم <span class="term" dir="ltr">ALTER TABLE table_name ADD</span> لما نحب نضيف عمود أو أكتر مكنوش موجودين أصلاً في الجدول:</p>
                 <ol>
                     <li><strong>إضافة عمود واحد أو عدة أعمدة:</strong> لو عمود واحد بنكتبه بدون أقواس، ولو أكتر من عمود بنحطهم بين قوسين وبينهم فاصلة.</li>
@@ -462,9 +834,8 @@ alter table patients add xx number check(xx > 0);</pre>
                 </div>
             </div>
 
-            <!-- Operations 4, 5, 6: MODIFY -->
             <div class="content-card">
-                <h3>🔧 ثانياً: العمليات (٤ و ٥ و ٦) — تعديل خصائص عمود موجود بـ <span class="term" dir="ltr">MODIFY</span></h3>
+                <h3>🔧 ثالثاً: العمليات (٤ و ٥ و ٦) — تعديل خصائص عمود موجود بـ <span class="term" dir="ltr">MODIFY</span></h3>
                 <p>لو العمود <strong>موجود بالفعل</strong> في الجدول وعايز تغير الـ <span class="term" dir="ltr">Datatype</span> بتاعه، أو تغير الـ <span class="term" dir="ltr">Size</span> (الحجم)، أو تحوله لـ <span class="term" dir="ltr">NOT NULL</span> أو <span class="term" dir="ltr">NULL</span>، بنستخدم كلمة <span class="term" dir="ltr">MODIFY</span>:</p>
 
                 <div class="code-container">
@@ -510,9 +881,8 @@ alter table patients modify w null;</pre>
                 </div>
             </div>
 
-            <!-- Operations 7 & 8: DROP & RENAME -->
             <div class="content-card">
-                <h3>🗑️ ثالثاً: العمليتان (٧ و ٨) — حذف الأعمدة <span class="term" dir="ltr">DROP</span> وإعادة التسمية <span class="term" dir="ltr">RENAME</span></h3>
+                <h3>🗑️ رابعاً: العمليتان (٧ و ٨) — حذف الأعمدة <span class="term" dir="ltr">DROP</span> وإعادة التسمية <span class="term" dir="ltr">RENAME</span></h3>
                 <h4>العملية رقم 7: حذف عمود واحد مقابل حذف عدة أعمدة (تركة امتحانات مشهورة جداً!)</h4>
                 <p>خلي بالك أوي من الفرق في الـ <span class="term" dir="ltr">Syntax</span> بين السطرين دول في أوراكل:</p>
                 <ul>
@@ -543,9 +913,8 @@ alter table ppatients rename to patients;</pre>
                 </div>
             </div>
 
-            <!-- Operations 9, 10, 11: Constraints Management -->
             <div class="content-card">
-                <h3>🔒 رابعاً: العمليات (٩ و ١٠ و ١١) — إضافة وحذف وتعطيل وتفعيل الـ <span class="term" dir="ltr">Constraints</span></h3>
+                <h3>🔒 خامساً: العمليات (٩ و ١٠ و ١١) — إضافة وحذف وتعطيل وتفعيل الـ <span class="term" dir="ltr">Constraints</span></h3>
                 <p>بعد ما الجدول اتعمل، تقدر تضيف عليه <span class="term" dir="ltr">Constraint</span> جديد، أو تمسحه نهائياً بـ <span class="term" dir="ltr">DROP CONSTRAINT</span>، أو توقفه مؤقتاً بـ <span class="term" dir="ltr">DISABLE</span> وترجع تشغله بـ <span class="term" dir="ltr">ENABLE</span>:</p>
 
                 <div class="code-container">
@@ -592,7 +961,7 @@ alter table patients enable constraint age_chk_const;</pre>
                 </div>
             </div>
 
-            <!-- Comprehensive Example for Section 2 Part 1 -->
+            <!-- Master Practice for Section 2 Part 1 -->
             <div class="master-practice-box">
                 <div class="master-practice-header">
                     <span class="master-practice-badge">تطبيق مجمع على السكشن الثاني (جزء 1)</span>
@@ -650,18 +1019,128 @@ ALTER TABLE Patients DROP CONSTRAINT pat_age_chk;</pre>
         </section>
 
         <!-- =================================================================== -->
-        <!-- TAB 3: SECTION 2 PART 2 (CH9 - DML: INSERT, UPDATE, DELETE & TCL)   -->
+        <!-- SECTION 2 PART 2 (CH9 - DML: INSERT, UPDATE, DELETE & TCL)          -->
         <!-- =================================================================== -->
         <section id="sec-dml" class="course-section">
+            <div class="section-top-return">
+                <button class="btn-back-landing" data-goto="landing-view">🏠 العودة للصفحة الرئيسية (اختر سكشن آخر)</button>
+                <span>أنت الآن في: <strong>السكشن الثاني (جزء ٢) — <span class="term" dir="ltr">DML &amp; TCL (CH9)</span></strong></span>
+            </div>
+
             <div class="section-banner">
                 <span class="section-badge">Section 2 — Part 2 (Chapter 9: DML &amp; TCL)</span>
                 <h2>السكشن الثاني (الجزء الثاني): التعامل مع البيانات (<span class="term" dir="ltr">INSERT, UPDATE, DELETE</span>)</h2>
-                <p>أوامر الـ <span class="term" dir="ltr">DML (Data Manipulation Language)</span> هي المسؤولة عن التعامل مع الداتا والصفوف اللي جوه الجدول، ومعاها أوامر الـ <span class="term" dir="ltr">COMMIT</span> و <span class="term" dir="ltr">ROLLBACK</span> لحفظ الداتا أو التراجع عنها.</p>
+                <p>نبدأ الأول بتشريح كل أمر من أوامر الـ <span class="term" dir="ltr">DML</span> والـ <span class="term" dir="ltr">TCL</span> وصيغته العامة، وبعدها ندخل في الشرح التفصيلي لأكواد السكشن والمقارنات والتطبيق الشامل.</p>
             </div>
 
-            <!-- 1. INSERT INTO -->
+            <!-- NEW ADDITION: ANATOMY & EXPLANATION OF EVERY COMMAND IN SECTION 2 PART 2 FIRST -->
+            <div class="content-card command-anatomy-card">
+                <h3>🔍 أولاً: تشريح وشرح كل أمر من أوامر <span class="term" dir="ltr">DML &amp; TCL</span> بالتفصيل (الصيغة العامة + الوظيفة)</h3>
+                <p>أوامر الـ <span class="term" dir="ltr">DML</span> هي المسؤولة عن إضافة وتعديل وحذف الصفوف داخل الجدول، وأوامر الـ <span class="term" dir="ltr">TCL</span> هي المسؤولة عن حفظ هذه التعديلات أو التراجع عنها:</p>
+
+                <div class="cmd-dict-grid">
+                    <!-- Command 1: INSERT INTO -->
+                    <div class="cmd-dict-card">
+                        <div class="cmd-dict-header">
+                            <span class="cmd-dict-title">١. أمر إضافة صف: <span class="term" dir="ltr">INSERT INTO ... VALUES</span></span>
+                            <span class="cmd-dict-tag">إدخال بيانات جديدة — DML</span>
+                        </div>
+                        <p><strong>وظيفته:</strong> يضيف صفاً جديداً من البيانات داخل الجدول. إذا لم تكتب أسماء الأعمدة يجب إدخال قيم لكل الأعمدة بنفس ترتيب الجدول، وإذا كتبت أسماء الأعمدة تلتزم بالترتيب الذي كتبته.</p>
+                        <div class="code-container">
+                            <div class="code-header">
+                                <span class="code-lang-tag">SYNTAX: INSERT INTO</span>
+                                <button class="copy-btn">نسخ</button>
+                            </div>
+                            <pre>-- 1. بدون تحديد أسماء الأعمدة (كل القيم بنفس ترتيب الجدول):
+INSERT INTO table_name
+VALUES (value1, value2, value3, ...);
+
+-- 2. مع تحديد أسماء الأعمدة:
+INSERT INTO table_name (col1, col2, ...)
+VALUES (val1, val2, ...);</pre>
+                        </div>
+                    </div>
+
+                    <!-- Command 2: INSERT ALL -->
+                    <div class="cmd-dict-card">
+                        <div class="cmd-dict-header">
+                            <span class="cmd-dict-title">٢. أمر الإضافة الجماعية: <span class="term" dir="ltr">INSERT ALL ... SELECT 1 FROM dual</span></span>
+                            <span class="cmd-dict-tag">إضافة عدة صفوف أو عدة جداول</span>
+                        </div>
+                        <p><strong>وظيفته:</strong> يتيح إدخال أكثر من صف في نفس الجدول أو في جداول مختلفة داخل جملة واحدة في أوراكل. <strong>شرطه الأساسي:</strong> يجب أن ينتهي في السطر الأخير بجملة <span class="term" dir="ltr">SELECT 1 FROM dual;</span>.</p>
+                        <div class="code-container">
+                            <div class="code-header">
+                                <span class="code-lang-tag">SYNTAX: INSERT ALL</span>
+                                <button class="copy-btn">نسخ</button>
+                            </div>
+                            <pre>INSERT ALL
+    INTO table1 [(col1, col2)] VALUES (val1, val2)
+    INTO table2 [(col1, col2)] VALUES (val3, val4)
+SELECT 1 FROM dual;</pre>
+                        </div>
+                    </div>
+
+                    <!-- Command 3: UPDATE -->
+                    <div class="cmd-dict-card">
+                        <div class="cmd-dict-header">
+                            <span class="cmd-dict-title">٣. أمر تعديل البيانات: <span class="term" dir="ltr">UPDATE ... SET ... WHERE</span></span>
+                            <span class="cmd-dict-tag">تحديث قيم موجودة — DML</span>
+                        </div>
+                        <p><strong>وظيفته:</strong> يعدل قيمة عمود أو أكثر في الصفوف الموجودة بالجدول. كلمة <span class="term" dir="ltr">SET</span> تحدد القيم الجديدة، وجملة <span class="term" dir="ltr">WHERE</span> تحدد الصفوف المطلوب تعديلها (وإذا حذفت <span class="term" dir="ltr">WHERE</span> يتم تعديل كل صفوف الجدول).</p>
+                        <div class="code-container">
+                            <div class="code-header">
+                                <span class="code-lang-tag">SYNTAX: UPDATE</span>
+                                <button class="copy-btn">نسخ</button>
+                            </div>
+                            <pre>UPDATE table_name
+SET column1 = new_value1 [, column2 = new_value2]
+[WHERE condition];</pre>
+                        </div>
+                    </div>
+
+                    <!-- Command 4: DELETE -->
+                    <div class="cmd-dict-card">
+                        <div class="cmd-dict-header">
+                            <span class="cmd-dict-title">٤. أمر حذف الصفوف: <span class="term" dir="ltr">DELETE FROM ... WHERE</span></span>
+                            <span class="cmd-dict-tag">حذف صفوف مع إمكانية التراجع — DML</span>
+                        </div>
+                        <p><strong>وظيفته:</strong> يحذف صفاً معيناً أو مجموعة صفوف بناءً على شرط <span class="term" dir="ltr">WHERE</span>، وإذا كُتب بدون <span class="term" dir="ltr">WHERE</span> يحذف جميع صفوف الجدول.</p>
+                        <div class="code-container">
+                            <div class="code-header">
+                                <span class="code-lang-tag">SYNTAX: DELETE</span>
+                                <button class="copy-btn">نسخ</button>
+                            </div>
+                            <pre>-- حذف صفوف محددة بشرط:
+DELETE FROM table_name WHERE condition;
+
+-- حذف جميع الصفوف في الجدول:
+DELETE FROM table_name;</pre>
+                        </div>
+                    </div>
+
+                    <!-- Command 5: COMMIT & ROLLBACK -->
+                    <div class="cmd-dict-card">
+                        <div class="cmd-dict-header">
+                            <span class="cmd-dict-title">٥. أمرا الحفظ النهائي والتراجع: <span class="term" dir="ltr">COMMIT</span> و <span class="term" dir="ltr">ROLLBACK</span></span>
+                            <span class="cmd-dict-tag">التحكم في الحفظ — TCL</span>
+                        </div>
+                        <p><strong>وظيفة <span class="term" dir="ltr">COMMIT</span>:</strong> يحفظ جميع عمليات الـ <span class="term" dir="ltr">DML</span> السابقة بشكل دائم في قاعدة البيانات.<br>
+                        <strong>وظيفة <span class="term" dir="ltr">ROLLBACK</span>:</strong> يتراجع ويلغي جميع عمليات الـ <span class="term" dir="ltr">DML</span> التي تمت منذ آخر <span class="term" dir="ltr">COMMIT</span>.</p>
+                        <div class="code-container">
+                            <div class="code-header">
+                                <span class="code-lang-tag">SYNTAX: COMMIT &amp; ROLLBACK</span>
+                                <button class="copy-btn">نسخ</button>
+                            </div>
+                            <pre>COMMIT;
+ROLLBACK;</pre>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- EXISTING FULL CONTENT OF SECTION 2 PART 2 (UNTOUCHED & COMPLETE) -->
             <div class="content-card">
-                <h3>📥 أولاً: أمر الإضافة <span class="term" dir="ltr">INSERT INTO</span> (الأربع طرق بالتفصيل)</h3>
+                <h3>📥 ثانياً: شرح أكواد السكشن لأمر الإضافة <span class="term" dir="ltr">INSERT INTO</span> (الأربع طرق بالتفصيل)</h3>
                 <p>في كود السكشن عندك مشروح 4 طرق مختلفة لإدخال صفوف جديدة في الجدول:</p>
 
                 <h4>1. إضافة صف واحد بدون كتابة أسماء الأعمدة:</h4>
@@ -730,9 +1209,8 @@ select 1 from dual;</pre>
                 </div>
             </div>
 
-            <!-- 2. UPDATE Command -->
             <div class="content-card">
-                <h3>✏️ ثانياً: أمر تعديل البيانات <span class="term" dir="ltr">UPDATE</span></h3>
+                <h3>✏️ ثالثاً: أمر تعديل البيانات <span class="term" dir="ltr">UPDATE</span></h3>
                 <p>أمر <span class="term" dir="ltr">UPDATE</span> بيعدل بيانات موجودة فعلاً في الجدول. وخلي بالك من الفرق بين التعديل بدون <span class="term" dir="ltr">WHERE</span> والتعديل بـ <span class="term" dir="ltr">WHERE</span>:</p>
 
                 <div class="code-container">
@@ -762,9 +1240,8 @@ where exp_years = 5;
                 </div>
             </div>
 
-            <!-- 3. DELETE, COMMIT, ROLLBACK & 3-Way Comparison -->
             <div class="content-card">
-                <h3>🧹 ثالثاً ورابعاً: أمر الحذف <span class="term" dir="ltr">DELETE</span> + الحفظ والتراجع (<span class="term" dir="ltr">COMMIT &amp; ROLLBACK</span>)</h3>
+                <h3>🧹 رابعاً وخامساً: أمر الحذف <span class="term" dir="ltr">DELETE</span> + الحفظ والتراجع (<span class="term" dir="ltr">COMMIT &amp; ROLLBACK</span>)</h3>
                 <div class="code-container">
                     <div class="code-header">
                         <span class="code-lang-tag"><span class="code-dots"><span class="code-dot red"></span><span class="code-dot yellow"></span><span class="code-dot green"></span></span>DELETE, COMMIT &amp; ROLLBACK</span>
@@ -832,7 +1309,7 @@ rollback;</pre>
                 </div>
             </div>
 
-            <!-- Comprehensive Example for Section 2 Part 2 -->
+            <!-- Master Practice for Section 2 Part 2 -->
             <div class="master-practice-box">
                 <div class="master-practice-header">
                     <span class="master-practice-badge">تطبيق مجمع على السكشن الثاني (جزء 2)</span>
@@ -876,18 +1353,23 @@ ROLLBACK;</pre>
 
             <div class="section-nav-buttons">
                 <button class="btn-step-nav secondary" data-goto="sec-alter">➡️ العودة للسكشن الثاني (جزء 1): <span class="term" dir="ltr">ALTER TABLE</span></button>
-                <button class="btn-step-nav" data-goto="sec-pharmacy">الانتقال إلى التطبيق الشامل: سؤال نظام الصيدلية (<span class="term" dir="ltr">LAB 1</span>) ⬅️</button>
+                <button class="btn-step-nav" data-goto="sec-pharmacy">الانتقال إلى التطبيق الشامل: مشروع الصيدلية (<span class="term" dir="ltr">LAB 1</span>) ⬅️</button>
             </div>
         </section>
 
         <!-- =================================================================== -->
-        <!-- TAB 4: FULL CASE STUDY — LAB 1 PHARMACY DATABASE SYSTEM             -->
+        <!-- SECTION 4: FULL CASE STUDY — LAB 1 PHARMACY DATABASE SYSTEM         -->
         <!-- =================================================================== -->
         <section id="sec-pharmacy" class="course-section">
+            <div class="section-top-return">
+                <button class="btn-back-landing" data-goto="landing-view">🏠 العودة للصفحة الرئيسية (اختر سكشن آخر)</button>
+                <span>أنت الآن في: <strong>التطبيق الشامل — مشروع نظام الصيدلية (<span class="term" dir="ltr">LAB 1</span>)</strong></span>
+            </div>
+
             <div class="section-banner emerald-banner">
                 <span class="section-badge">Comprehensive Case Study — LAB 1</span>
-                <h2>🏥 تطبيق شامل على كل ما سبق: سؤال نظام الصيدلية (<span class="term" dir="ltr">Pharmacy Database System</span>)</h2>
-                <p>دلوقتي هناخد سؤال ملف الـ <span class="term" dir="ltr">PDF</span> (<span class="term" dir="ltr">LAB 1_ER Diagram</span>) ونشتغل عليه من الصفر للنهاية: قراءة السؤال، رسم الـ <span class="term" dir="ltr">ER Diagram</span>، عمل الـ <span class="term" dir="ltr">Mapping</span>، رسم الـ <span class="term" dir="ltr">Relational Schema</span> بالأسهم من كل <span class="term" dir="ltr">Foreign Key</span> للـ <span class="term" dir="ltr">Primary Key</span>، ثم كتابة أكواد السكاشن كلها عليه!</p>
+                <h2>🏥 تطبيق شامل على المنهج: سؤال نظام الصيدلية (<span class="term" dir="ltr">Pharmacy Database System</span>)</h2>
+                <p>هناخد سؤال ملف الـ <span class="term" dir="ltr">PDF</span> (<span class="term" dir="ltr">LAB 1_ER Diagram</span>) ونشتغل عليه من الصفر للنهاية: قراءة السؤال، رسم الـ <span class="term" dir="ltr">ER Diagram</span>، عمل الـ <span class="term" dir="ltr">Mapping</span>، رسم الـ <span class="term" dir="ltr">Relational Schema</span> بالأسهم من كل <span class="term" dir="ltr">Foreign Key</span> للـ <span class="term" dir="ltr">Primary Key</span>، ثم كتابة أكواد السكاشن كلها عليه!</p>
             </div>
 
             <!-- Step 1: Problem Statement & Analysis -->
@@ -1094,121 +1576,88 @@ pharmacies, pharmaceutical companies, and drugs through prescriptions.
                             </marker>
                         </defs>
 
-                        <!-- ================= TABLE 1: DOCTORS (x=70, y=55) ================= -->
+                        <!-- TABLE 1: DOCTORS -->
                         <text x="70" y="42" font-size="16" font-weight="bold" fill="#0f172a">1. Doctors</text>
-                        <!-- DSSN [PK] (x=70..190) -->
                         <rect x="70" y="55" width="120" height="44" fill="#dcfce7" stroke="#16a34a" stroke-width="2"/>
                         <text x="130" y="82" text-anchor="middle" font-size="14" font-weight="bold" fill="#14532d" text-decoration="underline">DSSN (PK)</text>
-                        <!-- Name (x=190..310) -->
                         <rect x="190" y="55" width="120" height="44" fill="#f8fafc" stroke="#475569" stroke-width="1.5"/>
                         <text x="250" y="82" text-anchor="middle" font-size="14" fill="#1e293b">Name</text>
-                        <!-- Specialty (x=310..440) -->
                         <rect x="310" y="55" width="130" height="44" fill="#f8fafc" stroke="#475569" stroke-width="1.5"/>
                         <text x="375" y="82" text-anchor="middle" font-size="14" fill="#1e293b">Specialty</text>
-                        <!-- EXP_Years (x=440..570) -->
                         <rect x="440" y="55" width="130" height="44" fill="#f8fafc" stroke="#475569" stroke-width="1.5"/>
                         <text x="505" y="82" text-anchor="middle" font-size="14" fill="#1e293b">EXP_Years</text>
 
-                        <!-- ================= TABLE 2: PHARM_COMPANY (x=680, y=55) ================= -->
+                        <!-- TABLE 2: PHARM_COMPANY -->
                         <text x="680" y="42" font-size="16" font-weight="bold" fill="#0f172a">2. Pharm_Company</text>
-                        <!-- CName [PK] (x=680..820) -->
                         <rect x="680" y="55" width="140" height="44" fill="#dcfce7" stroke="#16a34a" stroke-width="2"/>
                         <text x="750" y="82" text-anchor="middle" font-size="14" font-weight="bold" fill="#14532d" text-decoration="underline">CName (PK)</text>
-                        <!-- Phone (x=820..950) -->
                         <rect x="820" y="55" width="130" height="44" fill="#f8fafc" stroke="#475569" stroke-width="1.5"/>
                         <text x="885" y="82" text-anchor="middle" font-size="14" fill="#1e293b">Phone</text>
 
-                        <!-- ================= TABLE 3: PATIENTS (x=70, y=230) ================= -->
+                        <!-- TABLE 3: PATIENTS -->
                         <text x="70" y="217" font-size="16" font-weight="bold" fill="#0f172a">3. Patients</text>
-                        <!-- SSN [PK] (x=70..180) -->
                         <rect x="70" y="230" width="110" height="44" fill="#dcfce7" stroke="#16a34a" stroke-width="2"/>
                         <text x="125" y="257" text-anchor="middle" font-size="14" font-weight="bold" fill="#14532d" text-decoration="underline">SSN (PK)</text>
-                        <!-- Name (x=180..290) -->
                         <rect x="180" y="230" width="110" height="44" fill="#f8fafc" stroke="#475569" stroke-width="1.5"/>
                         <text x="235" y="257" text-anchor="middle" font-size="14" fill="#1e293b">Name</text>
-                        <!-- Age (x=290..380) -->
                         <rect x="290" y="230" width="90" height="44" fill="#f8fafc" stroke="#475569" stroke-width="1.5"/>
                         <text x="335" y="257" text-anchor="middle" font-size="14" fill="#1e293b">Age</text>
-                        <!-- Address (x=380..490) -->
                         <rect x="380" y="230" width="110" height="44" fill="#f8fafc" stroke="#475569" stroke-width="1.5"/>
                         <text x="435" y="257" text-anchor="middle" font-size="14" fill="#1e293b">Address</text>
-                        <!-- DSSN [FK] (x=490..610) -->
                         <rect x="490" y="230" width="120" height="44" fill="#dbeafe" stroke="#2563eb" stroke-width="2"/>
                         <text x="550" y="257" text-anchor="middle" font-size="14" font-weight="bold" fill="#1e40af">DSSN (FK)</text>
 
-                        <!-- ================= TABLE 4: DRUG (x=680, y=230) ================= -->
+                        <!-- TABLE 4: DRUG -->
                         <text x="680" y="217" font-size="16" font-weight="bold" fill="#0f172a">4. Drug</text>
-                        <!-- Trade_Name [PK] (x=680..840) -->
                         <rect x="680" y="230" width="160" height="44" fill="#dcfce7" stroke="#16a34a" stroke-width="2"/>
                         <text x="760" y="257" text-anchor="middle" font-size="14" font-weight="bold" fill="#14532d" text-decoration="underline">Trade_Name (PK)</text>
-                        <!-- Formula (x=840..950) -->
                         <rect x="840" y="230" width="110" height="44" fill="#f8fafc" stroke="#475569" stroke-width="1.5"/>
                         <text x="895" y="257" text-anchor="middle" font-size="14" fill="#1e293b">Formula</text>
-                        <!-- CName [FK] (x=950..1070) -->
                         <rect x="950" y="230" width="120" height="44" fill="#dbeafe" stroke="#2563eb" stroke-width="2"/>
                         <text x="1010" y="257" text-anchor="middle" font-size="14" font-weight="bold" fill="#1e40af">CName (FK)</text>
 
-                        <!-- ================= TABLE 5: PHARMACY (x=680, y=405) ================= -->
+                        <!-- TABLE 5: PHARMACY -->
                         <text x="680" y="392" font-size="16" font-weight="bold" fill="#0f172a">5. Pharmacy</text>
-                        <!-- Pname [PK] (x=680..810) -->
                         <rect x="680" y="405" width="130" height="44" fill="#dcfce7" stroke="#16a34a" stroke-width="2"/>
                         <text x="745" y="432" text-anchor="middle" font-size="14" font-weight="bold" fill="#14532d" text-decoration="underline">Pname (PK)</text>
-                        <!-- Phone (x=810..930) -->
                         <rect x="810" y="405" width="120" height="44" fill="#f8fafc" stroke="#475569" stroke-width="1.5"/>
                         <text x="870" y="432" text-anchor="middle" font-size="14" fill="#1e293b">Phone</text>
-                        <!-- Address (x=930..1060) -->
                         <rect x="930" y="405" width="130" height="44" fill="#f8fafc" stroke="#475569" stroke-width="1.5"/>
                         <text x="995" y="432" text-anchor="middle" font-size="14" fill="#1e293b">Address</text>
 
-                        <!-- ================= TABLE 6: PRESCRIPTION (x=70, y=585) ================= -->
+                        <!-- TABLE 6: PRESCRIPTION -->
                         <text x="70" y="572" font-size="16" font-weight="bold" fill="#0f172a">6. Prescription (الجدول المركزي - يخرج منه 4 أسهم FK)</text>
-                        <!-- Pre_id [PK] (x=70..195) -->
                         <rect x="70" y="585" width="125" height="44" fill="#dcfce7" stroke="#16a34a" stroke-width="2"/>
                         <text x="132" y="612" text-anchor="middle" font-size="14" font-weight="bold" fill="#14532d" text-decoration="underline">Pre_id (PK)</text>
-                        <!-- Pre_Date (x=195..305) -->
                         <rect x="195" y="585" width="110" height="44" fill="#f8fafc" stroke="#475569" stroke-width="1.5"/>
                         <text x="250" y="612" text-anchor="middle" font-size="14" fill="#1e293b">Pre_Date</text>
-                        <!-- Quantity (x=305..415) -->
                         <rect x="305" y="585" width="110" height="44" fill="#f8fafc" stroke="#475569" stroke-width="1.5"/>
                         <text x="360" y="612" text-anchor="middle" font-size="14" fill="#1e293b">Quantity</text>
-                        <!-- SSN [FK] (x=415..535) -->
                         <rect x="415" y="585" width="120" height="44" fill="#dbeafe" stroke="#2563eb" stroke-width="2"/>
                         <text x="475" y="612" text-anchor="middle" font-size="14" font-weight="bold" fill="#1e40af">SSN (FK)</text>
-                        <!-- DSSN [FK] (x=535..660) -->
                         <rect x="535" y="585" width="125" height="44" fill="#dbeafe" stroke="#2563eb" stroke-width="2"/>
                         <text x="597" y="612" text-anchor="middle" font-size="14" font-weight="bold" fill="#1e40af">DSSN (FK)</text>
-                        <!-- Trade_Name [FK] (x=660..830) -->
                         <rect x="660" y="585" width="170" height="44" fill="#dbeafe" stroke="#2563eb" stroke-width="2"/>
                         <text x="745" y="612" text-anchor="middle" font-size="14" font-weight="bold" fill="#1e40af">Trade_Name (FK)</text>
-                        <!-- Pname [FK] (x=830..960) -->
                         <rect x="830" y="585" width="130" height="44" fill="#dbeafe" stroke="#2563eb" stroke-width="2"/>
                         <text x="895" y="612" text-anchor="middle" font-size="14" font-weight="bold" fill="#1e40af">Pname (FK)</text>
 
-                        <!-- ========================================================================= -->
-                        <!-- ARROWS FROM EVERY FOREIGN KEY (FK) TO ITS TARGET PRIMARY KEY (PK)         -->
-                        <!-- ========================================================================= -->
-
-                        <!-- Arrow 1: Patients.DSSN (FK) (550, 230) -> Doctors.DSSN (PK) (130, 99) -->
+                        <!-- ARROWS FROM EVERY FOREIGN KEY (FK) TO ITS TARGET PRIMARY KEY (PK) -->
                         <circle cx="550" cy="230" r="4.5" fill="#2563eb"/>
                         <path d="M 550 230 L 550 155 L 130 155 L 130 103" fill="none" stroke="#2563eb" stroke-width="2.5" marker-end="url(#arr-blue)"/>
 
-                        <!-- Arrow 2: Drug.CName (FK) (1010, 230) -> Pharm_Company.CName (PK) (750, 99) -->
                         <circle cx="1010" cy="230" r="4.5" fill="#7c3aed"/>
                         <path d="M 1010 230 L 1010 155 L 750 155 L 750 103" fill="none" stroke="#7c3aed" stroke-width="2.5" marker-end="url(#arr-purple)"/>
 
-                        <!-- Arrow 3: Prescription.SSN (FK) (475, 585) -> Patients.SSN (PK) (125, 274) -->
                         <circle cx="475" cy="585" r="4.5" fill="#e11d48"/>
                         <path d="M 475 585 L 475 495 L 125 495 L 125 278" fill="none" stroke="#e11d48" stroke-width="2.5" marker-end="url(#arr-rose)"/>
 
-                        <!-- Arrow 4: Prescription.DSSN (FK) (597, 629) -> Doctors.DSSN (PK) (70, 77) via left margin -->
                         <circle cx="597" cy="629" r="4.5" fill="#0d9488"/>
                         <path d="M 597 629 L 597 695 L 30 695 L 30 77 L 66 77" fill="none" stroke="#0d9488" stroke-width="2.5" marker-end="url(#arr-teal)"/>
 
-                        <!-- Arrow 5: Prescription.Trade_Name (FK) (745, 585) -> Drug.Trade_Name (PK) (680, 252) -->
                         <circle cx="745" cy="585" r="4.5" fill="#d97706"/>
                         <path d="M 745 585 L 745 525 L 645 525 L 645 252 L 676 252" fill="none" stroke="#d97706" stroke-width="2.5" marker-end="url(#arr-amber)"/>
 
-                        <!-- Arrow 6: Prescription.Pname (FK) (895, 585) -> Pharmacy.Pname (PK) (745, 449) -->
                         <circle cx="895" cy="585" r="4.5" fill="#2563eb"/>
                         <path d="M 895 585 L 895 525 L 745 525 L 745 453" fill="none" stroke="#2563eb" stroke-width="2.5" marker-end="url(#arr-blue)"/>
                     </svg>
@@ -1367,14 +1816,19 @@ ROLLBACK;</pre>
 
             <div class="section-nav-buttons">
                 <button class="btn-step-nav secondary" data-goto="sec-dml">➡️ العودة للسكشن الثاني (جزء 2): أوامر <span class="term" dir="ltr">DML</span></button>
-                <button class="btn-step-nav" data-goto="sec-original">الانتقال إلى الكود الأصلي للسكشن كامل ⬅️</button>
+                <button class="btn-step-nav" data-goto="landing-view">🏠 العودة للصفحة الرئيسية</button>
             </div>
         </section>
 
         <!-- =================================================================== -->
-        <!-- TAB 5: ORIGINAL SCRIPT DECODED & CLEANED                            -->
+        <!-- SECTION 5: ORIGINAL SCRIPT DECODED & CLEANED                        -->
         <!-- =================================================================== -->
         <section id="sec-original" class="course-section">
+            <div class="section-top-return">
+                <button class="btn-back-landing" data-goto="landing-view">🏠 العودة للصفحة الرئيسية (اختر سكشن آخر)</button>
+                <span>أنت الآن في: <strong>الكود الأصلي للسكشن كامل</strong></span>
+            </div>
+
             <div class="section-banner">
                 <span class="section-badge">Original Section Code</span>
                 <h2>الكود الأصلي للسكشن كامل بعد فك علامات الاستفهام</h2>
@@ -1575,7 +2029,7 @@ rollback;</pre>
 
             <div class="section-nav-buttons">
                 <button class="btn-step-nav secondary" data-goto="sec-pharmacy">➡️ العودة لتطبيق نظام الصيدلية (<span class="term" dir="ltr">LAB 1</span>)</button>
-                <button class="btn-step-nav" data-goto="sec-ch10">العودة إلى بداية الموقع (السكشن الأول) ⏫</button>
+                <button class="btn-step-nav" data-goto="landing-view">🏠 العودة للصفحة الرئيسية</button>
             </div>
         </section>
 

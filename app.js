@@ -1,50 +1,61 @@
 document.addEventListener('DOMContentLoaded', () => {
-    const tabs = document.querySelectorAll('.nav-tab');
+    const landingView = document.getElementById('landing-view');
     const sections = document.querySelectorAll('.course-section');
     const showAllBtn = document.getElementById('toggleShowAll');
     const themeBtns = document.querySelectorAll('[data-set-theme]');
 
-    function activateSection(targetId) {
+    function showLandingPage() {
         document.body.classList.remove('show-all-mode');
         if (showAllBtn) {
             showAllBtn.classList.remove('active');
-            showAllBtn.textContent = '📖 عرض المنهج كامل في صفحة واحدة';
+            showAllBtn.textContent = '📖 عرض المنهج كامل';
         }
-
-        tabs.forEach(t => {
-            t.classList.toggle('active', t.dataset.target === targetId);
-        });
-
-        sections.forEach(sec => {
-            sec.classList.toggle('active', sec.id === targetId);
-        });
-
+        sections.forEach(sec => sec.classList.remove('active'));
+        if (landingView) landingView.classList.remove('hidden');
         window.scrollTo({ top: 0, behavior: 'smooth' });
     }
 
-    tabs.forEach(tab => {
-        tab.addEventListener('click', () => {
-            activateSection(tab.dataset.target);
+    function openSection(targetId) {
+        if (targetId === 'landing-view') {
+            showLandingPage();
+            return;
+        }
+        document.body.classList.remove('show-all-mode');
+        if (showAllBtn) {
+            showAllBtn.classList.remove('active');
+            showAllBtn.textContent = '📖 عرض المنهج كامل';
+        }
+        if (landingView) landingView.classList.add('hidden');
+        sections.forEach(sec => {
+            sec.classList.toggle('active', sec.id === targetId);
+        });
+        window.scrollTo({ top: 0, behavior: 'smooth' });
+    }
+
+    // All elements with [data-goto] (Landing Cards, Return Buttons, Next/Prev Buttons)
+    document.querySelectorAll('[data-goto]').forEach(el => {
+        el.addEventListener('click', () => {
+            openSection(el.dataset.goto);
         });
     });
 
-    document.querySelectorAll('[data-goto]').forEach(btn => {
-        btn.addEventListener('click', () => {
-            activateSection(btn.dataset.goto);
-        });
-    });
-
+    // Show All Mode Toggle
     if (showAllBtn) {
         showAllBtn.addEventListener('click', () => {
             const isAll = document.body.classList.toggle('show-all-mode');
             showAllBtn.classList.toggle('active', isAll);
             showAllBtn.textContent = isAll
-                ? '🗂️ العودة لنظام التبويبات'
-                : '📖 عرض المنهج كامل في صفحة واحدة';
+                ? '🏠 العودة للصفحة الرئيسية'
+                : '📖 عرض المنهج كامل';
+            if (!isAll) {
+                showLandingPage();
+            } else {
+                window.scrollTo({ top: 0, behavior: 'smooth' });
+            }
         });
     }
 
-    // Theme Switcher (Light / Sepia / Dark)
+    // Theme Switcher (Dark Default / Light / Sepia)
     themeBtns.forEach(btn => {
         btn.addEventListener('click', () => {
             const theme = btn.dataset.setTheme;
@@ -61,7 +72,8 @@ document.addEventListener('DOMContentLoaded', () => {
 
         const rawCode = pre.textContent;
 
-        copyBtn.addEventListener('click', () => {
+        copyBtn.addEventListener('click', (e) => {
+            e.stopPropagation();
             navigator.clipboard.writeText(rawCode.trim()).then(() => {
                 const originalText = copyBtn.textContent;
                 copyBtn.textContent = '✅ تم النسخ!';
