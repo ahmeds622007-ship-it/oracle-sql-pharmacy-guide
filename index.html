@@ -1,0 +1,1586 @@
+<!DOCTYPE html>
+<html lang="ar" dir="rtl" data-theme="light">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>مذكرة Oracle SQL الشاملة | شرح السكاشن بالتفصيل + تطبيق نظام الصيدلية</title>
+    <link rel="stylesheet" href="styles.css">
+</head>
+<body>
+
+    <!-- Top Sticky Header -->
+    <header class="top-header">
+        <div class="header-inner">
+            <div class="brand-area">
+                <div class="brand-badge">SQL</div>
+                <div class="brand-title">
+                    <h1>مذكرة Oracle SQL الشاملة للمذاكرة والتطبيق</h1>
+                    <p>شرح تفصيلي سطر بسطر بالمصطلحات العلمية + مقارنات الامتحانات + تطبيق كامل على سؤال الصيدلية</p>
+                </div>
+            </div>
+            <div class="header-controls">
+                <button class="btn-control active" data-set-theme="light">☀️ مريح للعين (فاتح)</button>
+                <button class="btn-control" data-set-theme="sepia">📜 وضع القراءة الورقي</button>
+                <button class="btn-control" data-set-theme="dark">🌙 وضع ليلي هادئ</button>
+                <button id="toggleShowAll" class="btn-control">📖 عرض المنهج كامل في صفحة واحدة</button>
+                <button onclick="window.print()" class="btn-control">🖨️ طباعة PDF</button>
+            </div>
+        </div>
+    </header>
+
+    <!-- Navigation Tabs (Starts from Section 1 -> Section 2.1 -> Section 2.2 -> Lab 1 Project -> Original Code) -->
+    <nav class="nav-tabs-bar">
+        <div class="nav-tabs-inner">
+            <button class="nav-tab active" data-target="sec-ch10">
+                <span class="tab-num">1</span>
+                <span>السكشن الأول: <span class="term" dir="ltr">CREATE &amp; Constraints</span></span>
+            </button>
+            <button class="nav-tab" data-target="sec-alter">
+                <span class="tab-num">2</span>
+                <span>السكشن الثاني (جزء 1): <span class="term" dir="ltr">ALTER TABLE</span></span>
+            </button>
+            <button class="nav-tab" data-target="sec-dml">
+                <span class="tab-num">3</span>
+                <span>السكشن الثاني (جزء 2): <span class="term" dir="ltr">DML (INSERT / UPDATE / DELETE)</span></span>
+            </button>
+            <button class="nav-tab project-tab" data-target="sec-pharmacy">
+                <span class="tab-num">4</span>
+                <span>🏥 تطبيق شامل: سؤال الصيدلية (<span class="term" dir="ltr">Mapping + Schema + SQL</span>)</span>
+            </button>
+            <button class="nav-tab" data-target="sec-original">
+                <span class="tab-num">5</span>
+                <span>📜 الكود الأصلي للسكشن كامل</span>
+            </button>
+        </div>
+    </nav>
+
+    <!-- Main Container -->
+    <main class="main-container">
+
+        <!-- =================================================================== -->
+        <!-- TAB 1: SECTION 1 (CH10 - CREATE TABLE, CONSTRAINTS, DROP, TRUNCATE) -->
+        <!-- =================================================================== -->
+        <section id="sec-ch10" class="course-section active">
+            <div class="section-banner">
+                <span class="section-badge">Section 1 — Chapter 10 (DDL)</span>
+                <h2>السكشن الأول: إنشاء الجداول والـ <span class="term" dir="ltr">Constraints</span> وحذفها</h2>
+                <p>في السكشن ده هنتعلم إزاي ننشئ جدول جديد بأمر <span class="term" dir="ltr">CREATE TABLE</span>، وإزاي نحط عليه قيود <span class="term" dir="ltr">Constraints</span> تمنع إدخال داتا غلط، والفرق بين كتابة الـ <span class="term" dir="ltr">Constraint</span> على مستوى العمود أو على مستوى الجدول.</p>
+            </div>
+
+            <!-- Foundation Comparison: DDL vs DML vs TCL -->
+            <div class="content-card">
+                <h3>📌 تأسيس سريع: الفرق بين عائلات أوامر <span class="term" dir="ltr">SQL</span> الثلاثة</h3>
+                <p>قبل ما نبدأ في الكود، لازم تفرق بين الـ 3 عائلات الأساسية لأوامر <span class="term" dir="ltr">SQL</span> اللي موجودة في السكشن عندك لأن المقارنة بينهم سؤال أساسي في أي امتحان:</p>
+
+                <div class="table-wrapper">
+                    <table class="comp-table">
+                        <thead>
+                            <tr>
+                                <th>وجه المقارنة</th>
+                                <th>أوامر <span class="term" dir="ltr">DDL</span></th>
+                                <th>أوامر <span class="term" dir="ltr">DML</span></th>
+                                <th>أوامر <span class="term" dir="ltr">TCL</span></th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            <tr>
+                                <td><strong>الاسم الكامل</strong></td>
+                                <td><span class="term" dir="ltr">Data Definition Language</span></td>
+                                <td><span class="term" dir="ltr">Data Manipulation Language</span></td>
+                                <td><span class="term" dir="ltr">Transaction Control Language</span></td>
+                            </tr>
+                            <tr>
+                                <td><strong>بتتعامل مع إيه؟</strong></td>
+                                <td>بتتعامل مع <strong>هيكل الجدول نفسه</strong> (إنشاء جدول، تعديل أعمدة، مسح جدول)</td>
+                                <td>بتتعامل مع <strong>البيانات والصفوف</strong> اللي جوه الجدول (إضافة، تعديل، مسح داتا)</td>
+                                <td>بتتحكم في <strong>تثبيت وحفظ أو إلغاء</strong> التغييرات اللي عملتها بأوامر الـ <span class="term" dir="ltr">DML</span></td>
+                            </tr>
+                            <tr>
+                                <td><strong>الأوامر الخاصة بيها</strong></td>
+                                <td><span class="term" dir="ltr">CREATE</span> , <span class="term" dir="ltr">ALTER</span> , <span class="term" dir="ltr">DROP</span> , <span class="term" dir="ltr">TRUNCATE</span></td>
+                                <td><span class="term" dir="ltr">INSERT</span> , <span class="term" dir="ltr">UPDATE</span> , <span class="term" dir="ltr">DELETE</span></td>
+                                <td><span class="term" dir="ltr">COMMIT</span> , <span class="term" dir="ltr">ROLLBACK</span></td>
+                            </tr>
+                            <tr>
+                                <td><strong>الحفظ التلقائي (<span class="term" dir="ltr">Auto-Commit</span>)</strong></td>
+                                <td><span class="badge-yes">نعم تحفظ تلقائياً</span> ومينفعش تعمل بعدها <span class="term" dir="ltr">ROLLBACK</span></td>
+                                <td><span class="badge-no">لا تحفظ تلقائياً</span> لازم تكتب <span class="term" dir="ltr">COMMIT</span> عشان تثبت، وتقدر تتراجع عنها بـ <span class="term" dir="ltr">ROLLBACK</span></td>
+                                <td>هي المسؤولة أصلاً عن الحفظ أو التراجع</td>
+                            </tr>
+                        </tbody>
+                    </table>
+                </div>
+            </div>
+
+            <!-- 1. Types of Constraints -->
+            <div class="content-card">
+                <h3>🛡️ أولاً: شرح أنواع الـ <span class="term" dir="ltr">Constraints</span> الخمسة والـ <span class="term" dir="ltr">Default</span> بالتفصيل</h3>
+                <p>لما بنبني عمود في جدول، بنحدد الشروط اللي تحمي الداتا بتاعته باستخدام الـ <span class="term" dir="ltr">Constraints</span> الآتية:</p>
+                <ol>
+                    <li><strong>قيد <span class="term" dir="ltr">NOT NULL</span>:</strong> بيمنع إن العمود يتساب فاضي، يعني إجباري تدخل فيه قيمة في كل صف.</li>
+                    <li><strong>قيد <span class="term" dir="ltr">UNIQUE</span>:</strong> بيمنع تكرار نفس القيمة مرتين في نفس العمود (زي الإيميل أو رقم التليفون)، لكن لو سبت الخانة فاضية <span class="term" dir="ltr">NULL</span> بيسمح عادي.</li>
+                    <li><strong>قيد <span class="term" dir="ltr">PRIMARY KEY</span>:</strong> ده أهم قيد في الجدول (بيميز كل صف عن غيره)، وهو عبارة عن <span class="term" dir="ltr">NOT NULL + UNIQUE</span> مع بعض (يعني ممنوع يتكرر وممنوع يتساب فاضي). وأي جدول في الدنيا <strong>مينفعش يكون فيه غير <span class="term" dir="ltr">Primary Key</span> واحد بس</strong>.</li>
+                    <li><strong>قيد <span class="term" dir="ltr">CHECK (condition)</span>:</strong> بتحط بيه شرط منطقي على القيم اللي داخلة، زي إن الرقم يكون أكبر من صفر <span class="term" dir="ltr">check(Dssn &gt; 0)</span>، ولو دخلت قيمة تخالف الشرط أوراكل بيرفضها.</li>
+                    <li><strong>قيد <span class="term" dir="ltr">FOREIGN KEY (REFERENCES)</span>:</strong> ده العمود اللي بيربط جدول بجدول تاني (يربط الجدول الابن بالـ <span class="term" dir="ltr">Primary Key</span> بتاع الجدول الأب)، وبيشترط إن القيمة اللي تدخلها فيه تكون موجودة أصلاً في الجدول الأب.</li>
+                    <li><strong>خاصية <span class="term" dir="ltr">DEFAULT</span>:</strong> بتدي قيمة افتراضية للعمود، بحيث لو المستخدم مدخلش قيمة للعمود ده في الـ <span class="term" dir="ltr">INSERT</span>، أوراكل ينزل القيمة الافتراضية دي تلقائياً بدل ما يسيبه <span class="term" dir="ltr">NULL</span>.</li>
+                </ol>
+
+                <p>وده الكود الأول في السكشن عندك (يُقرأ من الشمال لليمين):</p>
+                <div class="code-container">
+                    <div class="code-header">
+                        <span class="code-lang-tag"><span class="code-dots"><span class="code-dot red"></span><span class="code-dot yellow"></span><span class="code-dot green"></span></span>ORACLE SQL — COLUMN CONSTRAINTS &amp; DEFAULT</span>
+                        <button class="copy-btn">نسخ الكود</button>
+                    </div>
+                    <pre>create table Doctors(
+    Dssn number not null,          -- 1. إجباري الإدخال (ممنوع يكون NULL)
+    Dssn number unique,            -- 2. ممنوع القيمة تتكرر، بس يقبل NULL
+    Dssn number primary key,       -- 3. مفتاح أساسي (Not Null + Unique معاً)
+    Dssn number check(Dssn > 0),   -- 4. شرط أن تكون القيمة أكبر من صفر
+    Dssn number default 1          -- 5. لو مدخلتش قيمة، هياخد 1 تلقائياً
+);</pre>
+                </div>
+
+                <h4>جدول مقارنة شامل بين الـ <span class="term" dir="ltr">Constraints</span> الخمسة (مهم جداً للامتحانات):</h4>
+                <div class="table-wrapper">
+                    <table class="comp-table">
+                        <thead>
+                            <tr>
+                                <th>نوع الـ <span class="term" dir="ltr">Constraint</span></th>
+                                <th>هل يسمح بتكرار القيمة؟</th>
+                                <th>هل يسمح بقيمة <span class="term" dir="ltr">NULL</span>؟</th>
+                                <th>كم مرة يمكن استخدامه في الجدول الواحد؟</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            <tr>
+                                <td><span class="term" dir="ltr">PRIMARY KEY</span></td>
+                                <td><span class="badge-no">لا يسمح أبداً</span></td>
+                                <td><span class="badge-no">لا يسمح أبداً</span></td>
+                                <td><strong>مرة واحدة فقط</strong> في الجدول كله</td>
+                            </tr>
+                            <tr>
+                                <td><span class="term" dir="ltr">UNIQUE</span></td>
+                                <td><span class="badge-no">لا يسمح أبداً</span></td>
+                                <td><span class="badge-yes">نعم يسمح بـ NULL</span></td>
+                                <td>أي عدد من الأعمدة براحتك</td>
+                            </tr>
+                            <tr>
+                                <td><span class="term" dir="ltr">NOT NULL</span></td>
+                                <td><span class="badge-yes">نعم يسمح بالتكرار</span></td>
+                                <td><span class="badge-no">لا يسمح أبداً</span></td>
+                                <td>أي عدد من الأعمدة براحتك</td>
+                            </tr>
+                            <tr>
+                                <td><span class="term" dir="ltr">CHECK</span></td>
+                                <td><span class="badge-yes">نعم يسمح</span> (طالما يحقق الشرط)</td>
+                                <td><span class="badge-yes">نعم يسمح</span> (إلا لو منعته)</td>
+                                <td>أي عدد من الأعمدة براحتك</td>
+                            </tr>
+                            <tr>
+                                <td><span class="term" dir="ltr">FOREIGN KEY</span></td>
+                                <td><span class="badge-yes">نعم يسمح بالتكرار</span></td>
+                                <td><span class="badge-yes">نعم يسمح</span> (إلا لو حطيت جنبه <span class="term" dir="ltr">NOT NULL</span>)</td>
+                                <td>أي عدد من الأعمدة حسب العلاقات</td>
+                            </tr>
+                        </tbody>
+                    </table>
+                </div>
+            </div>
+
+            <!-- 2. Named vs Unnamed Constraints + Default Ordering -->
+            <div class="content-card">
+                <h3>🏷️ ثانياً وثالثاً: تسمية الـ <span class="term" dir="ltr">Constraint</span> وترتيب الـ <span class="term" dir="ltr">DEFAULT</span></h3>
+                <h4>1. الفرق بين <span class="term" dir="ltr">Unnamed Constraint</span> و <span class="term" dir="ltr">Named Constraint</span>:</h4>
+                <p>بص على السطرين دول في كود السكشن عندك:</p>
+                <div class="code-container">
+                    <div class="code-header">
+                        <span class="code-lang-tag"><span class="code-dots"><span class="code-dot red"></span><span class="code-dot yellow"></span><span class="code-dot green"></span></span>UNNAMED VS NAMED CONSTRAINT</span>
+                        <button class="copy-btn">نسخ الكود</button>
+                    </div>
+                    <pre>Dssn number primary key,                       -- Unnamed Constraint
+Dssn number constraint dssn_const primary key, -- Named Constraint</pre>
+                </div>
+                <div class="line-explain-list">
+                    <div class="line-explain-item">
+                        <strong>السطر الأول (<span class="term" dir="ltr">Unnamed Constraint</span>):</strong> كتبت نوع القيد علطول من غير ما تسميه. أوراكل هيقبله وهيسميه من عنده اسم عشوائي في السيستم (زي <span class="term" dir="ltr">SYS_C007482</span>). عيبه إنك لو حبيت تعمل له <span class="term" dir="ltr">DROP</span> أو <span class="term" dir="ltr">DISABLE</span> بعدين، مش هتعرف اسمه بسهولة!
+                    </div>
+                    <div class="line-explain-item">
+                        <strong>السطر الثاني (<span class="term" dir="ltr">Named Constraint</span>):</strong> كتبت كلمة <span class="term" dir="ltr">constraint</span> وبعدها اسم من اختيارك (<span class="term" dir="ltr">dssn_const</span>) وبعدين نوع القيد. ودي الطريقة الصح دايماً عشان تقدر تتحكم في الـ <span class="term" dir="ltr">Constraint</span> باسمه في أي وقت.
+                    </div>
+                </div>
+
+                <h4>2. قاعدة ترتيب <span class="term" dir="ltr">DEFAULT</span> مع الـ <span class="term" dir="ltr">Constraint</span>:</h4>
+                <p>بص على السطرين اللي بعدهم في كودك:</p>
+                <div class="code-container">
+                    <div class="code-header">
+                        <span class="code-lang-tag"><span class="code-dots"><span class="code-dot red"></span><span class="code-dot yellow"></span><span class="code-dot green"></span></span>DEFAULT ORDERING</span>
+                        <button class="copy-btn">نسخ الكود</button>
+                    </div>
+                    <pre>Dssn number default 5 not null,
+Dssn number default 5 constraint nn_const not null,</pre>
+                </div>
+                <div class="callout callout-warning">
+                    <div class="callout-title">⚠️ قاعدة ذهبية للامتحان</div>
+                    <p>لو العمود واخد <span class="term" dir="ltr">DEFAULT</span> وواخد <span class="term" dir="ltr">Constraint</span> في نفس السطر، <strong>لازم <span class="term" dir="ltr">DEFAULT</span> تتكتب الأول</strong> بعد الـ <span class="term" dir="ltr">Datatype</span> مباشرة، وبعدها ييجي الـ <span class="term" dir="ltr">Constraint</span> في الآخر. لو عكستهم أوراكل هيطلع <span class="term" dir="ltr">Syntax Error</span> فوراً!</p>
+                </div>
+            </div>
+
+            <!-- 3. Column-Level vs Table-Level Constraints -->
+            <div class="content-card">
+                <h3>⚖️ رابعاً: المقارنة الكبرى بين <span class="term" dir="ltr">Column-Level</span> و <span class="term" dir="ltr">Table-Level Constraints</span></h3>
+                <p>في كود السكشن عندك هتلاقي علامات <span class="term" dir="ltr">xxxxxxx</span> على سطرين؛ العلامات دي المعيد حاططها عشان ينبهك لأخطاء مشهورة بتيجي في الامتحانات. تعالى نفهم الفرق بين الطريقتين وليه السطرين دول غلط:</p>
+
+                <h4>1. الطريقة الأولى: <span class="term" dir="ltr">Column-Level Constraint</span> (على مستوى العمود)</h4>
+                <p>يعني بتكتب الـ <span class="term" dir="ltr">Constraint</span> في نفس سطر تعريف العمود جنب الـ <span class="term" dir="ltr">Datatype</span> مباشرة. الطريقة دي ممتازة لو القيد على عمود واحد، لكن <strong>مستحيل تعمل بيها <span class="term" dir="ltr">Composite Primary Key</span> (مفتاح أساسي مركب من عمودين)!</strong></p>
+
+                <div class="code-container">
+                    <div class="code-header">
+                        <span class="code-lang-tag"><span class="code-dots"><span class="code-dot red"></span><span class="code-dot yellow"></span><span class="code-dot green"></span></span>ERROR 1: COMPOSITE PK AT COLUMN LEVEL</span>
+                        <button class="copy-btn">نسخ الكود</button>
+                    </div>
+                    <pre>-- ❌ xxxxxxx composite primary key (غلط تماماً في أوراكل)
+dssn number primary key ,
+name varchar2(50) primary key ,</pre>
+                </div>
+                <div class="callout callout-danger">
+                    <div class="callout-title">❌ ليه الكود ده عليه علامة xxxxxxx (غلط)؟</div>
+                    <p>لأن الجدول الواحد مينفعش يكون فيه اتنين <span class="term" dir="ltr">PRIMARY KEY</span> منفصلين! لما تكتب <span class="term" dir="ltr">primary key</span> جنب العمود الأول وترجع تكتبها جنب العمود التاني، أوراكل هيطلع خطأ. لو عايز تعمل <span class="term" dir="ltr">Composite Primary Key</span> من عمودين مع بعض، <strong>إجباري</strong> تعمله بالطريقة التانية (<span class="term" dir="ltr">Table-Level</span>).</p>
+                </div>
+
+                <h4>2. الطريقة الثانية: <span class="term" dir="ltr">Table-Level Constraint</span> (على مستوى الجدول)</h4>
+                <p>يعني بتعرف كل الأعمدة الأول عادي خالص، وبعد ما تخلص الأعمدة تنزل في آخر الجدول تكتب الـ <span class="term" dir="ltr">Constraints</span> وتحدد اسم العمود بين قوسين:</p>
+
+                <div class="code-container">
+                    <div class="code-header">
+                        <span class="code-lang-tag"><span class="code-dots"><span class="code-dot red"></span><span class="code-dot yellow"></span><span class="code-dot green"></span></span>TABLE LEVEL CONSTRAINTS &amp; ERROR 2</span>
+                        <button class="copy-btn">نسخ الكود</button>
+                    </div>
+                    <pre>create table Doctors(
+    Dssn number,
+    name varchar2(50),
+    -- ✅ كتابة القيود على مستوى الجدول (نحدد اسم العمود بين قوسين):
+    constraint pk_const primary key (Dssn),
+    constraint uni_const unique (name)
+    -- ✅ ولو عايز Composite Primary Key من العمودين معاً تتكتب هنا كده:
+    -- constraint pk_comp primary key (Dssn, name)
+
+    -- ❌ xxxxx constraint nn_cons not null() (غلط تماماً على مستوى الجدول)
+);</pre>
+                </div>
+                <div class="callout callout-danger">
+                    <div class="callout-title">❌ ليه سطر الـ <span class="term" dir="ltr">NOT NULL</span> عليه علامة xxxxx (غلط)؟</div>
+                    <p>لأن قيد الـ <span class="term" dir="ltr">NOT NULL</span> هو القيد الوحيد اللي <strong>ممنوع يتكتب <span class="term" dir="ltr">Table-Level</span></strong> بالصيغة دي في آخر الجدول! لازم دايماً يتكتب <span class="term" dir="ltr">Column-Level</span> جنب العمود نفسه فوق.</p>
+                </div>
+
+                <h4>جدول مقارنة يحسم الفرق بين <span class="term" dir="ltr">Column-Level</span> و <span class="term" dir="ltr">Table-Level</span>:</h4>
+                <div class="table-wrapper">
+                    <table class="comp-table">
+                        <thead>
+                            <tr>
+                                <th>وجه المقارنة</th>
+                                <th><span class="term" dir="ltr">Column-Level Constraint</span></th>
+                                <th><span class="term" dir="ltr">Table-Level Constraint</span></th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            <tr>
+                                <td><strong>مكانه في الكود</strong></td>
+                                <td>جنب اسم العمود ونوعه في نفس السطر</td>
+                                <td>في آخر جملة <span class="term" dir="ltr">CREATE TABLE</span> بعد تعريف كل الأعمدة</td>
+                            </tr>
+                            <tr>
+                                <td><strong>كتابة اسم العمود بين قوسين</strong></td>
+                                <td><span class="badge-no">لا نكتبه</span> لأنه مكتوب جنب العمود أصلاً</td>
+                                <td><span class="badge-yes">إجباري نكتب اسم العمود بين قوسين</span></td>
+                            </tr>
+                            <tr>
+                                <td><strong>عمل <span class="term" dir="ltr">Composite Primary Key</span></strong></td>
+                                <td><span class="badge-no">مستحيل (يعطي Error)</span></td>
+                                <td><span class="badge-yes">نعم، هو الطريقة الوحيدة</span> مثلاً <span class="term" dir="ltr">PRIMARY KEY (col1, col2)</span></td>
+                            </tr>
+                            <tr>
+                                <td><strong>كتابة قيد <span class="term" dir="ltr">NOT NULL</span></strong></td>
+                                <td><span class="badge-yes">نعم، يكتب هنا فقط</span></td>
+                                <td><span class="badge-no">ممنوع</span> (لا توجد صيغة <span class="term" dir="ltr">not null(col)</span>)</td>
+                            </tr>
+                            <tr>
+                                <td><strong>طريقة كتابة الـ <span class="term" dir="ltr">Foreign Key</span></strong></td>
+                                <td>بنكتب <span class="term" dir="ltr">REFERENCES parent_table(col)</span> علطول بدون كلمة <span class="term" dir="ltr">FOREIGN KEY</span></td>
+                                <td>لازم نكتب <span class="term" dir="ltr">FOREIGN KEY (col) REFERENCES parent_table(col)</span></td>
+                            </tr>
+                        </tbody>
+                    </table>
+                </div>
+            </div>
+
+            <!-- 4. Foreign Key in Doctors & Patients + DROP vs TRUNCATE -->
+            <div class="content-card">
+                <h3>🔗 خامساً وسادساً: تطبيق الـ <span class="term" dir="ltr">Foreign Key</span> + الفرق بين <span class="term" dir="ltr">DROP</span> و <span class="term" dir="ltr">TRUNCATE</span></h3>
+                <p>في الكود عندك، أنشأ جدول <span class="term" dir="ltr">Doctors</span> الأول، وبعدين أنشأ جدول <span class="term" dir="ltr">Patients</span> وربطه بجدول الدكاترة عن طريق الـ <span class="term" dir="ltr">Foreign Key</span> بالطريقتين (<span class="term" dir="ltr">Column-Level</span> و <span class="term" dir="ltr">Table-Level</span>):</p>
+
+                <div class="code-container">
+                    <div class="code-header">
+                        <span class="code-lang-tag"><span class="code-dots"><span class="code-dot red"></span><span class="code-dot yellow"></span><span class="code-dot green"></span></span>FOREIGN KEY (COLUMN VS TABLE LEVEL) &amp; DROP / TRUNCATE</span>
+                        <button class="copy-btn">نسخ الكود</button>
+                    </div>
+                    <pre>-- 1. إنشاء الجدول الأب أولاً (Doctors):
+create table Doctors (
+    Dssn number primary key,
+    name varchar2(50) not null,
+    speciality varchar2(100) not null,
+    exp_years number not null
+);
+
+-- 2. الطريقة الأولى: Foreign Key على مستوى العمود (Column-Level)
+-- لاحظ: بنكتب references علطول ومبنكتبش جملة foreign key
+create table patients (
+    ssn number primary key ,
+    name varchar2(50) not null,
+    age number not null,
+    address varchar2(100) not null,
+    dssn number references doctors (dssn)
+    -- أو مع تسمية القيد:
+    -- dssn number constraint dssn_fk references doctors (dssn)
+);
+
+-- 3. الطريقة الثانية: Foreign Key على مستوى الجدول (Table-Level)
+-- لاحظ: لازم نكتب foreign key (dssn) الأول قبل references
+create table patients (
+    ssn number primary key ,
+    name varchar2(50) not null,
+    age number not null,
+    address varchar2(100) not null,
+    dssn number ,
+    constraint dssn_fk foreign key (dssn) references doctors (dssn)
+);
+
+-- 4. مسح الجدول بالكامل مقابل تفريغ البيانات فقط:
+drop table patients;
+truncate table patients;</pre>
+                </div>
+
+                <div class="line-explain-list">
+                    <div class="line-explain-item">
+                        <strong>أمر <span class="term" dir="ltr">DROP TABLE patients;</span>:</strong> بيمسح الجدول بالكامل من الداتابيز (بيمسح الصفوف + الأعمدة + القيود + هيكل الجدول نفسه).
+                    </div>
+                    <div class="line-explain-item">
+                        <strong>أمر <span class="term" dir="ltr">TRUNCATE TABLE patients;</span>:</strong> بيمسح كل الصفوف والبيانات اللي جوه الجدول بس، لكن <strong>بيسيب هيكل الجدول وأعمدته وقيوده موجودين</strong> وجاهزين تدخل فيهم داتا جديدة.
+                    </div>
+                </div>
+            </div>
+
+            <!-- Comprehensive Example for Section 1 -->
+            <div class="master-practice-box">
+                <div class="master-practice-header">
+                    <span class="master-practice-badge">تطبيق مجمع على السكشن الأول</span>
+                    <h3>💻 مثال تطبيقي شامل يجمع كل قواعد <span class="term" dir="ltr">Section 1</span> مرة واحدة</h3>
+                </div>
+                <p>ده كود مجمع بيطبق كل اللي اتشرح في السكشن الأول (<span class="term" dir="ltr">Primary Key</span>، <span class="term" dir="ltr">Foreign Key</span>، <span class="term" dir="ltr">Unique</span>، <span class="term" dir="ltr">Not Null</span>، <span class="term" dir="ltr">Check</span>، <span class="term" dir="ltr">Default</span>، <span class="term" dir="ltr">Column-Level</span>، و <span class="term" dir="ltr">Table-Level</span>) في مثال واحد متكامل:</p>
+
+                <div class="code-container">
+                    <div class="code-header">
+                        <span class="code-lang-tag"><span class="code-dots"><span class="code-dot red"></span><span class="code-dot yellow"></span><span class="code-dot green"></span></span>SECTION 1 MASTER PRACTICE SCRIPT</span>
+                        <button class="copy-btn">نسخ الكود</button>
+                    </div>
+                    <pre>-- 1. إنشاء جدول الدكاترة بكل القيود على مستوى العمود (Column-Level):
+CREATE TABLE Doctors (
+    Dssn number constraint doc_pk primary key,
+    name varchar2(50) constraint doc_name_nn not null,
+    speciality varchar2(100) default 'General' not null,
+    exp_years number default 1 not null constraint doc_exp_chk check (exp_years >= 0)
+);
+
+-- 2. إنشاء جدول المرضى بدمج Column-Level مع Table-Level:
+CREATE TABLE Patients (
+    ssn number,
+    name varchar2(50) not null,
+    age number not null,
+    address varchar2(100) default 'Zagazig' not null,
+    phone varchar2(20),
+    dssn number,
+    -- القيود على مستوى الجدول (Table-Level):
+    constraint pat_pk primary key (ssn),
+    constraint pat_phone_uni unique (phone),
+    constraint pat_age_chk check (age > 0),
+    constraint pat_doc_fk foreign key (dssn) references Doctors (Dssn)
+);
+
+-- 3. تجربة تفريغ جدول المرضى (يبقى الهيكل كما هو):
+TRUNCATE TABLE Patients;
+
+-- 4. تجربة حذف جدول المرضى بالكامل (يمسح الهيكل والبيانات):
+DROP TABLE Patients;</pre>
+                </div>
+            </div>
+
+            <div class="section-nav-buttons">
+                <div></div>
+                <button class="btn-step-nav" data-goto="sec-alter">الانتقال إلى السكشن الثاني (جزء 1): <span class="term" dir="ltr">ALTER TABLE</span> ⬅️</button>
+            </div>
+        </section>
+
+        <!-- =================================================================== -->
+        <!-- TAB 2: SECTION 2 PART 1 (ALTER TABLE - 11 OPERATIONS)               -->
+        <!-- =================================================================== -->
+        <section id="sec-alter" class="course-section">
+            <div class="section-banner">
+                <span class="section-badge">Section 2 — Part 1 (ALTER TABLE)</span>
+                <h2>السكشن الثاني (الجزء الأول): التعديل على هيكل الجدول بـ <span class="term" dir="ltr">ALTER TABLE</span></h2>
+                <p>بعد ما عملت الجدول بـ <span class="term" dir="ltr">CREATE TABLE</span>، لو حبيت تضيف عمود جديد، تغير نوع أو حجم عمود، تمسح عمود، تغير اسم عمود أو جدول، أو تتحكم في الـ <span class="term" dir="ltr">Constraints</span>، بنستخدم الـ 11 عملية دول.</p>
+            </div>
+
+            <!-- Operations 1, 2, 3: ADD -->
+            <div class="content-card">
+                <h3>➕ أولاً: العمليات (١ و ٢ و ٣) — إضافة أعمدة جديدة بـ <span class="term" dir="ltr">ADD</span></h3>
+                <p>نستخدم <span class="term" dir="ltr">ALTER TABLE table_name ADD</span> لما نحب نضيف عمود أو أكتر مكنوش موجودين أصلاً في الجدول:</p>
+                <ol>
+                    <li><strong>إضافة عمود واحد أو عدة أعمدة:</strong> لو عمود واحد بنكتبه بدون أقواس، ولو أكتر من عمود بنحطهم بين قوسين وبينهم فاصلة.</li>
+                    <li><strong>إضافة عمود مع <span class="term" dir="ltr">DEFAULT</span>:</strong> لو الجدول كان فيه صفوف قديمة، العمود الجديد هيتضاف وياخد القيمة الافتراضية دي لكل الصفوف القديمة والجديدة.</li>
+                    <li><strong>إضافة عمود مع <span class="term" dir="ltr">Constraint</span>:</strong> نقدر نضيف عمود ونحط معاه <span class="term" dir="ltr">NOT NULL</span> أو <span class="term" dir="ltr">CHECK</span> في نفس السطر.</li>
+                </ol>
+
+                <div class="callout callout-warning">
+                    <div class="callout-title">⚠️ ملاحظة مهمة جداً في الامتحان والعملي</div>
+                    <p>عشان تضيف عمود جديد وعليه قيد <span class="term" dir="ltr">NOT NULL</span> بدون <span class="term" dir="ltr">DEFAULT</span>، <strong>لازم الجدول يكون فاضي تماماً مفهوش أي صفوف قديمة</strong>؛ لأن لو فيه صفوف قديمة هتاخد إيه في العمود الجديد؟ فلو الجدول فيه داتا، لازم إما تفضيه الأول أو تحط مع العمود <span class="term" dir="ltr">DEFAULT value</span>.</p>
+                </div>
+
+                <div class="code-container">
+                    <div class="code-header">
+                        <span class="code-lang-tag"><span class="code-dots"><span class="code-dot red"></span><span class="code-dot yellow"></span><span class="code-dot green"></span></span>ALTER TABLE — ADD COLUMNS (1, 2, 3)</span>
+                        <button class="copy-btn">نسخ الكود</button>
+                    </div>
+                    <pre>-- 1. Add column(s) (إضافة عمود واحد ثم إضافة عمودين معاً بين قوسين):
+Alter table patients add date_birth date ;
+Alter table patients add (x number , y number);
+
+-- 2. Add column with default value (إضافة عمود بقيمة افتراضية):
+alter table patients add gender varchar2(15) default 'not defined';
+
+-- 3. Add column with constraint (إضافة عمود مع قيد):
+alter table patients add z number not null;
+alter table patients add xx number check(xx > 0);</pre>
+                </div>
+            </div>
+
+            <!-- Operations 4, 5, 6: MODIFY -->
+            <div class="content-card">
+                <h3>🔧 ثانياً: العمليات (٤ و ٥ و ٦) — تعديل خصائص عمود موجود بـ <span class="term" dir="ltr">MODIFY</span></h3>
+                <p>لو العمود <strong>موجود بالفعل</strong> في الجدول وعايز تغير الـ <span class="term" dir="ltr">Datatype</span> بتاعه، أو تغير الـ <span class="term" dir="ltr">Size</span> (الحجم)، أو تحوله لـ <span class="term" dir="ltr">NOT NULL</span> أو <span class="term" dir="ltr">NULL</span>، بنستخدم كلمة <span class="term" dir="ltr">MODIFY</span>:</p>
+
+                <div class="code-container">
+                    <div class="code-header">
+                        <span class="code-lang-tag"><span class="code-dots"><span class="code-dot red"></span><span class="code-dot yellow"></span><span class="code-dot green"></span></span>ALTER TABLE — MODIFY COLUMNS (4, 5, 6)</span>
+                        <button class="copy-btn">نسخ الكود</button>
+                    </div>
+                    <pre>-- 4. Modify column(s) datatype or size (تغيير النوع من number لـ varchar2 ثم تكبير الحجم):
+alter table patients modify z varchar2(50);
+alter table patients modify z varchar2(100);
+
+-- 5. Make column Not null (تحويل عمود موجود ليصبح إجباري Not Null):
+alter table patients add w number;
+alter table patients modify w not null;
+
+-- 6. Remove not null / column with null (إلغاء الـ Not Null ليرجع يقبل Null عادي):
+alter table patients modify w null;</pre>
+                </div>
+
+                <h4>جدول مقارنة مهم: إمتى نستخدم <span class="term" dir="ltr">ADD</span> وإمتى نستخدم <span class="term" dir="ltr">MODIFY</span>؟</h4>
+                <div class="table-wrapper">
+                    <table class="comp-table">
+                        <thead>
+                            <tr>
+                                <th>وجه المقارنة</th>
+                                <th>أمر <span class="term" dir="ltr">ALTER TABLE ... ADD</span></th>
+                                <th>أمر <span class="term" dir="ltr">ALTER TABLE ... MODIFY</span></th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            <tr>
+                                <td><strong>متى نستخدمه؟</strong></td>
+                                <td>لإضافة عمود جديد أو <span class="term" dir="ltr">Constraint</span> جديد مكنش موجود في الجدول</td>
+                                <td>لتعديل عمود <strong>موجود أصلاً</strong> في الجدول</td>
+                            </tr>
+                            <tr>
+                                <td><strong>التعامل مع <span class="term" dir="ltr">NOT NULL</span></strong></td>
+                                <td>لا نستخدم <span class="term" dir="ltr">ADD CONSTRAINT</span> مع <span class="term" dir="ltr">NOT NULL</span></td>
+                                <td>نستخدم <span class="term" dir="ltr">MODIFY col NOT NULL</span> أو <span class="term" dir="ltr">MODIFY col NULL</span></td>
+                            </tr>
+                        </tbody>
+                    </table>
+                </div>
+            </div>
+
+            <!-- Operations 7 & 8: DROP & RENAME -->
+            <div class="content-card">
+                <h3>🗑️ ثالثاً: العمليتان (٧ و ٨) — حذف الأعمدة <span class="term" dir="ltr">DROP</span> وإعادة التسمية <span class="term" dir="ltr">RENAME</span></h3>
+                <h4>العملية رقم 7: حذف عمود واحد مقابل حذف عدة أعمدة (تركة امتحانات مشهورة جداً!)</h4>
+                <p>خلي بالك أوي من الفرق في الـ <span class="term" dir="ltr">Syntax</span> بين السطرين دول في أوراكل:</p>
+                <ul>
+                    <li>لو هتحذف <strong>عمود واحد بس</strong>: لازم تكتب كلمة <span class="term" dir="ltr">COLUMN</span> بعد <span class="term" dir="ltr">DROP</span>، وبدون أقواس.</li>
+                    <li>لو هتحذف <strong>أكتر من عمود مع بعض</strong>: <strong>ممنوع تكتب كلمة <span class="term" dir="ltr">COLUMN</span></strong>، ولازم تحط أسماء الأعمدة كلها بين قوسين!</li>
+                </ul>
+
+                <div class="code-container">
+                    <div class="code-header">
+                        <span class="code-lang-tag"><span class="code-dots"><span class="code-dot red"></span><span class="code-dot yellow"></span><span class="code-dot green"></span></span>ALTER TABLE — DROP &amp; RENAME (7, 8)</span>
+                        <button class="copy-btn">نسخ الكود</button>
+                    </div>
+                    <pre>-- 7. Drop column(s):
+-- أ) حذف عمود واحد فقط (لازم نكتب كلمة column بدون أقواس):
+alter table patients drop column date_birth;
+
+-- ب) حذف عدة أعمدة معاً (ممنوع كلمة column ولازم أقواس):
+alter table patients drop (x, y, z, gender, xx, w);
+
+-- 8. Rename column & Rename table:
+-- أ) تغيير اسم عمود من name إلى pname ثم إرجاعه لـ name:
+alter table patients rename column name to pname;
+alter table patients rename column pname to name;
+
+-- ب) تغيير اسم الجدول نفسه من patients إلى ppatients ثم إرجاعه:
+alter table patients rename to ppatients;
+alter table ppatients rename to patients;</pre>
+                </div>
+            </div>
+
+            <!-- Operations 9, 10, 11: Constraints Management -->
+            <div class="content-card">
+                <h3>🔒 رابعاً: العمليات (٩ و ١٠ و ١١) — إضافة وحذف وتعطيل وتفعيل الـ <span class="term" dir="ltr">Constraints</span></h3>
+                <p>بعد ما الجدول اتعمل، تقدر تضيف عليه <span class="term" dir="ltr">Constraint</span> جديد، أو تمسحه نهائياً بـ <span class="term" dir="ltr">DROP CONSTRAINT</span>، أو توقفه مؤقتاً بـ <span class="term" dir="ltr">DISABLE</span> وترجع تشغله بـ <span class="term" dir="ltr">ENABLE</span>:</p>
+
+                <div class="code-container">
+                    <div class="code-header">
+                        <span class="code-lang-tag"><span class="code-dots"><span class="code-dot red"></span><span class="code-dot yellow"></span><span class="code-dot green"></span></span>ALTER TABLE — ADD, DROP, DISABLE &amp; ENABLE CONSTRAINT (9, 10, 11)</span>
+                        <button class="copy-btn">نسخ الكود</button>
+                    </div>
+                    <pre>-- 9. Add constraint (إضافة قيد جديد لجدول موجود بصيغة Table-Level):
+alter table patients add constraint age_chk_const check(age > 0);
+alter table patients add constraint pk_add_const unique(address);
+
+-- 10. Remove constraint (حذف القيد نهائياً باسمه):
+alter table patients drop constraint age_chk_const;
+alter table patients drop constraint pk_add_const;
+
+-- 11. Enable and Disable Constraint (تعطيل القيد مؤقتاً ثم إعادة تفعيله):
+alter table patients disable constraint age_chk_const;
+alter table patients enable constraint age_chk_const;</pre>
+                </div>
+
+                <h4>مقارنة بين <span class="term" dir="ltr">DROP CONSTRAINT</span> و <span class="term" dir="ltr">DISABLE CONSTRAINT</span>:</h4>
+                <div class="table-wrapper">
+                    <table class="comp-table">
+                        <thead>
+                            <tr>
+                                <th>وجه المقارنة</th>
+                                <th><span class="term" dir="ltr">DROP CONSTRAINT</span></th>
+                                <th><span class="term" dir="ltr">DISABLE CONSTRAINT</span></th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            <tr>
+                                <td><strong>تأثيره على القيد</strong></td>
+                                <td>بيمسح الـ <span class="term" dir="ltr">Constraint</span> نهائياً من الداتابيز</td>
+                                <td>بيوقف عمل الـ <span class="term" dir="ltr">Constraint</span> مؤقتاً بس بيفضل متسجل في الجدول</td>
+                            </tr>
+                            <tr>
+                                <td><strong>إزاي نرجعه يشتغل تاني؟</strong></td>
+                                <td>لازم تكتبه من أول وجديد بجملة <span class="term" dir="ltr">ADD CONSTRAINT</span> كاملة</td>
+                                <td>بتكتفي بأمر <span class="term" dir="ltr">ENABLE CONSTRAINT constraint_name</span> فقط</td>
+                            </tr>
+                        </tbody>
+                    </table>
+                </div>
+            </div>
+
+            <!-- Comprehensive Example for Section 2 Part 1 -->
+            <div class="master-practice-box">
+                <div class="master-practice-header">
+                    <span class="master-practice-badge">تطبيق مجمع على السكشن الثاني (جزء 1)</span>
+                    <h3>💻 مثال تطبيقي شامل يجمع الـ 11 عملية لـ <span class="term" dir="ltr">ALTER TABLE</span> مرة واحدة</h3>
+                </div>
+                <p>ده كود متكامل بيطبق الـ 11 خطوة كلهم بالترتيب على جدول <span class="term" dir="ltr">Doctors</span> وجدول <span class="term" dir="ltr">Patients</span>:</p>
+
+                <div class="code-container">
+                    <div class="code-header">
+                        <span class="code-lang-tag"><span class="code-dots"><span class="code-dot red"></span><span class="code-dot yellow"></span><span class="code-dot green"></span></span>SECTION 2 PART 1 MASTER PRACTICE SCRIPT</span>
+                        <button class="copy-btn">نسخ الكود</button>
+                    </div>
+                    <pre>-- 1. إضافة عمود واحد ثم عمودين معاً:
+ALTER TABLE Patients ADD birth_date date;
+ALTER TABLE Patients ADD (height number, weight number);
+
+-- 2. إضافة عمود بقيمة Default:
+ALTER TABLE Patients ADD gender varchar2(15) default 'Not Defined';
+
+-- 3. إضافة عمود مع Constraint:
+ALTER TABLE Patients ADD national_code number not null;
+ALTER TABLE Patients ADD visit_count number check (visit_count >= 0);
+
+-- 4. تعديل نوع البيان ثم تكبير الحجم بـ MODIFY:
+ALTER TABLE Patients MODIFY national_code varchar2(30);
+ALTER TABLE Patients MODIFY national_code varchar2(60);
+
+-- 5 و 6. إضافة عمود وتحويله إلى Not Null ثم إرجاعه إلى Null:
+ALTER TABLE Doctors ADD email varchar2(50);
+ALTER TABLE Doctors MODIFY email not null;
+ALTER TABLE Doctors MODIFY email null;
+
+-- 7. حذف عمود واحد بـ DROP COLUMN ثم حذف عدة أعمدة بـ DROP (...):
+ALTER TABLE Patients DROP COLUMN birth_date;
+ALTER TABLE Patients DROP (height, weight, gender, national_code, visit_count);
+ALTER TABLE Doctors DROP COLUMN email;
+
+-- 8. تغيير اسم عمود بـ RENAME COLUMN وتغيير اسم جدول بـ RENAME TO:
+ALTER TABLE Doctors RENAME COLUMN name TO dname;
+ALTER TABLE Patients RENAME TO All_Patients;
+ALTER TABLE All_Patients RENAME TO Patients;
+
+-- 9 و 10 و 11. إضافة Constraint، تعطيله وتفعيله، ثم حذفه نهائياً:
+ALTER TABLE Patients ADD CONSTRAINT pat_age_chk CHECK (age > 0);
+ALTER TABLE Patients DISABLE CONSTRAINT pat_age_chk;
+ALTER TABLE Patients ENABLE CONSTRAINT pat_age_chk;
+ALTER TABLE Patients DROP CONSTRAINT pat_age_chk;</pre>
+                </div>
+            </div>
+
+            <div class="section-nav-buttons">
+                <button class="btn-step-nav secondary" data-goto="sec-ch10">➡️ العودة للسكشن الأول: <span class="term" dir="ltr">CREATE &amp; Constraints</span></button>
+                <button class="btn-step-nav" data-goto="sec-dml">الانتقال إلى السكشن الثاني (جزء 2): أوامر <span class="term" dir="ltr">DML</span> ⬅️</button>
+            </div>
+        </section>
+
+        <!-- =================================================================== -->
+        <!-- TAB 3: SECTION 2 PART 2 (CH9 - DML: INSERT, UPDATE, DELETE & TCL)   -->
+        <!-- =================================================================== -->
+        <section id="sec-dml" class="course-section">
+            <div class="section-banner">
+                <span class="section-badge">Section 2 — Part 2 (Chapter 9: DML &amp; TCL)</span>
+                <h2>السكشن الثاني (الجزء الثاني): التعامل مع البيانات (<span class="term" dir="ltr">INSERT, UPDATE, DELETE</span>)</h2>
+                <p>أوامر الـ <span class="term" dir="ltr">DML (Data Manipulation Language)</span> هي المسؤولة عن التعامل مع الداتا والصفوف اللي جوه الجدول، ومعاها أوامر الـ <span class="term" dir="ltr">COMMIT</span> و <span class="term" dir="ltr">ROLLBACK</span> لحفظ الداتا أو التراجع عنها.</p>
+            </div>
+
+            <!-- 1. INSERT INTO -->
+            <div class="content-card">
+                <h3>📥 أولاً: أمر الإضافة <span class="term" dir="ltr">INSERT INTO</span> (الأربع طرق بالتفصيل)</h3>
+                <p>في كود السكشن عندك مشروح 4 طرق مختلفة لإدخال صفوف جديدة في الجدول:</p>
+
+                <h4>1. إضافة صف واحد بدون كتابة أسماء الأعمدة:</h4>
+                <p>لو مكتبتش أسماء الأعمدة بعد اسم الجدول، يبقى <strong>إجباري</strong> تدخل قيم لكل الأعمدة اللي في الجدول، و<strong>بنفس ترتيبها الأصلي</strong> وقت إنشاء الجدول (وخلي بالك: النصوص بتتحط بين <span class="term" dir="ltr">'Single Quotes'</span> والأرقام بتتكتب مباشرة):</p>
+                <div class="code-container">
+                    <div class="code-header">
+                        <span class="code-lang-tag"><span class="code-dots"><span class="code-dot red"></span><span class="code-dot yellow"></span><span class="code-dot green"></span></span>1. INSERT WITHOUT COLUMN LIST</span>
+                        <button class="copy-btn">نسخ الكود</button>
+                    </div>
+                    <pre>insert into doctors
+values(123, 'DR.Mirna', 'Dematalogy', 10);</pre>
+                </div>
+
+                <h4>2. إضافة صف مع تحديد أسماء الأعمدة بترتيب من اختيارك:</h4>
+                <p>هنا بتفتح قوسين بعد اسم الجدول وتكتب أسماء الأعمدة بأي ترتيب يعجبك، المهم في الـ <span class="term" dir="ltr">VALUES</span> تحت تلتزم بنفس الترتيب اللي أنت كتبته بين القوسين:</p>
+                <div class="code-container">
+                    <div class="code-header">
+                        <span class="code-lang-tag"><span class="code-dots"><span class="code-dot red"></span><span class="code-dot yellow"></span><span class="code-dot green"></span></span>2. INSERT WITH CUSTOM COLUMN LIST</span>
+                        <button class="copy-btn">نسخ الكود</button>
+                    </div>
+                    <pre>insert into doctors (speciality, dname, dssn, exp_years)
+values('Dematology', 'DR.Omar', 124, 5);</pre>
+                </div>
+
+                <h4>3. إدخال قيمة <span class="term" dir="ltr">NULL</span> في عمود (بالطريقة الضمنية والطريقة الصريحة):</h4>
+                <p>في الكود عندك، عملنا الأول <span class="term" dir="ltr">MODIFY</span> لعمود <span class="term" dir="ltr">exp_years</span> عشان يقبل <span class="term" dir="ltr">NULL</span>، وبعدها دخلنا قيمة فاضية بطريقتين:</p>
+                <ul>
+                    <li><strong>الطريقة الضمنية (<span class="term" dir="ltr">Implicit NULL</span>):</strong> تكتب أسماء الأعمدة التانية بس ومتكتبش اسم عمود <span class="term" dir="ltr">exp_years</span> أصلاً، فأوراكل هيحط فيه <span class="term" dir="ltr">NULL</span> لوحده.</li>
+                    <li><strong>الطريقة الصريحة (<span class="term" dir="ltr">Explicit NULL</span>):</strong> تكتب كلمة <span class="term" dir="ltr">null</span> بإيدك صراحةً جوه الـ <span class="term" dir="ltr">VALUES</span>.</li>
+                </ul>
+                <div class="code-container">
+                    <div class="code-header">
+                        <span class="code-lang-tag"><span class="code-dots"><span class="code-dot red"></span><span class="code-dot yellow"></span><span class="code-dot green"></span></span>3. INSERTING NULL (IMPLICIT VS EXPLICIT)</span>
+                        <button class="copy-btn">نسخ الكود</button>
+                    </div>
+                    <pre>-- أولاً نخلي العمود يقبل NULL:
+Alter table doctors modify exp_years null;
+
+-- أ) الطريقة الضمنية (تجاهل ذكر عمود exp_years في القائمة):
+insert into doctors (speciality, dssn, dname)
+values('Internal medicine', 125, 'DR.Nada');
+
+-- ب) الطريقة الصريحة (كتابة كلمة null مباشرة في القيم):
+insert into doctors
+values(126, 'DR.Ali', 'Internal medicine', null);</pre>
+                </div>
+
+                <h4>4. إضافة عدة صفوف دفعة واحدة في جدول أو أكثر بـ <span class="term" dir="ltr">INSERT ALL</span>:</h4>
+                <p>في أوراكل، لو عايز تضيف كذا صف في أمر واحد (سواء في نفس الجدول أو في جدولين مختلفين مع بعض)، بنستخدم <span class="term" dir="ltr">INSERT ALL</span>، و<strong>لازم نختمها في آخر سطر بجملة <span class="term" dir="ltr">SELECT 1 FROM dual;</span></strong>:</p>
+                <div class="code-container">
+                    <div class="code-header">
+                        <span class="code-lang-tag"><span class="code-dots"><span class="code-dot red"></span><span class="code-dot yellow"></span><span class="code-dot green"></span></span>4. INSERT ALL (MULTIPLE ROWS / MULTIPLE TABLES)</span>
+                        <button class="copy-btn">نسخ الكود</button>
+                    </div>
+                    <pre>-- أ) إضافة صفين في نفس الجدول (doctors) مرة واحدة:
+insert all
+    into doctors values(127, 'DR.Youmna', 'Dermatology', 3)
+    into doctors values(128, 'DR.Marwan', 'General Pediatrics', null)
+select 1 from dual;
+
+-- ب) إضافة صف في جدول doctors وصف في جدول patients في نفس الأمر:
+insert all
+    into doctors(dname, dssn, speciality) values('DR.Eman', 129, 'Neurosurgery')
+    into patients values(1, 'Mohamed', 55, 'Zagazig', 123)
+select 1 from dual;</pre>
+                </div>
+            </div>
+
+            <!-- 2. UPDATE Command -->
+            <div class="content-card">
+                <h3>✏️ ثانياً: أمر تعديل البيانات <span class="term" dir="ltr">UPDATE</span></h3>
+                <p>أمر <span class="term" dir="ltr">UPDATE</span> بيعدل بيانات موجودة فعلاً في الجدول. وخلي بالك من الفرق بين التعديل بدون <span class="term" dir="ltr">WHERE</span> والتعديل بـ <span class="term" dir="ltr">WHERE</span>:</p>
+
+                <div class="code-container">
+                    <div class="code-header">
+                        <span class="code-lang-tag"><span class="code-dots"><span class="code-dot red"></span><span class="code-dot yellow"></span><span class="code-dot green"></span></span>UPDATE COMMAND (ALL ROWS VS SPECIFIC ROWS)</span>
+                        <button class="copy-btn">نسخ الكود</button>
+                    </div>
+                    <pre>-- 1. update column for all rows (بدون WHERE -> هيعدل كل الدكاترة اللي في الجدول!):
+update doctors
+set exp_years = 2;
+
+-- 2. update 2 columns for all rows (تعديل عمودين معاً لكل الصفوف، بنفصل بينهم بفاصلة):
+update doctors
+set exp_years = 5, speciality = 'Dematology';
+
+-- 3. update column for specific rows (باستخدام WHERE لتعديل صفوف معينة فقط):
+update doctors
+set exp_years = 8
+where dssn = 123;
+
+update doctors
+set speciality = 'Neurosurgery'
+where exp_years = 5;
+
+-- معاملات المقارنة في WHERE:  = , > , < , >= , <= , <> (لا يساوي)
+-- أدوات ربط الشروط:          AND (تحقق الشرطين معاً) , OR (تحقق شرط واحد يكفي)</pre>
+                </div>
+            </div>
+
+            <!-- 3. DELETE, COMMIT, ROLLBACK & 3-Way Comparison -->
+            <div class="content-card">
+                <h3>🧹 ثالثاً ورابعاً: أمر الحذف <span class="term" dir="ltr">DELETE</span> + الحفظ والتراجع (<span class="term" dir="ltr">COMMIT &amp; ROLLBACK</span>)</h3>
+                <div class="code-container">
+                    <div class="code-header">
+                        <span class="code-lang-tag"><span class="code-dots"><span class="code-dot red"></span><span class="code-dot yellow"></span><span class="code-dot green"></span></span>DELETE, COMMIT &amp; ROLLBACK</span>
+                        <button class="copy-btn">نسخ الكود</button>
+                    </div>
+                    <pre>-- 1. Delete all rows (مسح كل الصفوف في الجدول لعدم وجود WHERE):
+delete from patients;
+
+-- 2. Delete certain rows (مسح صف معين فقط بناءً على شرط WHERE):
+delete from doctors
+where dssn = 128;
+
+-- 3. حفظ التعديلات نهائياً أو التراجع عنها:
+commit;
+rollback;</pre>
+                </div>
+
+                <div class="line-explain-list">
+                    <div class="line-explain-item">
+                        <strong>أمر <span class="term" dir="ltr">COMMIT;</span>:</strong> بيثبت ويحفظ كل عمليات الـ <span class="term" dir="ltr">INSERT</span> و <span class="term" dir="ltr">UPDATE</span> و <span class="term" dir="ltr">DELETE</span> اللي عملتها بشكل نهائي في الداتابيز، ومينفعش تعمل بعدها <span class="term" dir="ltr">ROLLBACK</span>.
+                    </div>
+                    <div class="line-explain-item">
+                        <strong>أمر <span class="term" dir="ltr">ROLLBACK;</span>:</strong> بيعمل تراجع (<span class="term" dir="ltr">Undo</span>) عن أي <span class="term" dir="ltr">INSERT</span> أو <span class="term" dir="ltr">UPDATE</span> أو <span class="term" dir="ltr">DELETE</span> عملته من ساعة آخر <span class="term" dir="ltr">COMMIT</span>.
+                    </div>
+                </div>
+
+                <h4>🏆 المقارنة الثلاثية الذهبية للامتحانات: <span class="term" dir="ltr">DROP</span> ضد <span class="term" dir="ltr">TRUNCATE</span> ضد <span class="term" dir="ltr">DELETE</span></h4>
+                <div class="table-wrapper">
+                    <table class="comp-table">
+                        <thead>
+                            <tr>
+                                <th>وجه المقارنة</th>
+                                <th><span class="term" dir="ltr">DROP TABLE</span></th>
+                                <th><span class="term" dir="ltr">TRUNCATE TABLE</span></th>
+                                <th><span class="term" dir="ltr">DELETE FROM</span></th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            <tr>
+                                <td><strong>نوع الأمر</strong></td>
+                                <td><span class="term" dir="ltr">DDL</span></td>
+                                <td><span class="term" dir="ltr">DDL</span></td>
+                                <td><span class="term" dir="ltr">DML</span></td>
+                            </tr>
+                            <tr>
+                                <td><strong>بيمسح إيه بالظبط؟</strong></td>
+                                <td>بيمسح الداتا <strong>ويمسح هيكل الجدول نفسه</strong> من الداتابيز</td>
+                                <td>بيمسح كل الداتا بس، <strong>وبيسيب هيكل الجدول وأعمدته سليمة</strong></td>
+                                <td>بيمسح كل الداتا أو صفوف معينة، <strong>وبيسيب هيكل الجدول سليماً</strong></td>
+                            </tr>
+                            <tr>
+                                <td><strong>هل يقبل شرط <span class="term" dir="ltr">WHERE</span>؟</strong></td>
+                                <td><span class="badge-no">لا يقبل أبداً</span></td>
+                                <td><span class="badge-no">لا يقبل أبداً</span> (يمسح الكل دائماً)</td>
+                                <td><span class="badge-yes">نعم يقبل WHERE</span> لتحديد صفوف معينة</td>
+                            </tr>
+                            <tr>
+                                <td><strong>هل ينفع نرجع الداتا بـ <span class="term" dir="ltr">ROLLBACK</span>؟</strong></td>
+                                <td><span class="badge-no">مستحيل</span> (بيعمل <span class="term" dir="ltr">Auto-Commit</span>)</td>
+                                <td><span class="badge-no">مستحيل</span> (بيعمل <span class="term" dir="ltr">Auto-Commit</span>)</td>
+                                <td><span class="badge-yes">نعم ينفع بـ ROLLBACK</span> طالما معملتش <span class="term" dir="ltr">COMMIT</span></td>
+                            </tr>
+                        </tbody>
+                    </table>
+                </div>
+            </div>
+
+            <!-- Comprehensive Example for Section 2 Part 2 -->
+            <div class="master-practice-box">
+                <div class="master-practice-header">
+                    <span class="master-practice-badge">تطبيق مجمع على السكشن الثاني (جزء 2)</span>
+                    <h3>💻 مثال تطبيقي شامل يجمع كل أوامر <span class="term" dir="ltr">DML &amp; TCL</span> مرة واحدة</h3>
+                </div>
+                <p>ده كود مجمع بيطبق الـ 4 طرق بتاعت <span class="term" dir="ltr">INSERT</span>، والتعديل بـ <span class="term" dir="ltr">UPDATE</span>، والحذف بـ <span class="term" dir="ltr">DELETE</span>، والحفظ والتراجع بـ <span class="term" dir="ltr">COMMIT / ROLLBACK</span>:</p>
+
+                <div class="code-container">
+                    <div class="code-header">
+                        <span class="code-lang-tag"><span class="code-dots"><span class="code-dot red"></span><span class="code-dot yellow"></span><span class="code-dot green"></span></span>SECTION 2 PART 2 MASTER PRACTICE SCRIPT</span>
+                        <button class="copy-btn">نسخ الكود</button>
+                    </div>
+                    <pre>-- 1. إدخال صفوف بكل الطرق (مباشر، بترتيب أعمدة مخصص، و NULL ضمني وصريح):
+INSERT INTO Doctors VALUES (123, 'DR.Mirna', 'Dermatology', 10);
+INSERT INTO Doctors (speciality, dname, Dssn, exp_years) VALUES ('Dermatology', 'DR.Omar', 124, 5);
+INSERT INTO Doctors (speciality, Dssn, dname) VALUES ('Internal medicine', 125, 'DR.Nada');
+INSERT INTO Doctors VALUES (126, 'DR.Ali', 'Internal medicine', null);
+
+-- 2. إدخال عدة صفوف في جدولين مختلفين بـ INSERT ALL:
+INSERT ALL
+    INTO Doctors VALUES (127, 'DR.Youmna', 'Dermatology', 3)
+    INTO Doctors VALUES (128, 'DR.Marwan', 'General Pediatrics', null)
+    INTO Doctors (dname, Dssn, speciality) VALUES ('DR.Eman', 129, 'Neurosurgery')
+    INTO Patients VALUES (1, 'Mohamed', 55, 'Zagazig', 123)
+    INTO Patients VALUES (2, 'Ahmed', 30, 'Cairo', 124)
+SELECT 1 FROM dual;
+
+-- 3. تعديل بيانات صفوف محددة بـ UPDATE ... WHERE:
+UPDATE Doctors SET exp_years = 8 WHERE Dssn = 123;
+UPDATE Doctors SET speciality = 'Neurosurgery', exp_years = 10 WHERE Dssn = 129;
+
+-- 4. حذف دكتور معين بـ DELETE ... WHERE ثم حفظ التغييرات نهائياً بـ COMMIT:
+DELETE FROM Doctors WHERE Dssn = 128;
+COMMIT;
+
+-- 5. مسح كل المرضى بالغلط ثم استرجاعهم فوراً بـ ROLLBACK:
+DELETE FROM Patients;
+ROLLBACK;</pre>
+                </div>
+            </div>
+
+            <div class="section-nav-buttons">
+                <button class="btn-step-nav secondary" data-goto="sec-alter">➡️ العودة للسكشن الثاني (جزء 1): <span class="term" dir="ltr">ALTER TABLE</span></button>
+                <button class="btn-step-nav" data-goto="sec-pharmacy">الانتقال إلى التطبيق الشامل: سؤال نظام الصيدلية (<span class="term" dir="ltr">LAB 1</span>) ⬅️</button>
+            </div>
+        </section>
+
+        <!-- =================================================================== -->
+        <!-- TAB 4: FULL CASE STUDY — LAB 1 PHARMACY DATABASE SYSTEM             -->
+        <!-- =================================================================== -->
+        <section id="sec-pharmacy" class="course-section">
+            <div class="section-banner emerald-banner">
+                <span class="section-badge">Comprehensive Case Study — LAB 1</span>
+                <h2>🏥 تطبيق شامل على كل ما سبق: سؤال نظام الصيدلية (<span class="term" dir="ltr">Pharmacy Database System</span>)</h2>
+                <p>دلوقتي هناخد سؤال ملف الـ <span class="term" dir="ltr">PDF</span> (<span class="term" dir="ltr">LAB 1_ER Diagram</span>) ونشتغل عليه من الصفر للنهاية: قراءة السؤال، رسم الـ <span class="term" dir="ltr">ER Diagram</span>، عمل الـ <span class="term" dir="ltr">Mapping</span>، رسم الـ <span class="term" dir="ltr">Relational Schema</span> بالأسهم من كل <span class="term" dir="ltr">Foreign Key</span> للـ <span class="term" dir="ltr">Primary Key</span>، ثم كتابة أكواد السكاشن كلها عليه!</p>
+            </div>
+
+            <!-- Step 1: Problem Statement & Analysis -->
+            <div class="content-card">
+                <h3>📄 الخطوة الأولى: نص السؤال الأصلي واستخراج الـ <span class="term" dir="ltr">Entities &amp; Attributes</span></h3>
+                <div class="code-container">
+                    <div class="code-header">
+                        <span class="code-lang-tag"><span class="code-dots"><span class="code-dot red"></span><span class="code-dot yellow"></span><span class="code-dot green"></span></span>LAB 1_ER DIAGRAM — PROBLEM STATEMENT</span>
+                        <button class="copy-btn">نسخ السؤال</button>
+                    </div>
+                    <pre>The pharmacy database system is designed to manage the interactions among patients, doctors,
+pharmacies, pharmaceutical companies, and drugs through prescriptions.
+• Each Patient is uniquely identified by their Social Security Number (SSN), and additional information such
+  as name, age, and address is stored.
+• Each Doctor is uniquely identified by DSSN and has attributes such as name, specialty, and years of
+  experience. A doctor can prescribe drugs to multiple patients, and a patient can receive multiple
+  prescriptions from different doctors.
+• A Prescription is a central entity in the system and is uniquely identified by a prescription ID (Pre_id).
+  Each prescription records the date and quantity of a drug prescribed, and it connects a patient, a doctor,
+  a pharmacy, and a drug.
+• Each Drug is uniquely identified by its trade name, and its formula is also recorded.
+• Drugs are manufactured by exactly one Pharmaceutical Company, which is identified by its company
+  name (CName) and phone number.
+• Each Pharmacy is uniquely identified by its name, and it stores details such as phone number and
+  address. Pharmacies dispense prescriptions and sell drugs manufactured by pharmaceutical companies.</pre>
+                </div>
+
+                <h4>تفريغ معطيات السؤال (6 كيانات <span class="term" dir="ltr">Entities</span>):</h4>
+                <ol>
+                    <li><strong>كيان <span class="term" dir="ltr">Patient</span>:</strong> الـ <span class="term" dir="ltr">Primary Key</span> هو <span class="term" dir="ltr">SSN</span>، والـ <span class="term" dir="ltr">Attributes</span> هي: <span class="term" dir="ltr">Name, Age, Address</span>.</li>
+                    <li><strong>كيان <span class="term" dir="ltr">Doctor</span>:</strong> الـ <span class="term" dir="ltr">Primary Key</span> هو <span class="term" dir="ltr">DSSN</span>، والـ <span class="term" dir="ltr">Attributes</span> هي: <span class="term" dir="ltr">Name, Specialty, EXP_Years</span>.</li>
+                    <li><strong>كيان <span class="term" dir="ltr">Pharm_Company</span>:</strong> الـ <span class="term" dir="ltr">Primary Key</span> هو <span class="term" dir="ltr">CName</span>، والـ <span class="term" dir="ltr">Attribute</span> هو: <span class="term" dir="ltr">Phone</span>.</li>
+                    <li><strong>كيان <span class="term" dir="ltr">Drug</span>:</strong> الـ <span class="term" dir="ltr">Primary Key</span> هو <span class="term" dir="ltr">Trade_Name</span>، والـ <span class="term" dir="ltr">Attribute</span> هو: <span class="term" dir="ltr">Formula</span>.</li>
+                    <li><strong>كيان <span class="term" dir="ltr">Pharmacy</span>:</strong> الـ <span class="term" dir="ltr">Primary Key</span> هو <span class="term" dir="ltr">Pname</span>، والـ <span class="term" dir="ltr">Attributes</span> هي: <span class="term" dir="ltr">Phone, Address</span>.</li>
+                    <li><strong>كيان <span class="term" dir="ltr">Prescription</span> (الروشتة):</strong> الـ <span class="term" dir="ltr">Primary Key</span> هو <span class="term" dir="ltr">Pre_id</span>، والـ <span class="term" dir="ltr">Attributes</span> هي: <span class="term" dir="ltr">Date, Quantity</span>.</li>
+                </ol>
+            </div>
+
+            <!-- Step 2: ER Diagram -->
+            <div class="content-card">
+                <h3>🎨 الخطوة الثانية: رسمة الـ <span class="term" dir="ltr">ER Diagram</span> الكاملة للنظام</h3>
+                <p>دي رسمة الـ <span class="term" dir="ltr">ER Diagram</span> المطابقة لملف السكشن، موضح عليها الكيانات الستة، والـ <span class="term" dir="ltr">Primary Keys</span> اللي تحتها خط، وعلاقات الـ <span class="term" dir="ltr">1 : M</span> بين الجداول:</p>
+
+                <div class="er-diagram-wrapper">
+                    <svg viewBox="0 0 1100 680" xmlns="http://www.w3.org/2000/svg" font-family="Arial, sans-serif">
+                        <line x1="270" y1="165" x2="760" y2="165" stroke="#3b6998" stroke-width="2.5"/>
+                        <line x1="210" y1="190" x2="450" y2="335" stroke="#3b6998" stroke-width="2.5"/>
+                        <line x1="820" y1="190" x2="590" y2="335" stroke="#3b6998" stroke-width="2.5"/>
+                        <line x1="280" y1="450" x2="450" y2="365" stroke="#3b6998" stroke-width="2.5"/>
+                        <line x1="760" y1="455" x2="590" y2="365" stroke="#3b6998" stroke-width="2.5"/>
+                        <line x1="210" y1="475" x2="430" y2="615" stroke="#3b6998" stroke-width="2.5"/>
+
+                        <ellipse cx="315" cy="165" rx="18" ry="14" fill="#d9e2f3" stroke="#3b6998"/>
+                        <text x="315" y="170" text-anchor="middle" font-weight="bold" font-size="16" fill="#000">m</text>
+                        <ellipse cx="715" cy="165" rx="18" ry="14" fill="#d9e2f3" stroke="#3b6998"/>
+                        <text x="715" y="170" text-anchor="middle" font-weight="bold" font-size="16" fill="#000">1</text>
+
+                        <ellipse cx="245" cy="212" rx="18" ry="14" fill="#d9e2f3" stroke="#3b6998"/>
+                        <text x="245" y="217" text-anchor="middle" font-weight="bold" font-size="16" fill="#000">1</text>
+                        <ellipse cx="420" cy="318" rx="18" ry="14" fill="#d9e2f3" stroke="#3b6998"/>
+                        <text x="420" y="323" text-anchor="middle" font-weight="bold" font-size="16" fill="#000">m</text>
+
+                        <ellipse cx="785" cy="212" rx="18" ry="14" fill="#d9e2f3" stroke="#3b6998"/>
+                        <text x="785" y="217" text-anchor="middle" font-weight="bold" font-size="16" fill="#000">1</text>
+                        <ellipse cx="620" cy="318" rx="18" ry="14" fill="#d9e2f3" stroke="#3b6998"/>
+                        <text x="620" y="323" text-anchor="middle" font-weight="bold" font-size="16" fill="#000">m</text>
+
+                        <ellipse cx="310" cy="435" rx="18" ry="14" fill="#d9e2f3" stroke="#3b6998"/>
+                        <text x="310" y="440" text-anchor="middle" font-weight="bold" font-size="16" fill="#000">1</text>
+                        <ellipse cx="425" cy="380" rx="18" ry="14" fill="#d9e2f3" stroke="#3b6998"/>
+                        <text x="425" y="385" text-anchor="middle" font-weight="bold" font-size="16" fill="#000">m</text>
+
+                        <ellipse cx="730" cy="440" rx="18" ry="14" fill="#d9e2f3" stroke="#3b6998"/>
+                        <text x="730" y="445" text-anchor="middle" font-weight="bold" font-size="16" fill="#000">1</text>
+                        <ellipse cx="615" cy="380" rx="18" ry="14" fill="#d9e2f3" stroke="#3b6998"/>
+                        <text x="615" y="385" text-anchor="middle" font-weight="bold" font-size="16" fill="#000">m</text>
+
+                        <ellipse cx="255" cy="503" rx="18" ry="14" fill="#d9e2f3" stroke="#3b6998"/>
+                        <text x="255" y="508" text-anchor="middle" font-weight="bold" font-size="16" fill="#000">m</text>
+                        <ellipse cx="405" cy="600" rx="18" ry="14" fill="#d9e2f3" stroke="#3b6998"/>
+                        <text x="405" y="605" text-anchor="middle" font-weight="bold" font-size="16" fill="#000">1</text>
+
+                        <!-- Patient -->
+                        <line x1="85" y1="95" x2="180" y2="140" stroke="#000" stroke-width="2"/>
+                        <line x1="160" y1="55" x2="195" y2="140" stroke="#000" stroke-width="2"/>
+                        <line x1="255" y1="55" x2="215" y2="140" stroke="#000" stroke-width="2"/>
+                        <line x1="335" y1="95" x2="230" y2="140" stroke="#000" stroke-width="2"/>
+                        <rect x="140" y="140" width="130" height="50" fill="#fff" stroke="#000" stroke-width="2.5"/>
+                        <text x="205" y="170" text-anchor="middle" font-weight="bold" font-size="16">Patient</text>
+                        <ellipse cx="75" cy="90" rx="48" ry="24" fill="#fff" stroke="#000" stroke-width="2"/>
+                        <text x="75" y="95" text-anchor="middle" font-size="15" text-decoration="underline">SSN</text>
+                        <ellipse cx="160" cy="35" rx="45" ry="24" fill="#fff" stroke="#000" stroke-width="2"/>
+                        <text x="160" y="40" text-anchor="middle" font-size="15">Name</text>
+                        <ellipse cx="255" cy="35" rx="42" ry="24" fill="#fff" stroke="#000" stroke-width="2"/>
+                        <text x="255" y="40" text-anchor="middle" font-size="15">Age</text>
+                        <ellipse cx="345" cy="90" rx="52" ry="24" fill="#fff" stroke="#000" stroke-width="2"/>
+                        <text x="345" y="95" text-anchor="middle" font-size="15">Address</text>
+
+                        <!-- Doctor -->
+                        <line x1="695" y1="95" x2="800" y2="140" stroke="#000" stroke-width="2"/>
+                        <line x1="765" y1="50" x2="815" y2="140" stroke="#000" stroke-width="2"/>
+                        <line x1="875" y1="50" x2="835" y2="140" stroke="#000" stroke-width="2"/>
+                        <line x1="965" y1="95" x2="850" y2="140" stroke="#000" stroke-width="2"/>
+                        <rect x="760" y="140" width="130" height="50" fill="#fff" stroke="#000" stroke-width="2.5"/>
+                        <text x="825" y="170" text-anchor="middle" font-weight="bold" font-size="16">Doctor</text>
+                        <ellipse cx="690" cy="90" rx="48" ry="24" fill="#fff" stroke="#000" stroke-width="2"/>
+                        <text x="690" y="95" text-anchor="middle" font-size="15" text-decoration="underline">DSSN</text>
+                        <ellipse cx="765" cy="35" rx="45" ry="24" fill="#fff" stroke="#000" stroke-width="2"/>
+                        <text x="765" y="40" text-anchor="middle" font-size="15">Name</text>
+                        <ellipse cx="875" cy="35" rx="55" ry="24" fill="#fff" stroke="#000" stroke-width="2"/>
+                        <text x="875" y="40" text-anchor="middle" font-size="15">Specialty</text>
+                        <ellipse cx="975" cy="90" rx="68" ry="24" fill="#fff" stroke="#000" stroke-width="2"/>
+                        <text x="975" y="95" text-anchor="middle" font-size="15">EXP_Years</text>
+
+                        <!-- Prescription -->
+                        <line x1="435" y1="265" x2="505" y2="325" stroke="#000" stroke-width="2"/>
+                        <line x1="520" y1="230" x2="520" y2="325" stroke="#000" stroke-width="2"/>
+                        <line x1="605" y1="265" x2="535" y2="325" stroke="#000" stroke-width="2"/>
+                        <rect x="450" y="325" width="140" height="50" fill="#fff" stroke="#000" stroke-width="2.5"/>
+                        <text x="520" y="355" text-anchor="middle" font-weight="bold" font-size="16">Prescription</text>
+                        <ellipse cx="425" cy="255" rx="52" ry="24" fill="#fff" stroke="#000" stroke-width="2"/>
+                        <text x="425" y="260" text-anchor="middle" font-size="15" text-decoration="underline">Pre_id</text>
+                        <ellipse cx="520" cy="210" rx="45" ry="24" fill="#fff" stroke="#000" stroke-width="2"/>
+                        <text x="520" y="215" text-anchor="middle" font-size="15">Date</text>
+                        <ellipse cx="615" cy="255" rx="58" ry="24" fill="#fff" stroke="#000" stroke-width="2"/>
+                        <text x="615" y="260" text-anchor="middle" font-size="15">Quantity</text>
+
+                        <!-- Drug -->
+                        <line x1="125" y1="360" x2="195" y2="425" stroke="#000" stroke-width="2"/>
+                        <line x1="295" y1="360" x2="225" y2="425" stroke="#000" stroke-width="2"/>
+                        <rect x="145" y="425" width="135" height="50" fill="#fff" stroke="#000" stroke-width="2.5"/>
+                        <text x="212" y="455" text-anchor="middle" font-weight="bold" font-size="16">Drug</text>
+                        <ellipse cx="120" cy="335" rx="82" ry="30" fill="#fff" stroke="#000" stroke-width="2"/>
+                        <text x="120" y="340" text-anchor="middle" font-size="15" text-decoration="underline">Trade_Name</text>
+                        <ellipse cx="295" cy="335" rx="72" ry="30" fill="#fff" stroke="#000" stroke-width="2"/>
+                        <text x="295" y="340" text-anchor="middle" font-size="15">Formula</text>
+
+                        <!-- Pharmacy -->
+                        <line x1="720" y1="370" x2="815" y2="430" stroke="#000" stroke-width="2"/>
+                        <line x1="830" y1="340" x2="830" y2="430" stroke="#000" stroke-width="2"/>
+                        <line x1="945" y1="370" x2="845" y2="430" stroke="#000" stroke-width="2"/>
+                        <rect x="760" y="430" width="140" height="50" fill="#fff" stroke="#000" stroke-width="2.5"/>
+                        <text x="830" y="460" text-anchor="middle" font-weight="bold" font-size="16">Pharmacy</text>
+                        <ellipse cx="715" cy="355" rx="52" ry="24" fill="#fff" stroke="#000" stroke-width="2"/>
+                        <text x="715" y="360" text-anchor="middle" font-size="15" text-decoration="underline">Pname</text>
+                        <ellipse cx="830" cy="315" rx="50" ry="24" fill="#fff" stroke="#000" stroke-width="2"/>
+                        <text x="830" y="320" text-anchor="middle" font-size="15">Phone</text>
+                        <ellipse cx="950" cy="355" rx="55" ry="24" fill="#fff" stroke="#000" stroke-width="2"/>
+                        <text x="950" y="360" text-anchor="middle" font-size="15">Address</text>
+
+                        <!-- Pharm_Company -->
+                        <line x1="460" y1="530" x2="505" y2="590" stroke="#000" stroke-width="2"/>
+                        <line x1="575" y1="530" x2="525" y2="590" stroke="#000" stroke-width="2"/>
+                        <rect x="430" y="590" width="170" height="50" fill="#fff" stroke="#000" stroke-width="2.5"/>
+                        <text x="515" y="620" text-anchor="middle" font-weight="bold" font-size="16">Pharm_Company</text>
+                        <ellipse cx="455" cy="510" rx="52" ry="24" fill="#fff" stroke="#000" stroke-width="2"/>
+                        <text x="455" y="515" text-anchor="middle" font-size="15" text-decoration="underline">CName</text>
+                        <ellipse cx="580" cy="510" rx="50" ry="24" fill="#fff" stroke="#000" stroke-width="2"/>
+                        <text x="580" y="515" text-anchor="middle" font-size="15">Phone</text>
+                    </svg>
+                </div>
+            </div>
+
+            <!-- Step 3: Mapping & Relational Schema with Arrows -->
+            <div class="content-card">
+                <h3>🗺️ الخطوة الثالثة: الـ <span class="term" dir="ltr">Mapping</span> ورسم الـ <span class="term" dir="ltr">Relational Schema</span> بالأسهم</h3>
+                <p>قانون الـ <span class="term" dir="ltr">Mapping</span> في أي علاقة <span class="term" dir="ltr">1 : M (One-to-Many)</span> ثابت: <strong>ناخد الـ <span class="term" dir="ltr">Primary Key</span> بتاع جدول الـ <span class="term" dir="ltr">(1)</span> ونحطه كـ <span class="term" dir="ltr">Foreign Key</span> في جدول الـ <span class="term" dir="ltr">(m)</span>، ونخرج سهم من الـ <span class="term" dir="ltr">Foreign Key</span> يشاور على الـ <span class="term" dir="ltr">Primary Key</span> الأصلي!</strong></p>
+
+                <ul>
+                    <li>علاقة <span class="term" dir="ltr">Doctor (1) --- (m) Patient</span>: جدول <span class="term" dir="ltr">Patients</span> ياخد <span class="term" dir="ltr">DSSN</span> كـ <span class="term" dir="ltr">Foreign Key</span> يشاور على <span class="term" dir="ltr">Doctors.DSSN</span>.</li>
+                    <li>علاقة <span class="term" dir="ltr">Pharm_Company (1) --- (m) Drug</span>: جدول <span class="term" dir="ltr">Drug</span> ياخد <span class="term" dir="ltr">CName</span> كـ <span class="term" dir="ltr">Foreign Key</span> يشاور على <span class="term" dir="ltr">Pharm_Company.CName</span>.</li>
+                    <li>علاقات <span class="term" dir="ltr">Prescription (m)</span> الأربعة: جدول <span class="term" dir="ltr">Prescription</span> هو طرف الـ <span class="term" dir="ltr">(m)</span> مع الأربعة، فياخد 4 <span class="term" dir="ltr">Foreign Keys</span> (<span class="term" dir="ltr">SSN, DSSN, Trade_Name, Pname</span>) ويخرج من كل واحد سهم للـ <span class="term" dir="ltr">Primary Key</span> بتاعه!</li>
+                </ul>
+
+                <div class="schema-legend">
+                    <div class="legend-item">
+                        <span class="legend-box" style="background:#dcfce7; border:2px solid #16a34a;"></span>
+                        <span><span class="term" dir="ltr">Primary Key (PK)</span> (تحته خط ويستقبل السهم)</span>
+                    </div>
+                    <div class="legend-item">
+                        <span class="legend-box" style="background:#dbeafe; border:2px solid #2563eb;"></span>
+                        <span><span class="term" dir="ltr">Foreign Key (FK)</span> (يخرج منه السهم إلى الـ <span class="term" dir="ltr">PK</span>)</span>
+                    </div>
+                </div>
+
+                <!-- RELATIONAL SCHEMA DIAGRAM WITH ARROWS FROM FK TO PK -->
+                <div class="schema-svg-wrapper">
+                    <svg viewBox="0 0 1120 760" xmlns="http://www.w3.org/2000/svg" font-family="'JetBrains Mono', Consolas, monospace">
+                        <defs>
+                            <marker id="arr-blue" viewBox="0 0 10 10" refX="8" refY="5" markerWidth="7" markerHeight="7" orient="auto">
+                                <path d="M 0 1 L 10 5 L 0 9 z" fill="#2563eb"/>
+                            </marker>
+                            <marker id="arr-purple" viewBox="0 0 10 10" refX="8" refY="5" markerWidth="7" markerHeight="7" orient="auto">
+                                <path d="M 0 1 L 10 5 L 0 9 z" fill="#7c3aed"/>
+                            </marker>
+                            <marker id="arr-rose" viewBox="0 0 10 10" refX="8" refY="5" markerWidth="7" markerHeight="7" orient="auto">
+                                <path d="M 0 1 L 10 5 L 0 9 z" fill="#e11d48"/>
+                            </marker>
+                            <marker id="arr-amber" viewBox="0 0 10 10" refX="8" refY="5" markerWidth="7" markerHeight="7" orient="auto">
+                                <path d="M 0 1 L 10 5 L 0 9 z" fill="#d97706"/>
+                            </marker>
+                            <marker id="arr-teal" viewBox="0 0 10 10" refX="8" refY="5" markerWidth="7" markerHeight="7" orient="auto">
+                                <path d="M 0 1 L 10 5 L 0 9 z" fill="#0d9488"/>
+                            </marker>
+                        </defs>
+
+                        <!-- ================= TABLE 1: DOCTORS (x=70, y=55) ================= -->
+                        <text x="70" y="42" font-size="16" font-weight="bold" fill="#0f172a">1. Doctors</text>
+                        <!-- DSSN [PK] (x=70..190) -->
+                        <rect x="70" y="55" width="120" height="44" fill="#dcfce7" stroke="#16a34a" stroke-width="2"/>
+                        <text x="130" y="82" text-anchor="middle" font-size="14" font-weight="bold" fill="#14532d" text-decoration="underline">DSSN (PK)</text>
+                        <!-- Name (x=190..310) -->
+                        <rect x="190" y="55" width="120" height="44" fill="#f8fafc" stroke="#475569" stroke-width="1.5"/>
+                        <text x="250" y="82" text-anchor="middle" font-size="14" fill="#1e293b">Name</text>
+                        <!-- Specialty (x=310..440) -->
+                        <rect x="310" y="55" width="130" height="44" fill="#f8fafc" stroke="#475569" stroke-width="1.5"/>
+                        <text x="375" y="82" text-anchor="middle" font-size="14" fill="#1e293b">Specialty</text>
+                        <!-- EXP_Years (x=440..570) -->
+                        <rect x="440" y="55" width="130" height="44" fill="#f8fafc" stroke="#475569" stroke-width="1.5"/>
+                        <text x="505" y="82" text-anchor="middle" font-size="14" fill="#1e293b">EXP_Years</text>
+
+                        <!-- ================= TABLE 2: PHARM_COMPANY (x=680, y=55) ================= -->
+                        <text x="680" y="42" font-size="16" font-weight="bold" fill="#0f172a">2. Pharm_Company</text>
+                        <!-- CName [PK] (x=680..820) -->
+                        <rect x="680" y="55" width="140" height="44" fill="#dcfce7" stroke="#16a34a" stroke-width="2"/>
+                        <text x="750" y="82" text-anchor="middle" font-size="14" font-weight="bold" fill="#14532d" text-decoration="underline">CName (PK)</text>
+                        <!-- Phone (x=820..950) -->
+                        <rect x="820" y="55" width="130" height="44" fill="#f8fafc" stroke="#475569" stroke-width="1.5"/>
+                        <text x="885" y="82" text-anchor="middle" font-size="14" fill="#1e293b">Phone</text>
+
+                        <!-- ================= TABLE 3: PATIENTS (x=70, y=230) ================= -->
+                        <text x="70" y="217" font-size="16" font-weight="bold" fill="#0f172a">3. Patients</text>
+                        <!-- SSN [PK] (x=70..180) -->
+                        <rect x="70" y="230" width="110" height="44" fill="#dcfce7" stroke="#16a34a" stroke-width="2"/>
+                        <text x="125" y="257" text-anchor="middle" font-size="14" font-weight="bold" fill="#14532d" text-decoration="underline">SSN (PK)</text>
+                        <!-- Name (x=180..290) -->
+                        <rect x="180" y="230" width="110" height="44" fill="#f8fafc" stroke="#475569" stroke-width="1.5"/>
+                        <text x="235" y="257" text-anchor="middle" font-size="14" fill="#1e293b">Name</text>
+                        <!-- Age (x=290..380) -->
+                        <rect x="290" y="230" width="90" height="44" fill="#f8fafc" stroke="#475569" stroke-width="1.5"/>
+                        <text x="335" y="257" text-anchor="middle" font-size="14" fill="#1e293b">Age</text>
+                        <!-- Address (x=380..490) -->
+                        <rect x="380" y="230" width="110" height="44" fill="#f8fafc" stroke="#475569" stroke-width="1.5"/>
+                        <text x="435" y="257" text-anchor="middle" font-size="14" fill="#1e293b">Address</text>
+                        <!-- DSSN [FK] (x=490..610) -->
+                        <rect x="490" y="230" width="120" height="44" fill="#dbeafe" stroke="#2563eb" stroke-width="2"/>
+                        <text x="550" y="257" text-anchor="middle" font-size="14" font-weight="bold" fill="#1e40af">DSSN (FK)</text>
+
+                        <!-- ================= TABLE 4: DRUG (x=680, y=230) ================= -->
+                        <text x="680" y="217" font-size="16" font-weight="bold" fill="#0f172a">4. Drug</text>
+                        <!-- Trade_Name [PK] (x=680..840) -->
+                        <rect x="680" y="230" width="160" height="44" fill="#dcfce7" stroke="#16a34a" stroke-width="2"/>
+                        <text x="760" y="257" text-anchor="middle" font-size="14" font-weight="bold" fill="#14532d" text-decoration="underline">Trade_Name (PK)</text>
+                        <!-- Formula (x=840..950) -->
+                        <rect x="840" y="230" width="110" height="44" fill="#f8fafc" stroke="#475569" stroke-width="1.5"/>
+                        <text x="895" y="257" text-anchor="middle" font-size="14" fill="#1e293b">Formula</text>
+                        <!-- CName [FK] (x=950..1070) -->
+                        <rect x="950" y="230" width="120" height="44" fill="#dbeafe" stroke="#2563eb" stroke-width="2"/>
+                        <text x="1010" y="257" text-anchor="middle" font-size="14" font-weight="bold" fill="#1e40af">CName (FK)</text>
+
+                        <!-- ================= TABLE 5: PHARMACY (x=680, y=405) ================= -->
+                        <text x="680" y="392" font-size="16" font-weight="bold" fill="#0f172a">5. Pharmacy</text>
+                        <!-- Pname [PK] (x=680..810) -->
+                        <rect x="680" y="405" width="130" height="44" fill="#dcfce7" stroke="#16a34a" stroke-width="2"/>
+                        <text x="745" y="432" text-anchor="middle" font-size="14" font-weight="bold" fill="#14532d" text-decoration="underline">Pname (PK)</text>
+                        <!-- Phone (x=810..930) -->
+                        <rect x="810" y="405" width="120" height="44" fill="#f8fafc" stroke="#475569" stroke-width="1.5"/>
+                        <text x="870" y="432" text-anchor="middle" font-size="14" fill="#1e293b">Phone</text>
+                        <!-- Address (x=930..1060) -->
+                        <rect x="930" y="405" width="130" height="44" fill="#f8fafc" stroke="#475569" stroke-width="1.5"/>
+                        <text x="995" y="432" text-anchor="middle" font-size="14" fill="#1e293b">Address</text>
+
+                        <!-- ================= TABLE 6: PRESCRIPTION (x=70, y=585) ================= -->
+                        <text x="70" y="572" font-size="16" font-weight="bold" fill="#0f172a">6. Prescription (الجدول المركزي - يخرج منه 4 أسهم FK)</text>
+                        <!-- Pre_id [PK] (x=70..195) -->
+                        <rect x="70" y="585" width="125" height="44" fill="#dcfce7" stroke="#16a34a" stroke-width="2"/>
+                        <text x="132" y="612" text-anchor="middle" font-size="14" font-weight="bold" fill="#14532d" text-decoration="underline">Pre_id (PK)</text>
+                        <!-- Pre_Date (x=195..305) -->
+                        <rect x="195" y="585" width="110" height="44" fill="#f8fafc" stroke="#475569" stroke-width="1.5"/>
+                        <text x="250" y="612" text-anchor="middle" font-size="14" fill="#1e293b">Pre_Date</text>
+                        <!-- Quantity (x=305..415) -->
+                        <rect x="305" y="585" width="110" height="44" fill="#f8fafc" stroke="#475569" stroke-width="1.5"/>
+                        <text x="360" y="612" text-anchor="middle" font-size="14" fill="#1e293b">Quantity</text>
+                        <!-- SSN [FK] (x=415..535) -->
+                        <rect x="415" y="585" width="120" height="44" fill="#dbeafe" stroke="#2563eb" stroke-width="2"/>
+                        <text x="475" y="612" text-anchor="middle" font-size="14" font-weight="bold" fill="#1e40af">SSN (FK)</text>
+                        <!-- DSSN [FK] (x=535..660) -->
+                        <rect x="535" y="585" width="125" height="44" fill="#dbeafe" stroke="#2563eb" stroke-width="2"/>
+                        <text x="597" y="612" text-anchor="middle" font-size="14" font-weight="bold" fill="#1e40af">DSSN (FK)</text>
+                        <!-- Trade_Name [FK] (x=660..830) -->
+                        <rect x="660" y="585" width="170" height="44" fill="#dbeafe" stroke="#2563eb" stroke-width="2"/>
+                        <text x="745" y="612" text-anchor="middle" font-size="14" font-weight="bold" fill="#1e40af">Trade_Name (FK)</text>
+                        <!-- Pname [FK] (x=830..960) -->
+                        <rect x="830" y="585" width="130" height="44" fill="#dbeafe" stroke="#2563eb" stroke-width="2"/>
+                        <text x="895" y="612" text-anchor="middle" font-size="14" font-weight="bold" fill="#1e40af">Pname (FK)</text>
+
+                        <!-- ========================================================================= -->
+                        <!-- ARROWS FROM EVERY FOREIGN KEY (FK) TO ITS TARGET PRIMARY KEY (PK)         -->
+                        <!-- ========================================================================= -->
+
+                        <!-- Arrow 1: Patients.DSSN (FK) (550, 230) -> Doctors.DSSN (PK) (130, 99) -->
+                        <circle cx="550" cy="230" r="4.5" fill="#2563eb"/>
+                        <path d="M 550 230 L 550 155 L 130 155 L 130 103" fill="none" stroke="#2563eb" stroke-width="2.5" marker-end="url(#arr-blue)"/>
+
+                        <!-- Arrow 2: Drug.CName (FK) (1010, 230) -> Pharm_Company.CName (PK) (750, 99) -->
+                        <circle cx="1010" cy="230" r="4.5" fill="#7c3aed"/>
+                        <path d="M 1010 230 L 1010 155 L 750 155 L 750 103" fill="none" stroke="#7c3aed" stroke-width="2.5" marker-end="url(#arr-purple)"/>
+
+                        <!-- Arrow 3: Prescription.SSN (FK) (475, 585) -> Patients.SSN (PK) (125, 274) -->
+                        <circle cx="475" cy="585" r="4.5" fill="#e11d48"/>
+                        <path d="M 475 585 L 475 495 L 125 495 L 125 278" fill="none" stroke="#e11d48" stroke-width="2.5" marker-end="url(#arr-rose)"/>
+
+                        <!-- Arrow 4: Prescription.DSSN (FK) (597, 629) -> Doctors.DSSN (PK) (70, 77) via left margin -->
+                        <circle cx="597" cy="629" r="4.5" fill="#0d9488"/>
+                        <path d="M 597 629 L 597 695 L 30 695 L 30 77 L 66 77" fill="none" stroke="#0d9488" stroke-width="2.5" marker-end="url(#arr-teal)"/>
+
+                        <!-- Arrow 5: Prescription.Trade_Name (FK) (745, 585) -> Drug.Trade_Name (PK) (680, 252) -->
+                        <circle cx="745" cy="585" r="4.5" fill="#d97706"/>
+                        <path d="M 745 585 L 745 525 L 645 525 L 645 252 L 676 252" fill="none" stroke="#d97706" stroke-width="2.5" marker-end="url(#arr-amber)"/>
+
+                        <!-- Arrow 6: Prescription.Pname (FK) (895, 585) -> Pharmacy.Pname (PK) (745, 449) -->
+                        <circle cx="895" cy="585" r="4.5" fill="#2563eb"/>
+                        <path d="M 895 585 L 895 525 L 745 525 L 745 453" fill="none" stroke="#2563eb" stroke-width="2.5" marker-end="url(#arr-blue)"/>
+                    </svg>
+                </div>
+            </div>
+
+            <!-- Step 4: Full SQL Application on Pharmacy System -->
+            <div class="master-practice-box">
+                <div class="master-practice-header">
+                    <span class="master-practice-badge">التطبيق الكامل بالـ SQL على سؤال الصيدلية</span>
+                    <h3>💻 تطبيق السكاشن الثلاثة (<span class="term" dir="ltr">CREATE + ALTER + DML</span>) على نظام الصيدلية بالكامل</h3>
+                </div>
+                <p>دلوقتي بعد ما طلعنا الـ <span class="term" dir="ltr">Schema</span> بالأسهم، ده الكود الكامل لتنفيذ مشروع الصيدلية في أوراكل مقسم على السكاشن الثلاثة:</p>
+
+                <h4>1️⃣ تطبيق <span class="term" dir="ltr">Section 1</span>: إنشاء الـ 6 جداول بالـ <span class="term" dir="ltr">Primary Keys</span> والـ <span class="term" dir="ltr">Foreign Keys</span></h4>
+                <div class="code-container">
+                    <div class="code-header">
+                        <span class="code-lang-tag"><span class="code-dots"><span class="code-dot red"></span><span class="code-dot yellow"></span><span class="code-dot green"></span></span>PART 1: CREATE ALL 6 PHARMACY TABLES</span>
+                        <button class="copy-btn">نسخ الكود</button>
+                    </div>
+                    <pre>-- 1. جدول الدكاترة (Parent Table 1):
+CREATE TABLE Doctors (
+    Dssn number constraint doc_pk primary key,
+    name varchar2(50) not null,
+    speciality varchar2(100) default 'General' not null,
+    exp_years number default 1 not null constraint doc_exp_chk check (exp_years >= 0)
+);
+
+-- 2. جدول شركات الأدوية (Parent Table 2):
+CREATE TABLE Pharm_Company (
+    CName varchar2(100),
+    Phone varchar2(20) not null,
+    constraint comp_pk primary key (CName),
+    constraint comp_phone_uni unique (Phone)
+);
+
+-- 3. جدول الصيدليات (Parent Table 3):
+CREATE TABLE Pharmacy (
+    Pname varchar2(100) constraint pharm_pk primary key,
+    Phone varchar2(20) not null constraint pharm_phone_uni unique,
+    Address varchar2(150) not null
+);
+
+-- 4. جدول المرضى (يرتبط بـ Doctors عن طريق DSSN):
+CREATE TABLE Patients (
+    ssn number constraint pat_pk primary key,
+    name varchar2(50) not null,
+    age number not null constraint pat_age_chk check (age > 0),
+    address varchar2(100) not null,
+    dssn number constraint pat_doc_fk references Doctors (Dssn)
+);
+
+-- 5. جدول الأدوية (يرتبط بـ Pharm_Company عن طريق CName):
+CREATE TABLE Drug (
+    Trade_Name varchar2(100) constraint drug_pk primary key,
+    Formula varchar2(200) not null,
+    CName varchar2(100) not null,
+    constraint drug_comp_fk foreign key (CName) references Pharm_Company (CName)
+);
+
+-- 6. جدول الروشتات المركزي (يرتبط بـ 4 جداول عن طريق 4 Foreign Keys):
+CREATE TABLE Prescription (
+    Pre_id number constraint pre_pk primary key,
+    Pre_Date date default sysdate not null,
+    Quantity number default 1 not null constraint pre_qty_chk check (Quantity > 0),
+    ssn number not null,
+    dssn number not null,
+    Trade_Name varchar2(100) not null,
+    Pname varchar2(100) not null,
+    constraint pre_pat_fk   foreign key (ssn)        references Patients (ssn),
+    constraint pre_doc_fk   foreign key (dssn)       references Doctors (Dssn),
+    constraint pre_drug_fk  foreign key (Trade_Name) references Drug (Trade_Name),
+    constraint pre_pharm_fk foreign key (Pname)      references Pharmacy (Pname)
+);</pre>
+                </div>
+
+                <h4>2️⃣ تطبيق <span class="term" dir="ltr">Section 2 - Part 1</span>: تعديل هيكل جداول الصيدلية بـ <span class="term" dir="ltr">ALTER TABLE</span></h4>
+                <div class="code-container">
+                    <div class="code-header">
+                        <span class="code-lang-tag"><span class="code-dots"><span class="code-dot red"></span><span class="code-dot yellow"></span><span class="code-dot green"></span></span>PART 2: ALTER PHARMACY TABLES (11 OPERATIONS)</span>
+                        <button class="copy-btn">نسخ الكود</button>
+                    </div>
+                    <pre>-- إضافة أعمدة جديدة وعليها Default و Constraints:
+ALTER TABLE Patients ADD birth_date date;
+ALTER TABLE Patients ADD (height number, weight number);
+ALTER TABLE Patients ADD gender varchar2(15) default 'Not Specified';
+ALTER TABLE Drug ADD price number default 10 not null;
+ALTER TABLE Drug ADD discount number check (discount >= 0);
+
+-- تعديل الحجم بـ MODIFY وتحويل عمود إلى Not Null ثم Null:
+ALTER TABLE Drug MODIFY Formula varchar2(300);
+ALTER TABLE Doctors ADD email varchar2(50);
+ALTER TABLE Doctors MODIFY email not null;
+ALTER TABLE Doctors MODIFY email null;
+ALTER TABLE Doctors MODIFY exp_years null;
+
+-- حذف عمود واحد بـ DROP COLUMN وحذف عدة أعمدة بـ DROP (...):
+ALTER TABLE Patients DROP COLUMN birth_date;
+ALTER TABLE Patients DROP (height, weight, gender);
+ALTER TABLE Drug DROP (price, discount);
+ALTER TABLE Doctors DROP COLUMN email;
+
+-- إعادة تسمية عمود وإعادة تسمية جدول:
+ALTER TABLE Doctors RENAME COLUMN name TO dname;
+ALTER TABLE Pharmacy RENAME TO Pharmacies_List;
+ALTER TABLE Pharmacies_List RENAME TO Pharmacy;
+
+-- إضافة قيد، تعطيله، تفعيله، ثم حذفه:
+ALTER TABLE Patients ADD CONSTRAINT pat_max_age_chk CHECK (age <= 120);
+ALTER TABLE Patients DISABLE CONSTRAINT pat_max_age_chk;
+ALTER TABLE Patients ENABLE CONSTRAINT pat_max_age_chk;
+ALTER TABLE Patients DROP CONSTRAINT pat_max_age_chk;</pre>
+                </div>
+
+                <h4>3️⃣ تطبيق <span class="term" dir="ltr">Section 2 - Part 2</span>: إدخال وتعديل وحذف البيانات (<span class="term" dir="ltr">INSERT, UPDATE, DELETE</span>)</h4>
+                <div class="code-container">
+                    <div class="code-header">
+                        <span class="code-lang-tag"><span class="code-dots"><span class="code-dot red"></span><span class="code-dot yellow"></span><span class="code-dot green"></span></span>PART 3: POPULATE &amp; MANIPULATE PHARMACY DATA</span>
+                        <button class="copy-btn">نسخ الكود</button>
+                    </div>
+                    <pre>-- 1. إدخال الدكاترة بالأربع طرق (مباشر، بترتيب مخصص، و NULL ضمني وصريح):
+INSERT INTO Doctors VALUES (123, 'DR.Mirna', 'Dermatology', 10);
+INSERT INTO Doctors (speciality, dname, Dssn, exp_years) VALUES ('Dermatology', 'DR.Omar', 124, 5);
+INSERT INTO Doctors (speciality, Dssn, dname) VALUES ('Internal medicine', 125, 'DR.Nada');
+INSERT INTO Doctors VALUES (126, 'DR.Ali', 'Internal medicine', null);
+
+-- 2. إدخال جماعي بـ INSERT ALL في الجداول الستة لنظام الصيدلية:
+INSERT ALL
+    INTO Doctors VALUES (127, 'DR.Youmna', 'Dermatology', 3)
+    INTO Doctors VALUES (128, 'DR.Marwan', 'Pediatrics', null)
+    INTO Pharm_Company VALUES ('Pfizer', '0100000001')
+    INTO Pharm_Company VALUES ('Novartis', '0100000002')
+    INTO Pharmacy VALUES ('El-Ezaby', '19600', 'Cairo - Nasr City')
+    INTO Pharmacy VALUES ('Seif Pharmacy', '19199', 'Zagazig - University St')
+    INTO Drug VALUES ('Panadol', 'Paracetamol 500mg', 'Pfizer')
+    INTO Drug VALUES ('Voltaren', 'Diclofenac Sodium', 'Novartis')
+    INTO Patients VALUES (1, 'Mohamed', 55, 'Zagazig', 123)
+    INTO Patients VALUES (2, 'Ahmed', 30, 'Cairo', 124)
+    INTO Prescription VALUES (1001, sysdate, 2, 1, 123, 'Panadol', 'El-Ezaby')
+    INTO Prescription VALUES (1002, sysdate, 1, 2, 124, 'Voltaren', 'Seif Pharmacy')
+SELECT 1 FROM dual;
+
+-- 3. تعديل البيانات بـ UPDATE:
+UPDATE Doctors SET exp_years = 12 WHERE Dssn = 123;
+UPDATE Prescription SET Quantity = 3, Pname = 'Seif Pharmacy' WHERE Pre_id = 1001;
+
+-- 4. حذف دكتور غير مرتبط بمرضى ثم حفظ البيانات نهائياً بـ COMMIT:
+DELETE FROM Doctors WHERE Dssn = 128;
+COMMIT;
+
+-- 5. تجربة مسح الروشتات بالخطأ واسترجاعها فوراً بـ ROLLBACK:
+DELETE FROM Prescription;
+ROLLBACK;</pre>
+                </div>
+            </div>
+
+            <div class="section-nav-buttons">
+                <button class="btn-step-nav secondary" data-goto="sec-dml">➡️ العودة للسكشن الثاني (جزء 2): أوامر <span class="term" dir="ltr">DML</span></button>
+                <button class="btn-step-nav" data-goto="sec-original">الانتقال إلى الكود الأصلي للسكشن كامل ⬅️</button>
+            </div>
+        </section>
+
+        <!-- =================================================================== -->
+        <!-- TAB 5: ORIGINAL SCRIPT DECODED & CLEANED                            -->
+        <!-- =================================================================== -->
+        <section id="sec-original" class="course-section">
+            <div class="section-banner">
+                <span class="section-badge">Original Section Code</span>
+                <h2>الكود الأصلي للسكشن كامل بعد فك علامات الاستفهام</h2>
+                <p>ده الكود الأصلي بتاع السكشن بنفس ترتيبه، بعد توضيح السطور اللي كان فيها علامات استفهام أو أخطاء مقصودة للشرح.</p>
+            </div>
+
+            <div class="content-card">
+                <h3>📜 ملف السكشن الأصلي كامل</h3>
+                <div class="code-container">
+                    <div class="code-header">
+                        <span class="code-lang-tag"><span class="code-dots"><span class="code-dot red"></span><span class="code-dot yellow"></span><span class="code-dot green"></span></span>ORIGINAL SECTION SQL SCRIPT</span>
+                        <button class="copy-btn">نسخ الكود الأصلي</button>
+                    </div>
+                    <pre>--Section1
+--CH10
+--Create Syntax
+--column level constraints
+create table Doctors(
+Dssn number not null/unique/primary key / check(number >0),
+
+Dssn number [default 1],
+
+Dssn number [primary key] ,  -- column level constraint
+
+Dssn number [constraint dssn_const primary key],
+
+Dssn number default 5 not null,
+
+Dssn number default 5 constraint nn_const not null,
+-- xxxxxxx composite primary key (غلط على مستوى العمود)
+dssn number primary key ,
+name varchar2(50) primary key ,
+);
+
+--Table level constraint
+create table Doctors(
+Dssn number , name varchar2(50) ,
+
+constraint pk_const primary key (Dssn),
+
+constraint uni_const unique (name)
+
+-- xxxxx constraint nn_cons not null() (غلط على مستوى الجدول)
+);
+
+create table Doctors (
+Dssn number primary key,
+name varchar2(50) not null,
+speciality varchar2(100) not null,
+exp_years number not null
+);
+
+create table patients (
+ssn number primary key ,
+name varchar2(50) not null,
+age number not null,
+address varchar2(100) not null,
+dssn number references doctors (dssn) -- column level constraint
+--dssn number constraint dssn_fk references doctors (dssn)  -- column level constraint
+);
+
+-- foreign key in table level constraint
+create table patients (
+ssn number primary key ,
+name varchar2(50) not null,
+age number not null,
+address varchar2(100) not null,
+dssn number ,
+constraint dssn_fk foreign key (dssn ) references doctors (dssn)
+);
+
+-- drop table
+drop table patients;
+
+-- truncate table
+truncate table patients;
+
+--***********************************************************
+--Section2 Part1
+--Alter Command
+--1 Add column(s)
+Alter table patients add date_birth date ;
+Alter table patients add (x number , y number);
+
+--2 Add column with default value
+alter table patients add gender varchar2(15) default 'not defined';
+
+--3 Add column with constraint
+alter table patients add z number not null;
+alter table patients add xx number check(xx >0);
+
+--4 Modify column(s) datatype or size
+alter table patients modify z varchar2(50);
+alter table patients modify z varchar2(100);
+
+--5 Make column Not null
+alter table patients add w number;
+alter table patients modify w not null;
+
+--6 Remove not null // column with null
+alter table patients modify w null;
+
+--7 Drop column(s)
+alter table patients drop column date_birth;
+alter table patients drop (x,y,z,gender,xx,w);
+
+--8 Rename column
+alter table patients rename column name to pname;
+alter table patients rename column pname to name;
+
+-- Rename table
+alter table patients rename to ppatients;
+alter table ppatients rename to patients;
+
+--9 Add constraint
+alter table patients add constraint age_chk_const check(age>0);
+alter table patients add constraint pk_add_const unique(address);
+
+--10 Remove constraint
+alter table patients drop constraint age_chk_const;
+alter table patients drop constraint pk_add_const;
+
+--11 Enable and Disable Constraint
+alter table patients disable constraint age_chk_const;
+alter table patients enable constraint age_chk_const;
+
+--**********************************
+--Section2 Part2
+--CH9 (DML Data Manipulation Language) : التعامل مع البيانات والصفوف (إضافة / تعديل / حذف)
+--insert : إضافة صف أو أكثر في الجدول سواء لكل الأعمدة أو لأعمدة محددة
+--/ update / delete
+
+--**Insert command**
+--1 insert 1 row in a table 
+-- 123, mirna, dermatology, 10
+-- 124 , Omar, dermatology, 5
+-- لو مكتبناش أسماء الأعمدة لازم ندخل كل القيم وبنفس ترتيب الجدول:
+insert into doctors
+values(123,'DR.Mirna','Dematalogy',10);
+
+insert into doctors (speciality, dname,dssn, exp_years)
+values('Dematology', 'DR.Omar', 124,5);
+
+Alter table doctors modify exp_years null;
+
+insert into doctors (speciality, dssn, dname)
+values('Internal medicine', 125, 'DR.Nada');
+
+insert into doctors
+values(126,'DR.Ali','Internal medicine',null);
+
+-- insert multiple rows in a table/ tables
+insert all
+into doctors
+values(127,'DR.Youmna','Dermatology',3)
+into doctors 
+values(128,'DR.Marwan','General Pediatrics',null)
+select 1 from dual;
+
+insert all
+into doctors(dname,dssn,speciality)
+values('DR.Eman',129,'Neurosurgery')
+into patients
+values(1,'Mohamed',55,'Zagazig',123)
+select 1 from dual;
+
+--**Update Command**
+--1 update column for all rows
+update doctors
+set exp_years= 2;
+
+--2 update 2 columns for all rows
+update doctors
+set exp_years=5, speciality='Dematology';
+
+--3 update column for specific rows
+update doctors
+set exp_years=8
+where dssn=123;
+
+update doctors
+set speciality='Neurosurgery'
+where exp_years=5;
+-- where condition1 [column operator(>,<,=,<>,>=,<=) value] && or condition
+
+--**Delete**
+--Delete all rows
+delete from patients;
+
+--Delete certain rows
+delete from doctors
+where dssn=128;
+
+commit;
+rollback;</pre>
+                </div>
+            </div>
+
+            <div class="section-nav-buttons">
+                <button class="btn-step-nav secondary" data-goto="sec-pharmacy">➡️ العودة لتطبيق نظام الصيدلية (<span class="term" dir="ltr">LAB 1</span>)</button>
+                <button class="btn-step-nav" data-goto="sec-ch10">العودة إلى بداية الموقع (السكشن الأول) ⏫</button>
+            </div>
+        </section>
+
+    </main>
+
+    <script src="app.js"></script>
+</body>
+</html>
