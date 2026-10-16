@@ -37,94 +37,162 @@
         <!-- =================================================================== -->
         <div id="landing-view" class="landing-view">
             <div class="landing-hero">
-                <span class="landing-hero-badge">Oracle Database SQL — Complete Study Guide</span>
-                <h2>اختار السكشن اللي عايز تذاكره وتطبق عليه</h2>
-                <p>كل سكشن بيبدأ بتشريح تفصيلي لكل أمر وصيغته العامة، وبعدها الشرح الكامل لأكواد السكشن سطر بسطر، وجداول مقارنات الامتحانات، وفي النهاية تطبيق عملي شامل يجمع كل أوامر السكشن مرة واحدة.</p>
-                <div class="landing-stats">
-                    <span class="stat-pill">📚 ٣ سكاشن مشروحة بالتفصيل</span>
-                    <span class="stat-pill">🔍 تشريح الصيغة العامة لكل أمر</span>
-                    <span class="stat-pill">⚖️ جداول مقارنات الامتحانات</span>
-                    <span class="stat-pill">🏥 تطبيق كامل على سؤال الصيدلية بالأسهم</span>
+                <span class="landing-hero-badge">⚡ Oracle Database SQL — Complete Interactive Course</span>
+                <h2>المنصة الشاملة لمذاكرة وتطبيق <span>Oracle SQL</span></h2>
+                <p>كل سكشن بيبدأ بتشريح تفصيلي للصيغة العامة لكل أمر، يليه شرح أكواد السكشن سطر بسطر، وجداول المقارنات الخاصة بالامتحانات، مع تطبيق عملي متكامل بعد كل سكشن ومشروع نظام الصيدلية الكامل.</p>
+
+                <!-- Interactive Quick Roadmap -->
+                <div class="roadmap-bar">
+                    <div class="roadmap-step" data-goto="sec-ch10">
+                        <div class="roadmap-num">1</div>
+                        <div class="roadmap-step-text">
+                            <strong>السكشن الأول: بناء الجداول</strong>
+                            <span>CREATE &amp; Constraints (CH10)</span>
+                        </div>
+                    </div>
+                    <div class="roadmap-step" data-goto="sec-alter">
+                        <div class="roadmap-num">2</div>
+                        <div class="roadmap-step-text">
+                            <strong>السكشن الثاني (١): تعديل الهيكل</strong>
+                            <span>ALTER TABLE (11 Operations)</span>
+                        </div>
+                    </div>
+                    <div class="roadmap-step" data-goto="sec-dml">
+                        <div class="roadmap-num">3</div>
+                        <div class="roadmap-step-text">
+                            <strong>السكشن الثاني (٢): البيانات</strong>
+                            <span>INSERT, UPDATE, DELETE (CH9)</span>
+                        </div>
+                    </div>
+                    <div class="roadmap-step" data-goto="sec-pharmacy">
+                        <div class="roadmap-num">4</div>
+                        <div class="roadmap-step-text">
+                            <strong>التطبيق الشامل: الصيدلية</strong>
+                            <span>ER + Mapping + Schema + SQL</span>
+                        </div>
+                    </div>
                 </div>
             </div>
 
-            <h3 class="landing-grid-title">🗂️ أقسام وسكاشن المنهج (اضغط على أي سكشن للدخول):</h3>
+            <div class="landing-grid-header">
+                <h3 class="landing-grid-title">🗂️ اختار السكشن اللي عايز تبدأ تذاكره دلوقتي:</h3>
+                <span class="landing-grid-subtitle">اضغط على أي كارت لفتح الشرح التفصيلي والأكواد الخاصة به</span>
+            </div>
 
             <div class="landing-cards-grid">
                 <!-- Card 1: Section 1 -->
                 <div class="section-card-portal" data-goto="sec-ch10">
                     <div>
                         <div class="portal-card-top">
-                            <span class="portal-step-num">السكشن الأول — CH10</span>
-                            <span class="portal-icon">🏗️</span>
+                            <span class="portal-step-num">السكشن الأول — CH10 (DDL)</span>
+                            <div class="portal-icon-box">🏗️</div>
                         </div>
-                        <h3>إنشاء الجداول والـ <span class="term" dir="ltr">Constraints</span></h3>
-                        <p>شرح أوامر <span class="term" dir="ltr">DDL</span> لبناء الجداول، وأنواع القيود الخمسة، والفرق بين <span class="term" dir="ltr">Column-Level</span> و <span class="term" dir="ltr">Table-Level</span>.</p>
+                        <h3>إنشاء الجداول والقيود القياسية</h3>
+                        <p>شرح أوامر بناء الجداول من الصفر، وأنواع القيود الخمسة لحماية البيانات، والفرق الجوهري بين كتابة القيد على مستوى العمود أو على مستوى الجدول.</p>
+                        <div class="portal-tags-row">
+                            <span class="portal-tag">CREATE TABLE</span>
+                            <span class="portal-tag">PRIMARY KEY</span>
+                            <span class="portal-tag">FOREIGN KEY</span>
+                            <span class="portal-tag">UNIQUE</span>
+                            <span class="portal-tag">NOT NULL</span>
+                            <span class="portal-tag">CHECK</span>
+                            <span class="portal-tag">DEFAULT</span>
+                            <span class="portal-tag">DROP / TRUNCATE</span>
+                        </div>
                         <ul class="portal-topics-list">
-                            <li>تشريح أمر <span class="term" dir="ltr">CREATE TABLE</span> وكل أنواع الـ <span class="term" dir="ltr">Constraints</span></li>
-                            <li>شرح <span class="term" dir="ltr">PK, FK, Unique, Not Null, Check, Default</span></li>
-                            <li>مقارنة <span class="term" dir="ltr">Column-Level</span> ضد <span class="term" dir="ltr">Table-Level</span> والأخطاء المشهورة</li>
-                            <li>الفرق بين <span class="term" dir="ltr">DROP TABLE</span> و <span class="term" dir="ltr">TRUNCATE TABLE</span> + تطبيق شامل</li>
+                            <li>تشريح الصيغة العامة لأمر الإنشاء وجميع أنواع القيود بالتفصيل.</li>
+                            <li>مقارنة شاملة بين القيود الخمسة من حيث التكرار والفراغ.</li>
+                            <li>المقارنة بين مستوى العمود ومستوى الجدول وتفسير أخطاء الكود.</li>
+                            <li>الفرق بين هدم الجدول بالكامل وتفريغ بياناته + تطبيق شامل.</li>
                         </ul>
                     </div>
-                    <button class="portal-enter-btn">الدخول إلى السكشن الأول ⬅️</button>
+                    <button class="portal-enter-btn">ابدأ مذاكرة السكشن الأول ⬅️</button>
                 </div>
 
                 <!-- Card 2: Section 2 Part 1 -->
-                <div class="section-card-portal" data-goto="sec-alter">
+                <div class="section-card-portal card-indigo" data-goto="sec-alter">
                     <div>
                         <div class="portal-card-top">
-                            <span class="portal-step-num">السكشن الثاني (جزء ١)</span>
-                            <span class="portal-icon">🔧</span>
+                            <span class="portal-step-num">السكشن الثاني — الجزء الأول</span>
+                            <div class="portal-icon-box">🔧</div>
                         </div>
-                        <h3>التعديل على هيكل الجدول <span class="term" dir="ltr">ALTER TABLE</span></h3>
-                        <p>شرح الـ ١١ عملية لتعديل الجداول بعد إنشائها من إضافة وتعديل وحذف أعمدة وإدارة الـ <span class="term" dir="ltr">Constraints</span>.</p>
+                        <h3>التعديل على هيكل الجدول</h3>
+                        <p>إتقان الـ ١١ عملية الخاصة بتعديل الجداول بعد إنشائها، من إضافة وتعديل وحذف وإعادة تسمية الأعمدة وإدارة القيود.</p>
+                        <div class="portal-tags-row">
+                            <span class="portal-tag">ALTER TABLE</span>
+                            <span class="portal-tag">ADD</span>
+                            <span class="portal-tag">MODIFY</span>
+                            <span class="portal-tag">DROP COLUMN</span>
+                            <span class="portal-tag">RENAME</span>
+                            <span class="portal-tag">ADD CONSTRAINT</span>
+                            <span class="portal-tag">DISABLE / ENABLE</span>
+                        </div>
                         <ul class="portal-topics-list">
-                            <li>تشريح صيغ <span class="term" dir="ltr">ADD</span> و <span class="term" dir="ltr">MODIFY</span> و <span class="term" dir="ltr">DROP</span> و <span class="term" dir="ltr">RENAME</span></li>
-                            <li>تركة الفرق بين <span class="term" dir="ltr">DROP COLUMN</span> و <span class="term" dir="ltr">DROP (col1, col2)</span></li>
-                            <li>تحويل العمود إلى <span class="term" dir="ltr">NOT NULL</span> وإلغاؤه لـ <span class="term" dir="ltr">NULL</span></li>
-                            <li>إضافة وحذف وتعطيل وتفعيل القيود <span class="term" dir="ltr">DISABLE / ENABLE</span> + تطبيق شامل</li>
+                            <li>تشريح صيغ الإضافة والتعديل والحذف وإعادة التسمية بالتفصيل.</li>
+                            <li>تركة الامتحانات في الفرق بين حذف عمود واحد وحذف عدة أعمدة معاً.</li>
+                            <li>تحويل العمود ليصبح إجبارياً أو إرجاعه ليقبل القيم الفارغة.</li>
+                            <li>إضافة وحذف وتعطيل وتفعيل القيود + تطبيق شامل للـ ١١ عملية.</li>
                         </ul>
                     </div>
-                    <button class="portal-enter-btn">الدخول إلى السكشن الثاني (جزء ١) ⬅️</button>
+                    <button class="portal-enter-btn">ابدأ مذاكرة السكشن الثاني (جزء ١) ⬅️</button>
                 </div>
 
                 <!-- Card 3: Section 2 Part 2 -->
-                <div class="section-card-portal" data-goto="sec-dml">
+                <div class="section-card-portal card-amber" data-goto="sec-dml">
                     <div>
                         <div class="portal-card-top">
-                            <span class="portal-step-num">السكشن الثاني (جزء ٢) — CH9</span>
-                            <span class="portal-icon">⚡</span>
+                            <span class="portal-step-num">السكشن الثاني — الجزء الثاني (CH9)</span>
+                            <div class="portal-icon-box">⚡</div>
                         </div>
-                        <h3>التعامل مع البيانات <span class="term" dir="ltr">DML &amp; TCL</span></h3>
-                        <p>شرح أوامر إضافة الصفوف وتعديلها وحذفها، وأوامر تثبيت الحفظ أو التراجع، والمقارنة الثلاثية للامتحانات.</p>
+                        <h3>معالجة البيانات والحفظ والتراجع</h3>
+                        <p>شرح أوامر التعامل مع الصفوف والبيانات داخل الجداول من إضافة وتحديث وحذف، وأوامر تثبيت التعديلات أو التراجع عنها.</p>
+                        <div class="portal-tags-row">
+                            <span class="portal-tag">INSERT INTO</span>
+                            <span class="portal-tag">INSERT ALL</span>
+                            <span class="portal-tag">UPDATE ... SET</span>
+                            <span class="portal-tag">WHERE</span>
+                            <span class="portal-tag">DELETE FROM</span>
+                            <span class="portal-tag">COMMIT</span>
+                            <span class="portal-tag">ROLLBACK</span>
+                        </div>
                         <ul class="portal-topics-list">
-                            <li>تشريح <span class="term" dir="ltr">INSERT INTO</span> (الأربع طرق) و <span class="term" dir="ltr">INSERT ALL</span></li>
-                            <li>إدخال <span class="term" dir="ltr">NULL</span> بالطريقة الضمنية <span class="term" dir="ltr">Implicit</span> والصريحة <span class="term" dir="ltr">Explicit</span></li>
-                            <li>أمر التعديل <span class="term" dir="ltr">UPDATE</span> وأمر الحذف <span class="term" dir="ltr">DELETE</span> بشرط <span class="term" dir="ltr">WHERE</span> وبدونه</li>
-                            <li>شرح <span class="term" dir="ltr">COMMIT &amp; ROLLBACK</span> ومقارنة <span class="term" dir="ltr">DROP vs TRUNCATE vs DELETE</span></li>
+                            <li>تشريح الطرق الأربعة لإدخال البيانات والإضافة الجماعية في عدة جداول.</li>
+                            <li>إدخال القيم الفارغة بالطريقة الضمنية والطريقة الصريحة.</li>
+                            <li>تحديث البيانات وحذف الصفوف باستخدام الشروط وبدونها.</li>
+                            <li>المقارنة الثلاثية الذهبية للامتحانات بين أوامر المسح الثلاثة + تطبيق شامل.</li>
                         </ul>
                     </div>
-                    <button class="portal-enter-btn">الدخول إلى السكشن الثاني (جزء ٢) ⬅️</button>
+                    <button class="portal-enter-btn">ابدأ مذاكرة السكشن الثاني (جزء ٢) ⬅️</button>
                 </div>
 
                 <!-- Card 4: Full Pharmacy Case Study (Featured Full-Width Card) -->
                 <div class="section-card-portal featured-project" data-goto="sec-pharmacy">
                     <div>
                         <div class="portal-card-top">
-                            <span class="portal-step-num">تطبيق شامل على المنهج بالكامل — LAB 1</span>
-                            <span class="portal-icon">🏥</span>
+                            <span class="portal-step-num">تطبيق شامل على المنهج بالكامل — LAB 1 Project</span>
+                            <div class="portal-icon-box">🏥</div>
                         </div>
-                        <h3>مشروع نظام الصيدلية المتكامل (<span class="term" dir="ltr">ER Diagram + Mapping + Schema + Full SQL</span>)</h3>
-                        <p>تطبيق عملي كامل على سؤال ملف الـ <span class="term" dir="ltr">PDF</span> يأخذك من قراءة السؤال ورسم الـ <span class="term" dir="ltr">ER Diagram</span> وعمل الـ <span class="term" dir="ltr">Mapping</span> ورسم الـ <span class="term" dir="ltr">Schema</span> بالأسهم الموجهة من كل <span class="term" dir="ltr">Foreign Key</span> إلى الـ <span class="term" dir="ltr">Primary Key</span>، حتى كتابة أكواد الـ ٣ سكاشن كاملة على الـ ٦ جداول!</p>
+                        <h3>مشروع نظام الصيدلية المتكامل (من قراءة السؤال إلى الكود الكامل)</h3>
+                        <p>تطبيق عملي كامل على سؤال نظام الصيدلية المرفق يأخذك خطوة بخطوة من تحليل السؤال ورسم المخطط، إلى شرح قواعد التحويل ورسم السكيما بالأسهم من كل مفتاح أجنبي إلى المفتاح الأساسي، ثم كتابة أكواد السكاشن الثلاثة كاملة على الجداول الستة!</p>
+                        <div class="portal-tags-row">
+                            <span class="portal-tag">ER Diagram</span>
+                            <span class="portal-tag">1:M Mapping Rules</span>
+                            <span class="portal-tag">Relational Schema + FK Arrows</span>
+                            <span class="portal-tag">Doctors</span>
+                            <span class="portal-tag">Patients</span>
+                            <span class="portal-tag">Prescription</span>
+                            <span class="portal-tag">Drug</span>
+                            <span class="portal-tag">Pharmacy</span>
+                            <span class="portal-tag">Pharm_Company</span>
+                        </div>
                         <ul class="portal-topics-list">
-                            <li>نص السؤال الأصلي وتفريغ الـ ٦ كيانات (<span class="term" dir="ltr">Patient, Doctor, Drug, Pharm_Company, Pharmacy, Prescription</span>)</li>
-                            <li>رسمة الـ <span class="term" dir="ltr">ER Diagram</span> الكاملة + شرح قواعد الـ <span class="term" dir="ltr">Mapping</span> لعلاقات <span class="term" dir="ltr">1 : M</span></li>
-                            <li>رسمة الـ <span class="term" dir="ltr">Relational Schema</span> مرسوم عليها الأسهم من كل <span class="term" dir="ltr">FK</span> إلى الـ <span class="term" dir="ltr">PK</span> بتاعه</li>
-                            <li>الكود التطبيقي الكامل للـ ٦ جداول (<span class="term" dir="ltr">CREATE + ALTER + INSERT + UPDATE + DELETE</span>)</li>
+                            <li>نص السؤال الأصلي وتفريغ الكيانات الستة والخصائص والمفاتيح الأساسية.</li>
+                            <li>رسمة المخطط الكاملة + شرح قواعد تحويل علاقات الواحد إلى متعدد بالتفصيل.</li>
+                            <li>رسمة السكيما النهائية موضح عليها الأسهم الملونة من كل مفتاح أجنبي إلى المفتاح الأساسي.</li>
+                            <li>الكود التطبيقي الشامل لبناء وتعديل وتشغيل الجداول الستة لنظام الصيدلية.</li>
                         </ul>
                     </div>
-                    <button class="portal-enter-btn">الدخول إلى التطبيق الشامل (مشروع الصيدلية) ⬅️</button>
+                    <button class="portal-enter-btn">افتح التطبيق الشامل ومشروع الصيدلية ⬅️</button>
                 </div>
 
                 <!-- Card 5: Original Code Reference -->
@@ -132,10 +200,10 @@
                     <div>
                         <div class="portal-card-top">
                             <span class="portal-step-num">مرجع الكود الأصلي</span>
-                            <span class="portal-icon">📜</span>
+                            <div class="portal-icon-box">📜</div>
                         </div>
                         <h3>الكود الأصلي للسكشن كامل (بعد فك علامات الاستفهام وتوضيح الأخطاء)</h3>
-                        <p>نسخة نظيفة ومرتبة من ملف السكشن الأصلي بالكامل للمراجعة السريعة ونسخ الأكواد.</p>
+                        <p>نسخة نظيفة ومرتبة من ملف السكشن الأصلي بالكامل للمراجعة السريعة ونسخ الأكواد بضغطة واحدة.</p>
                     </div>
                     <button class="portal-enter-btn">عرض الكود الأصلي للسكشن ⬅️</button>
                 </div>
